@@ -5,7 +5,10 @@
 #include "SDL/include/SDL.h"
 
 #include "SDL_image/include/SDL_image.h"
-#pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
+
+#ifdef _MSC_VER
+#	pragma comment( lib, "3rdparty/SDL_image/libx86/SDL2_image.lib" )
+#endif
 
 using namespace std;
 

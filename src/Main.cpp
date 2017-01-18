@@ -3,8 +3,11 @@
 #include "Globals.h"
 
 #include "SDL/include/SDL.h"
-#pragma comment( lib, "SDL/libx86/SDL2.lib" )
-#pragma comment( lib, "SDL/libx86/SDL2main.lib" )
+
+#ifdef _MSC_VER
+#	pragma comment(lib, "3rdparty/SDL/libx86/SDL2.lib")
+#	pragma comment(lib, "3rdparty/SDL/libx86/SDL2main.lib")
+#endif
 
 enum main_states
 {

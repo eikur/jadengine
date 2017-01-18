@@ -2,7 +2,7 @@
 #define __ENTITY_H__
 
 #include <math.h>
-#include "parson.h"
+#include "parson/parson.h"
 #include "Point.h"
 #include "Globals.h"
 #include "Animation.h"

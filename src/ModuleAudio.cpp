@@ -4,7 +4,10 @@
 #include "SDL/include/SDL.h"
 
 #include "SDL_mixer/include/SDL_mixer.h"
-#pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
+
+#ifdef _MSC_VER
+#	pragma comment( lib, "3rdparty/SDL_mixer/libx86/SDL2_mixer.lib" )
+#endif
 
 using namespace std;
 

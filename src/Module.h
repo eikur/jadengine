@@ -2,7 +2,7 @@
 #define __MODULE_H__
 
 #include <string>
-#include "parson.h"
+#include "parson/parson.h"
 
 class Application;
 class Entity;
