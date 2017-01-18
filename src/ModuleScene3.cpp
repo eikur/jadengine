@@ -20,11 +20,11 @@ ModuleScene3::~ModuleScene3()
 
 bool ModuleScene3::Start()
 {
-	LOG("Scene3: Starting MoonBeach\n");
+	MYLOG("Scene3: Starting MoonBeach\n");
 
 	if (LoadConfigFromFile(CONFIG_FILE) == false)
 	{
-		LOG("Scene3: Unable to load config from file\n");
+		MYLOG("Scene3: Unable to load config from file\n");
 		return false;
 	}
 
@@ -68,7 +68,7 @@ update_status ModuleScene3::Update()
 
 bool ModuleScene3::CleanUp()
 {
-	LOG("Scene3: Unloading Moon Beach scene\n");
+	MYLOG("Scene3: Unloading Moon Beach scene\n");
 	App->textures->Unload(graphics);
 	DeleteSceneTriggers();
 	return true;

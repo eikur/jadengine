@@ -29,7 +29,7 @@ bool EntityManager::Init()
 {
 	if (LoadConfigFromFile(CONFIG_FILE) == false)
 	{
-		LOG("Entity Manager: failed to initialise\n");
+		MYLOG("Entity Manager: failed to initialise\n");
 		return false;
 	}
 	else 
@@ -116,7 +116,7 @@ update_status EntityManager::Update()
 
 bool EntityManager::CleanUp()
 {
-	LOG("EntityManager: Removing entities from application\n");
+	MYLOG("EntityManager: Removing entities from application\n");
 
 	for (std::list<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
 	{
@@ -270,7 +270,7 @@ void EntityManager::HandleCollision(Collider* a, Collider* b)
 			}
 			else
 			{
-				LOG("Bad defined collision, check collision matrix");
+				MYLOG("Bad defined collision, check collision matrix");
 			}
 		break;
 
@@ -307,7 +307,7 @@ void EntityManager::HandleCollision(Collider* a, Collider* b)
 			}
 			else
 			{
-				LOG("Bad defined collision, check collision matrix");
+				MYLOG("Bad defined collision, check collision matrix");
 			}
 			break;
 
@@ -321,7 +321,7 @@ void EntityManager::HandleCollision(Collider* a, Collider* b)
 			}
 			else
 			{
-				LOG("Bad defined collisions, check collision matrix");
+				MYLOG("Bad defined collisions, check collision matrix");
 			}
 			break;
 	}

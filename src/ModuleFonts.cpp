@@ -17,7 +17,7 @@ bool ModuleFonts::Init()
 	bool res = true;
 	if (LoadConfigFromFile(CONFIG_FILE) == false)
 	{
-		LOG("Fonts: Unable to load from config file\n");
+		MYLOG("Fonts: Unable to load from config file\n");
 		res = false;
 	}
 	else
@@ -29,7 +29,7 @@ bool ModuleFonts::Init()
 
 bool ModuleFonts::CleanUp()
 {
-	LOG("Fonts: Unloading fonts\n");
+	MYLOG("Fonts: Unloading fonts\n");
 
 	App->textures->Unload(graphics);
 

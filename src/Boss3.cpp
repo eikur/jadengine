@@ -17,7 +17,7 @@ bool Boss3::Init()
 {
 	if (LoadFromConfigFile(CONFIG_FILE) == false)
 	{
-		LOG("Error loading player config from file");
+		MYLOG("Error loading player config from file");
 		return false;
 	}
 	UpdateCurrentAnimation(&idle);

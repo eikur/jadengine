@@ -16,7 +16,7 @@ bool Chicken::Init()
 {
 	if (LoadFromConfigFile(CONFIG_FILE) == false)
 	{
-		LOG("Error loading apple config from file");
+		MYLOG("Error loading apple config from file");
 		return false;
 	}
 	UpdateCurrentAnimation(&idle);

@@ -17,12 +17,12 @@ ModuleRender::~ModuleRender()
 // Called before render is available
 bool ModuleRender::Init()
 {
-	LOG("Creating Renderer context");
+	MYLOG("Creating Renderer context");
 	bool ret = true;
 
 	if (LoadConfigFromFile(CONFIG_FILE) == false)
 	{ 
-		LOG("Renderer: Unable to load configuration from file\n");
+		MYLOG("Renderer: Unable to load configuration from file\n");
 		ret = false;
 	}
 	else
@@ -41,7 +41,7 @@ bool ModuleRender::Init()
 
 		if (renderer == nullptr)
 		{
-			LOG("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+			MYLOG("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
 		}
 	}
@@ -84,7 +84,7 @@ update_status ModuleRender::PostUpdate()
 // Called before quitting
 bool ModuleRender::CleanUp()
 {
-	LOG("Destroying renderer");
+	MYLOG("Destroying renderer");
 
 	//Destroy window
 	if(renderer != nullptr)
@@ -120,7 +120,7 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* sect
 
 	if (SDL_RenderCopyEx(renderer, texture, section, &rect,0,NULL,rflip) != 0)
 	{
-		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+		MYLOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;
 	}
 
@@ -145,7 +145,7 @@ bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uin
 
 	if (SDL_RenderFillRect(renderer, &rec) != 0)
 	{
-		LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
+		MYLOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
 		ret = false;
 	}
 

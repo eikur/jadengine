@@ -8,7 +8,7 @@
 #include "ModuleFonts.h"
 #include "ModuleTimer.h"
 #include "EntityManager.h"
-
+#include "MathGeoLib/Geometry/AABB.h"
 #include "ModuleSceneIntro.h"
 
 ModuleSceneIntro::ModuleSceneIntro(bool active) : Module(active)
@@ -20,13 +20,13 @@ ModuleSceneIntro::~ModuleSceneIntro()
 // Load assets
 bool ModuleSceneIntro::Start()
 {
-	LOG("Loading intro screen");
+	MYLOG("Loading intro screen");
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	if (App->manager->IsEnabled())
 		App->manager->Disable();
 	if (LoadConfigFromFile(CONFIG_FILE) == false)
 	{
-		LOG("Intro: crash during file load");
+		MYLOG("Intro: crash during file load");
 		return false;
 	}
 	App->audio->PlayMusic(music_path.c_str());
@@ -37,7 +37,7 @@ bool ModuleSceneIntro::Start()
 // UnLoad assets
 bool ModuleSceneIntro::CleanUp()
 {
-	LOG("Unloading space scene");
+	MYLOG("Unloading space scene");
 
 	App->textures->Unload(background);
 	
