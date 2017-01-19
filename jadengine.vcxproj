@@ -94,6 +94,7 @@
     <ClInclude Include="src\ModuleTimer.h" />
     <ClInclude Include="src\ModuleWindow.h" />
     <ClInclude Include="src\Point.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdparty\parson\parson.c" />

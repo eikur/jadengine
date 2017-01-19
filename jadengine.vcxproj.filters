@@ -64,6 +64,9 @@
     <ClInclude Include="3rdparty\parson\parson.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
