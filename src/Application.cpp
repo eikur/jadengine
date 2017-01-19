@@ -8,9 +8,6 @@
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModuleFonts.h"
-#include "ModuleSceneIntro.h"
-#include "ModuleScene3.h"
-#include "EntityManager.h"
 #include "ModuleTimer.h"
 
 using namespace std;
@@ -28,13 +25,8 @@ Application::Application()
 	modules.push_back(fonts = new ModuleFonts());
 	modules.push_back(timer = new ModuleTimer());
 
-	//Specific game modules
-	modules.push_back(manager = new EntityManager(false));
-	modules.push_back(scene3 = new ModuleScene3(false));
-	modules.push_back(intro = new ModuleSceneIntro(false));
-
 	// Modules to draw on top of game logic	
-	modules.push_back(collision = new ModuleCollision(manager,scene3));
+	modules.push_back(collision = new ModuleCollision());
 	modules.push_back(particles = new ModuleParticles());
 	modules.push_back(fade = new ModuleFadeToBlack());
 
@@ -58,8 +50,6 @@ bool Application::Init()
 		if((*it)->IsEnabled() == true)
 			ret = (*it)->Start();
 	}
-
-	fade->FadeToBlack(intro, nullptr);
 
 	return ret;
 }

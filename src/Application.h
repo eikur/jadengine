@@ -43,10 +43,6 @@ public:
 	ModuleTimer* timer = nullptr;
 
 	// Game modules ---
-	ModuleSceneIntro* intro = nullptr;
-	ModuleScene3* scene3 = nullptr;
-	EntityManager* manager = nullptr;
-
 
 private:
 

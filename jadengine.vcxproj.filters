@@ -5,9 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Game Modules">
-      <UniqueIdentifier>{15b5cbc6-cd68-4e6e-8935-b04f2fdf7bf4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core Modules">
       <UniqueIdentifier>{72b85efa-930b-4213-a8ec-2f0f817410d1}</UniqueIdentifier>
     </Filter>
@@ -48,33 +45,6 @@
     </ClInclude>
     <ClInclude Include="src\ModuleWindow.h">
       <Filter>Core Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Apple.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Boss3.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Chicken.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EnemyGarcia.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Entity.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EntityManager.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ModuleScene3.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ModuleSceneIntro.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Player.h">
-      <Filter>Game Modules</Filter>
     </ClInclude>
     <ClInclude Include="src\Application.h">
       <Filter>Main</Filter>
@@ -125,33 +95,6 @@
     </ClCompile>
     <ClCompile Include="src\ModuleWindow.cpp">
       <Filter>Core Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Apple.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Boss3.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Chicken.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EnemyGarcia.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Entity.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EntityManager.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ModuleScene3.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ModuleSceneIntro.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Player.cpp">
-      <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="src\Application.cpp">
       <Filter>Main</Filter>

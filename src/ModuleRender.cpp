@@ -3,7 +3,6 @@
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
-#include "EntityManager.h"
 #include "SDL/include/SDL.h"
 
 ModuleRender::ModuleRender()
@@ -153,20 +152,6 @@ bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uin
 }
 
 //---------------------------------------------------------------
-
-void ModuleRender::GetPlayerPositionLimits( SDL_Rect &player_limits ) const
-{
-	player_limits.x = (int) -camera.x/m_screen_size + m_limit_margin;	
-}
-
-void ModuleRender::MoveCamera(int x_pos, int x_speed) {
-	if (locked == false)
-	{
-		int target_xpos_camera = (x_pos) * m_screen_size;	
-		if ((-camera.x + camera.w / 2) < target_xpos_camera)
-			camera.x -= x_speed*m_screen_size;
-	}
-}
 
 bool ModuleRender::LoadConfigFromFile(const char* file_path)
 {

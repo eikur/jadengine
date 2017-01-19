@@ -5,12 +5,8 @@
 #include "Module.h"
 
 enum colliderType {
-	PLAYER = 0,
-	PLAYER_ATTACK,
-	ITEMS,
-	ENEMY,
-	ENEMY_ATTACK,
-	SCENE_TRIGGER
+	FIRST_TYPE = 0,
+	SECOND_TYPE
 };
 
 struct Collider
@@ -18,11 +14,10 @@ struct Collider
 	SDL_Rect rect = { 0,0,0,0 };
 	bool to_delete = false;
 	colliderType type;
-	Entity* parent = nullptr;
 
 	Collider() {}
-	Collider(SDL_Rect rectangle, colliderType t, Entity* parent = nullptr) :
-		rect(rectangle), type(t), parent(parent)
+	Collider(SDL_Rect rectangle, colliderType t) :
+		rect(rectangle), type(t)
 	{}
 
 	void SetPos(int x, int y)
@@ -38,7 +33,7 @@ class ModuleCollision : public Module
 {
 public:
 
-	ModuleCollision(Module* entities_report_to = nullptr, Module* scene_cols_report_to = nullptr);
+	ModuleCollision(bool start_enabled = true);
 	~ModuleCollision();
 
 	update_status PreUpdate();
@@ -46,16 +41,15 @@ public:
 
 	bool CleanUp();
 
-	Collider* AddCollider(const SDL_Rect& rect, colliderType type, Entity* parent = nullptr);
+	Collider* AddCollider(const SDL_Rect& rect, colliderType type);
 	void DebugDraw();
 
 private:
 
 	std::list<Collider*> colliders;
 	bool debug = false;
-	int collision_matrix[6][6] = { { 0,0,1,1,1,1},{ 0,0,0,1,0,0 },{ 1,0,0,0,0,0 },{ 1,1,0,1,0,0 },{ 1,0,0,0,0,0 },{ 1,0,0,0,0,0 } };
-	Module* entities_report_to = nullptr;
-	Module* scene_cols_report_to = nullptr;
+	int collision_matrix[2][2] = { { 0, 1 },{ 1, 0 }};
+	
 };
 
 #endif // __ModuleCollision_H__

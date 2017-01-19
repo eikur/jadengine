@@ -7,7 +7,7 @@
 
 using namespace std;
 
-ModuleCollision::ModuleCollision(Module* entities_report_to, Module* scene_cols_report_to) : entities_report_to(entities_report_to), scene_cols_report_to(scene_cols_report_to)
+ModuleCollision::ModuleCollision(bool start_enabled) : Module(start_enabled)
 {
 	
 }
@@ -41,14 +41,7 @@ update_status ModuleCollision::Update()
 		{
 			if ((*it)->CheckCollision((*it2)->rect) == true && (*it) != (*it2))
 			{
-				if (collision_matrix[(*it)->type][(*it2)->type] == 1)
-				{
-					if ((*it)->type != colliderType::SCENE_TRIGGER && (*it2)->type != colliderType::SCENE_TRIGGER )
-						entities_report_to->HandleCollision((*it), (*it2));
-					else
-						scene_cols_report_to->HandleCollision((*it), (*it2));
-					
-				}
+				// Do action if there is collisions
 			}
 		}
 	}
@@ -65,21 +58,7 @@ update_status ModuleCollision::Update()
 void ModuleCollision::DebugDraw()
 {
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it)
-	{
-		if ((*it)->type == colliderType::PLAYER_ATTACK)
-			App->renderer->DrawQuad((*it)->rect, 0, 0, 255, 120);
-		else if ((*it)->type == colliderType::PLAYER)
-			App->renderer->DrawQuad((*it)->rect, 0, 0, 255, 80);
-		else if ((*it)->type == colliderType::ENEMY)
-			App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
-		else if ((*it)->type == colliderType::ENEMY_ATTACK)
-			App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 120);
-		else if ((*it)->type == colliderType::ITEMS)
-			App->renderer->DrawQuad((*it)->rect, 0, 255, 0, 80);
-		else 
-			App->renderer->DrawQuad((*it)->rect, 255, 0, 255, 40);
-
-	}
+		App->renderer->DrawQuad((*it)->rect, 0, 0, 255, 80);
 }
 
 // Called before quitting
@@ -95,9 +74,9 @@ bool ModuleCollision::CleanUp()
 	return true;
 }
 
-Collider* ModuleCollision::AddCollider(const SDL_Rect& rect, colliderType type, Entity* parent)
+Collider* ModuleCollision::AddCollider(const SDL_Rect& rect, colliderType type)
 {
-	Collider* ret = new Collider(rect, type, parent);
+	Collider* ret = new Collider(rect, type);
 
 	colliders.push_back(ret);
 
