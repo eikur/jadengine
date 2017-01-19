@@ -1,10 +1,10 @@
-#ifndef __MODULETIMER_H__
-#define __MODULETIMER_H__
+#ifndef __TIMER2_H__
+#define __TIMER2_H__
 
 #include "SDL/include/SDL.h"
 #include "Module.h"
 
-class ModuleTimer : public Module{
+class ModuleTimer2 : public Module {
 
 public:
 	ModuleTimer();
@@ -29,8 +29,8 @@ private:
 
 	bool m_started;
 	bool m_paused;
-	
+
 
 };
 
-#endif // __MODULETIMER_H__
+#endif // __TIMER2_H__
