@@ -94,6 +94,7 @@
     <ClInclude Include="src\ModuleTimer.h" />
     <ClInclude Include="src\ModuleWindow.h" />
     <ClInclude Include="src\Point.h" />
+	<ClInclude Include="src\Timer.h" />
     <ClInclude Include="src\Timer2.h" />
   </ItemGroup>
   <ItemGroup>
