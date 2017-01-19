@@ -4,9 +4,10 @@ void Timer2::Start()
 {
 	m_timer_start = SDL_GetPerformanceCounter();
 	m_stop = false;
+	m_frequency = SDL_GetPerformanceFrequency();
 }
 
-Uint64 Timer2::Read()
+float Timer2::Read()
 {
 	if (!m_stop)
 	{
@@ -17,7 +18,7 @@ Uint64 Timer2::Read()
 		m_timer_count = m_timestamp - m_timer_start;
 	}
 
-	return m_timer_count/SDL_GetPerformanceFrequency() * 1000000;
+	return m_timer_count/ m_frequency * 1000000;
 }
 
 void Timer2::Stop()
@@ -28,3 +29,4 @@ void Timer2::Stop()
 		m_timestamp = SDL_GetPerformanceCounter();
 	}
 }
+

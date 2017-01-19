@@ -6,8 +6,9 @@
 class Timer2
 {
 public:
+	
 	void Start();
-	Uint64 Read();
+	float Read();
 	void Stop();
 
 private:
@@ -15,6 +16,7 @@ private:
 	Uint64 m_timer_count;
 	Uint64 m_timer_start;
 	bool m_stop;
+	Uint64 static m_frequency;
 };
 
 
