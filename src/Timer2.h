@@ -16,7 +16,7 @@ private:
 	Uint64 m_timer_count;
 	Uint64 m_timer_start;
 	bool m_stop;
-	Uint64 static m_frequency;
+	static Uint64 m_frequency;
 };
 
 
