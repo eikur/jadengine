@@ -4,6 +4,7 @@
 #include<list>
 #include "Globals.h"
 #include "Module.h"
+#include "TimerUSec.h"
 
 class ModuleRender;
 class ModuleWindow;
@@ -14,10 +15,6 @@ class ModuleFadeToBlack;
 class ModuleCollision;
 class ModuleParticles;
 class ModuleFonts;
-class ModuleTimer;
-class ModuleSceneIntro;
-class ModuleScene3;
-class EntityManager;
 
 class Application
 {
@@ -40,12 +37,9 @@ public:
 	ModuleCollision* collision = nullptr;
 	ModuleParticles* particles = nullptr;
 	ModuleFonts* fonts = nullptr;
-	ModuleTimer* timer = nullptr;
-
-	// Game modules ---
 
 private:
-
+	TimerUSec timer;
 	std::list<Module*> modules;
 };
 

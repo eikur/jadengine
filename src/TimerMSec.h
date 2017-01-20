@@ -1,13 +1,13 @@
-#ifndef __TIMER_H__
-#define __TIMER_H__
+#ifndef __TIMERMSEC_H__
+#define __TIMERMSEC_H__
 
 #include "SDL/include/SDL.h"
 
-class Timer {
+class TimerMSec {
 
 public:
-	Timer() :m_started(false), m_ticks_start(0), m_ticks_stop(0){};
-	~Timer() {};
+	TimerMSec() :m_started(false), m_ticks_start(0), m_ticks_stop(0){};
+	~TimerMSec() {};
 
 	void Start(){
 		m_ticks_start = SDL_GetTicks();

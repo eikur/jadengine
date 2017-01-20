@@ -1,12 +1,12 @@
-#include "Timer2.h"
+#include "TimerUSec.h"
 
-void Timer2::Start()
+void TimerUSec::Start()
 {
 	m_timer_start = SDL_GetPerformanceCounter();
 	m_stop = false;
 }
 
-float Timer2::Read()
+float TimerUSec::Read()
 {
 	if (!m_stop)
 	{
@@ -20,7 +20,7 @@ float Timer2::Read()
 	return ((float) m_timer_count)/((float) m_frequency) * 1000000;
 }
 
-void Timer2::Stop()
+void TimerUSec::Stop()
 {
 	if (!m_stop)
 	{
@@ -29,5 +29,5 @@ void Timer2::Stop()
 	}
 }
 
-Uint64 Timer2::m_frequency = SDL_GetPerformanceFrequency();
+Uint64 TimerUSec::m_frequency = SDL_GetPerformanceFrequency();
 

@@ -1,0 +1,44 @@
+****************************************
+***   JADEngine Coding Style guide   ***
+****************************************
+
+*** General considerations ***
+
+- Names should be descriptive
+- Avoid abbreviation as much as possible
+- Always prefer positive notation for boolean / status variables. It allows faster understanding of the flow of logic.
+  Example: visible >>  invisible >> not_visible
+			"if (!invisible)" -> if used to check whether somehting is visible, a more clear way is directly  "if(visible)"
+			"if (!not_visible)" is even worse due to the double negation and makes the reader stop and think about it. 
+- Always initialize variables inside classes to a default value.
+
+*** Comments ***
+Giving sensible names to types and variables is much better than giving obscure names and then explaining through comments.
+When writing your comments, write for your audience: you may be the next contributor down the line.
+	
+*** Variable names ***
+All variables, function parameters and data members are all lowercase, with underscores between words.
+
+Examples:
+	std::string table_name; // OK, preferred
+	std::string tablename; 	// OK, no underscores but understandable meaning
+	std::string tablenameforentitysize; // NOT OK, not understandable with a quick sight
+	std::string tableNameForEntitySize; // NOT OK, words should be sepparated with underscores and in lowercase
+
+
+*** Class, Structs and Enums Names ***
+All classes, structs and enums should be named with upper camel case with no underscores
+Examples:
+	class MyNewClass{...};	// OK
+	class myNewClass{...};	// NOT OK, it breaks the convention
+	class my_new_class{...}; // NOT OK, looks like a variable
+
+*** Enum values **
+All enum values will be uppercase with underscores between words
+
+Example: 
+enum MyEnum{
+    MY_VALUE = 0,
+    MY_OTHER_VALUE,
+    MY_THIRD_VALUE
+};
