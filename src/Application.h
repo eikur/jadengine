@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "Module.h"
 #include "TimerUSec.h"
+#include "TimerMSec.h"
 
 class ModuleRender;
 class ModuleWindow;
@@ -37,10 +38,12 @@ public:
 	ModuleCollision* collision = nullptr;
 	ModuleParticles* particles = nullptr;
 	ModuleFonts* fonts = nullptr;
-
+	Uint32 frame_count = 0;
+	Uint32 last_frame_count = 0;
 private:
 	TimerUSec timer;
 	std::list<Module*> modules;
+	TimerMSec game_timer, update_timer;
 };
 
 extern Application* App;

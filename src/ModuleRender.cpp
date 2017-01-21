@@ -77,6 +77,7 @@ update_status ModuleRender::Update()
 update_status ModuleRender::PostUpdate()
 {
 	SDL_RenderPresent(renderer);
+	++(App->frame_count);
 	return UPDATE_CONTINUE;
 }
 

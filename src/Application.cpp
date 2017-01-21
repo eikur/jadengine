@@ -45,6 +45,7 @@ bool Application::Init()
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->Init(); // we init everything, even if not enabled
 	MYLOG("****** APP INIT TIME: %.2f usec", timer.Read());
+
 	timer.Start();
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 	{
@@ -52,12 +53,20 @@ bool Application::Init()
 			ret = (*it)->Start();
 	}
 	MYLOG("****** APP START TIME: %.2f usec", timer.Read());
+
+	game_timer.Start();
+	update_timer.Start();
+
 	return ret;
 }
 
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
+
+	Uint32 start_update = update_timer.Read();
+	float avgFPS = 0.0f;
+	float FPS = 0.0f;
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
@@ -70,6 +79,21 @@ update_status Application::Update()
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->PostUpdate();
+
+	// Average FPS for the whole game life
+	avgFPS = frame_count / (game_timer.Read() / 1000.0f);
+	
+	// Amount of ms took the last update
+	Uint32 last_update_ms = update_timer.Read() - start_update;
+
+	// If a second has passed, re-calculate FPS
+	if (update_timer.Read() > 1000)
+	{
+		FPS = (frame_count - last_frame_count) / (update_timer.Read() / 1000.0f);
+		last_frame_count = frame_count;
+		update_timer.Start();
+		MYLOG("****** FPS: %.2f", FPS);
+	}
 
 	return ret;
 }
