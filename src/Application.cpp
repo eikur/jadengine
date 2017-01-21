@@ -63,10 +63,7 @@ bool Application::Init()
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
-
 	Uint32 start_update = update_timer.Read();
-	float avgFPS = 0.0f;
-	float FPS = 0.0f;
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
@@ -92,7 +89,6 @@ update_status Application::Update()
 		FPS = (frame_count - last_frame_count) / (update_timer.Read() / 1000.0f);
 		last_frame_count = frame_count;
 		update_timer.Start();
-		MYLOG("****** FPS: %.2f", FPS);
 	}
 
 	return ret;

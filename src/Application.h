@@ -40,6 +40,8 @@ public:
 	ModuleFonts* fonts = nullptr;
 	Uint32 frame_count = 0;
 	Uint32 last_frame_count = 0;
+	float avgFPS = 0.0f;
+	float FPS = 0.0f;
 private:
 	TimerUSec timer;
 	std::list<Module*> modules;

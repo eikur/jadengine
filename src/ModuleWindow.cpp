@@ -58,6 +58,29 @@ bool ModuleWindow::Init()
 	return ret;
 }
 
+// Called every draw update
+update_status ModuleWindow::Update()
+{
+	char *title1 = "JADEngine - running at ";
+	char fps[10];
+	char *title2 = " FPS";
+	char title[50];
+
+	int ret = snprintf(fps, sizeof fps, "%.2f", App->FPS);
+	if (ret < 0 || ret >= 10) {
+		MYLOG("Encoding error when updating the window title!");
+		return UPDATE_ERROR;
+	}
+
+	strcpy(title, title1);
+	strcat(title, fps);
+	strcat(title, title2);
+
+	SDL_SetWindowTitle(m_window, title);
+
+	return UPDATE_CONTINUE;
+}
+
 // Called before quitting
 bool ModuleWindow::CleanUp()
 {
