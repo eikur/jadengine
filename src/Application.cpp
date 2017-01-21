@@ -13,7 +13,6 @@ using namespace std;
 
 Application::Application()
 {
-	timer.Start();
 	// Order matters: they will init/start/pre/update/post in this order
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(window = new ModuleWindow());
@@ -28,7 +27,6 @@ Application::Application()
 	modules.push_back(collision = new ModuleCollision());
 	modules.push_back(particles = new ModuleParticles());
 	modules.push_back(fade = new ModuleFadeToBlack());
-	MYLOG("****** APP CONSTRUCTOR TIME: %.2f usec", timer.Read());
 }
 
 Application::~Application()
@@ -39,22 +37,20 @@ Application::~Application()
 
 bool Application::Init()
 {
-	timer.Start();
 	bool ret = true;
+
+	ret = LoadConfigFromFile(CONFIG_FILE);
+	msec_wait_fps_cap = 1000 / fps_cap;
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->Init(); // we init everything, even if not enabled
-	MYLOG("****** APP INIT TIME: %.2f usec", timer.Read());
 
-	timer.Start();
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-	{
 		if((*it)->IsEnabled() == true)
 			ret = (*it)->Start();
-	}
-	MYLOG("****** APP START TIME: %.2f usec", timer.Read());
 
 	game_timer.Start();
+	last_update_usec = game_timer.Read();
 	update_timer.Start();
 
 	return ret;
@@ -63,7 +59,12 @@ bool Application::Init()
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
-	Uint32 start_update = update_timer.Read();
+
+	//Amount of usec took the last update
+	float timer_read = game_timer.Read();
+	last_update_usec = timer_read - last_update_start;
+	last_update_start = timer_read;
+	//MYLOG("last_update_usec = %.2f", last_update_usec);
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
@@ -77,18 +78,21 @@ update_status Application::Update()
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->PostUpdate();
 
-	// Average FPS for the whole game life
-	avgFPS = frame_count / (game_timer.Read() / 1000.0f);
-	
-	// Amount of ms took the last update
-	Uint32 last_update_ms = update_timer.Read() - start_update;
+	float before_msec = game_timer.Read();
+	SDL_Delay(msec_wait_fps_cap);
+	float later_msec = game_timer.Read();
+	MYLOG("SDL_Delay(%lu) actually waits %.2f", msec_wait_fps_cap, (later_msec - before_msec)/1000.0f);
+
+
+	avgFPS = ((float)frame_count )/ (game_timer.Read() / 1000000.0f);
 
 	// If a second has passed, re-calculate FPS
-	if (update_timer.Read() > 1000)
+	if (update_timer.Read() > 1000.0f)
 	{
 		FPS = (frame_count - last_frame_count) / (update_timer.Read() / 1000.0f);
 		last_frame_count = frame_count;
 		update_timer.Start();
+		//MYLOG("***** UPDATE FPS: %.2f , AvgFPS: %.2f", FPS, avgFPS);
 	}
 
 	return ret;
@@ -96,12 +100,29 @@ update_status Application::Update()
 
 bool Application::CleanUp()
 {
-	timer.Start();
 	bool ret = true;
 
 	for(list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend() && ret; ++it)
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->CleanUp();
-	MYLOG("****** APP CLEANUP TIME: %.2f usec", timer.Read());
+
 	return ret;
+}
+
+//-------------------------------------------------
+bool Application::LoadConfigFromFile(const char* file_path)
+{
+	JSON_Value *root_value;
+	JSON_Object *root_object;
+
+	root_value = json_parse_file(file_path);
+	if (root_value == nullptr)
+		return false;
+	else
+		root_object = json_object(root_value);
+
+	fps_cap = (Uint32)json_object_dotget_number(root_object, "application.fps_cap");
+
+	json_value_free(root_value);
+	return true;
 }

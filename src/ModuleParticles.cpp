@@ -61,7 +61,7 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleParticles::AddParticle(const Particle& particle, int x, int y)
+void ModuleParticles::AddParticle(const Particle&, int, int)
 {
 	// Method to create an instance of a prototype particle
 }

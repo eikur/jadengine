@@ -8,7 +8,7 @@
 		"screen_size": 2,
 		"title": "JADEngine - running at xx fps",
 		"fullscreen": false,
-		"vsync": true
+		"vsync": true	
 	},
 	"renderer":{
 		"camera": {

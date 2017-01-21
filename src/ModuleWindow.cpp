@@ -71,10 +71,9 @@ update_status ModuleWindow::Update()
 		MYLOG("Encoding error when updating the window title!");
 		return UPDATE_ERROR;
 	}
-
-	strcpy(title, title1);
-	strcat(title, fps);
-	strcat(title, title2);
+	strcpy_s(title, title1);
+	strcat_s(title, fps);
+	strcat_s(title, title2);
 
 	SDL_SetWindowTitle(m_window, title);
 
