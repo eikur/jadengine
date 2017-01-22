@@ -36,6 +36,8 @@ public:
 	bool locked = false;
 
 private:
+	SDL_Texture* sprite = nullptr;
+	std::string asset_file = "";
 	int m_speed = 0;
 
 	int m_screen_height = 0;

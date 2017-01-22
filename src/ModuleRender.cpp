@@ -3,6 +3,7 @@
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
+#include "ModuleTextures.h"
 #include "SDL/include/SDL.h"
 
 ModuleRender::ModuleRender()
@@ -43,6 +44,8 @@ bool ModuleRender::Init()
 			MYLOG("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
 		}
+
+		sprite = App->textures->Load(asset_file.c_str());
 	}
 
 	return ret;
@@ -58,6 +61,11 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
+	// Draw a sprite in the middle of the screen as reference
+	int w, h;
+	SDL_QueryTexture(sprite, NULL, NULL, &w, &h);
+	Blit(sprite, m_screen_width / 2 - w/2, m_screen_height / 2 - h/2, NULL);
+
 	//move camera
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
@@ -159,6 +167,14 @@ bool ModuleRender::LoadConfigFromFile(const char* file_path)
 	JSON_Value *root_value = json_parse_file(file_path);
 	if (root_value == nullptr)
 		return false;
+
+	//get the path to the asset
+	if (json_object_dothas_value_of_type(json_object(root_value), "renderer.file", JSONString))
+		asset_file = json_object_dotget_string(json_object(root_value), "renderer.file");
+	if (asset_file == "") {
+		json_value_free(root_value);
+		return false;
+	}
 
 	m_screen_width = (int)json_object_dotget_number(json_object(root_value), "window.screen_width");
 	m_screen_height = (int)json_object_dotget_number(json_object(root_value), "window.screen_height");

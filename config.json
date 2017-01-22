@@ -11,6 +11,7 @@
 		"vsync": true	
 	},
 	"renderer":{
+		"file": "graphics/sprite.png",
 		"camera": {
 			"speed": 100
 		}
