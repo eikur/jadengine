@@ -8,6 +8,23 @@
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModuleFonts.h"
+#include "MathGeoLib/include/MathGeoLib.h"
+
+#ifdef _MSC_VER
+#	ifdef _WIN64
+#		ifdef _DEBUG
+#			pragma comment( lib, "3rdparty/MathGeoLib/libx64/Debug/MathGeoLib.lib" )
+#		else // RELEASE
+#			pragma comment( lib, "3rdparty/MathGeoLib/libx64/Release/MathGeoLib.lib" )
+#		endif // _DEBUG
+#	else // WIN32
+#		ifdef _DEBUG
+#			pragma comment( lib, "3rdparty/MathGeoLib/libx86/Debug/MathGeoLib.lib" )
+#		else // RELEASE
+#			pragma comment( lib, "3rdparty/MathGeoLib/libx86/Release/MathGeoLib.lib" )
+#		endif // _DEBUG	
+#	endif // _WIN64
+#endif // _MSC_VER
 
 using namespace std;
 
@@ -27,6 +44,9 @@ Application::Application()
 	modules.push_back(collision = new ModuleCollision());
 	modules.push_back(particles = new ModuleParticles());
 	modules.push_back(fade = new ModuleFadeToBlack());
+	
+	// To be removed - just to check that MathGeoLib is properly linked
+	float3 math_geo_lib_test = { 1, 2, 3 };
 }
 
 Application::~Application()
