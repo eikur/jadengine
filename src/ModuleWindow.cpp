@@ -59,7 +59,7 @@ bool ModuleWindow::Init()
 }
 
 // Called every draw update
-update_status ModuleWindow::Update()
+update_status ModuleWindow::Update( float dt )
 {
 	char *title1 = "JADEngine - running at ";
 	char fps[10];

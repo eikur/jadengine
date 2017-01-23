@@ -16,16 +16,13 @@ public:
 
 	bool Init();
 	update_status PreUpdate();
-	update_status Update();
+	update_status Update( float dt = 0.0f);
 	update_status PostUpdate();
 	bool CleanUp();
 
 	bool Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed = 1.0f, bool flip = false);
 	bool DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera = true);
 
-	// player tracking
-	void GetPlayerPositionLimits( SDL_Rect &player_limits) const;
-	void MoveCamera(int x_pos, int x_speed);
 private:
 	bool LoadConfigFromFile(const char* file_path);
 
@@ -33,7 +30,6 @@ private:
 public:
 	SDL_Renderer* renderer = nullptr;
 	SDL_Rect camera;
-	bool locked = false;
 
 private:
 	SDL_Texture* sprite = nullptr;

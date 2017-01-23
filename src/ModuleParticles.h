@@ -29,7 +29,7 @@ struct Particle
 	Particle();
 	Particle(const Particle& p);
 	~Particle();
-	bool Update();
+	bool Update( float dt = 0.0f);
 };
 
 class ModuleParticles : public Module
@@ -39,7 +39,7 @@ public:
 	~ModuleParticles();
 
 	bool Start();
-	update_status Update();
+	update_status Update( float dt = 0.0f );
 	bool CleanUp();
 
 	void AddParticle(const Particle& particle, int x, int y); // feel free to expand this call

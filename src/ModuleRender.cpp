@@ -59,7 +59,7 @@ update_status ModuleRender::PreUpdate()
 }
 
 // Called every draw update
-update_status ModuleRender::Update()
+update_status ModuleRender::Update( float dt )
 {
 	// Draw a sprite in the middle of the screen as reference
 	int w, h;
@@ -67,16 +67,12 @@ update_status ModuleRender::Update()
 	Blit(sprite, m_screen_width / 2 - w/2, m_screen_height / 2 - h/2, NULL);
 
 	//move camera
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
-	{
-		locked = !locked;
-	}
 
-	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_REPEAT)
-		App->renderer->camera.x += m_speed;
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		App->renderer->camera.x += m_speed * dt;
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT)
-		App->renderer->camera.x -= m_speed;
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		App->renderer->camera.x -= m_speed * dt;
 
 	return UPDATE_CONTINUE;
 }

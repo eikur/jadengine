@@ -33,7 +33,7 @@ update_status ModuleCollision::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleCollision::Update()
+update_status ModuleCollision::Update( float dt )
 {
 	for (list<Collider*>::const_iterator it = colliders.cbegin(); it != colliders.cend();++it )
 	{

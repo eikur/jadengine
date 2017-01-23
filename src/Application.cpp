@@ -92,17 +92,17 @@ update_status Application::Update()
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
-			ret = (*it)->Update();
+			ret = (*it)->Update(last_update_usec/1000000.0f);
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->PostUpdate();
-
+/*
 	float before_msec = game_timer.Read();
 	SDL_Delay(msec_wait_fps_cap);
 	float later_msec = game_timer.Read();
 	MYLOG("SDL_Delay(%lu) actually waits %.2f", msec_wait_fps_cap, (later_msec - before_msec)/1000.0f);
-
+	*/
 
 	avgFPS = ((float)frame_count )/ (game_timer.Read() / 1000000.0f);
 

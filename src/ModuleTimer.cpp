@@ -13,7 +13,7 @@ bool ModuleTimer::Start()
 	return true;
 }
 
-update_status ModuleTimer::Update()
+update_status ModuleTimer::Update( float dt )
 {
 	m_delta_time = ElapsedTime() - m_ticks_last_update;
 	m_ticks_last_update = ElapsedTime();
