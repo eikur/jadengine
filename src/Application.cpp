@@ -9,6 +9,7 @@
 #include "ModuleParticles.h"
 #include "ModuleFonts.h"
 #include "MathGeoLib/include/MathGeoLib.h"
+#include "glew-2.0.0/include/GL/glew.h"
 
 #ifdef _MSC_VER
 #	ifdef _WIN64
@@ -20,8 +21,10 @@
 #	else // WIN32
 #		ifdef _DEBUG
 #			pragma comment( lib, "3rdparty/MathGeoLib/libx86/deb/MathGeoLib.lib" )
+#			pragma comment( lib, "3rdparty/glew-2.0.0/lib/Release/Win32/glew32.lib" )
 #		else // RELEASE
 #			pragma comment( lib, "3rdparty/MathGeoLib/libx86/rel/MathGeoLib.lib" )
+#			pragma comment( lib, "3rdparty/glew-2.0.0/lib/Release/Win32/glew32.lib" )
 #		endif // _DEBUG	
 #	endif // _WIN64
 #endif // _MSC_VER
@@ -47,6 +50,10 @@ Application::Application()
 	
 	// To be removed - just to check that MathGeoLib is properly linked
 	float3 math_geo_lib_test = { 1, 2, 3 };
+
+	// To be removed - just to check that OpenGL is properly linked
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	GLenum err = glewInit();
 }
 
 Application::~Application()
