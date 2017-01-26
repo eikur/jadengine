@@ -6,6 +6,7 @@
 #include "ModuleTextures.h"
 #include "SDL/include/SDL.h"
 
+
 ModuleRender::ModuleRender()
 {
 }
@@ -80,7 +81,8 @@ update_status ModuleRender::Update( float dt )
 
 update_status ModuleRender::PostUpdate()
 {
-	SDL_RenderPresent(renderer);
+	//SDL_RenderPresent(renderer);
+	SDL_GL_SwapWindow(App->window->m_window);
 	++(App->frame_count);
 	return UPDATE_CONTINUE;
 }
