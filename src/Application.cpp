@@ -21,10 +21,10 @@
 #	else // WIN32
 #		ifdef _DEBUG
 #			pragma comment( lib, "3rdparty/MathGeoLib/libx86/deb/MathGeoLib.lib" )
-#			pragma comment( lib, "3rdparty/glew-2.0.0/lib/Release/Win32/glew32.lib" )
+#			pragma comment( lib, "3rdparty/glew-2.0.0/libx86/deb/glew32d.lib" )
 #		else // RELEASE
 #			pragma comment( lib, "3rdparty/MathGeoLib/libx86/rel/MathGeoLib.lib" )
-#			pragma comment( lib, "3rdparty/glew-2.0.0/lib/Release/Win32/glew32.lib" )
+#			pragma comment( lib, "3rdparty/glew-2.0.0/libx86/rel/glew32.lib" )
 #		endif // _DEBUG	
 #	endif // _WIN64
 #endif // _MSC_VER
