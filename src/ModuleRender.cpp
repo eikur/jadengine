@@ -109,11 +109,16 @@ bool ModuleRender::Init()
 		}
 
 		//Setup the viewport
-		int width = m_screen_width * m_screen_size;
-		int height = m_screen_height * m_screen_size;
-		int ratio = (float)width / (float)height;
+		//int width = m_screen_width * m_screen_size;
+		//int height = m_screen_height * m_screen_size;
+		//int ratio = (float)width / (float)height;
 		//glViewport(0, height/2, width/2, height/2);
-		glOrtho(-1.0, 1.0, -1.0, 1.0, -5.0, 5.0);
+
+		//Perspective projection
+		//gluPerspective(60.0, ratio, 0.0, 5.0);
+
+		//Orthogonal projection
+		glOrtho(-1.0, 1.0, -1.0, 1.0, 0.0, 5.0);
 	}
 
 	return ret;
@@ -146,6 +151,7 @@ update_status ModuleRender::Update( float dt )
 
 update_status ModuleRender::PostUpdate()
 {
+	//TODO: Delete all references to "old" SDL renderer
 	//SDL_RenderPresent(renderer);
 	++(App->frame_count);
 
