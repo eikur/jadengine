@@ -34,16 +34,15 @@ bool ModuleWindow::Init()
 		int width = m_screen_width * m_screen_size;
 		int height = m_screen_height * m_screen_size;
 
-		Uint32 flags = SDL_WINDOW_SHOWN;
+		Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
 
 		if(m_fullscreen == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
-			flags |= SDL_WINDOW_OPENGL;
 		}
 
 		m_window = SDL_CreateWindow(m_title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
-
+		
 		if(m_window == nullptr)
 		{
 			MYLOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -63,8 +62,6 @@ bool ModuleWindow::Init()
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-
-	SDL_GL_CreateContext(m_window);
 
 	return ret;
 }
@@ -95,8 +92,6 @@ update_status ModuleWindow::Update( float dt )
 bool ModuleWindow::CleanUp()
 {
 	MYLOG("Destroying SDL window and quitting all SDL systems");
-
-	SDL_GL_DeleteContext(m_window);
 
 	//Destroy window
 	if(m_window != nullptr)

@@ -18,35 +18,102 @@ ModuleRender::~ModuleRender()
 // Called before render is available
 bool ModuleRender::Init()
 {
-	MYLOG("Creating Renderer context");
+	MYLOG("Creating 3D renderer context");
 	bool ret = true;
+	m_glcontext = SDL_GL_CreateContext(App->window->m_window);
 
-	if (LoadConfigFromFile(CONFIG_FILE) == false)
-	{ 
-		MYLOG("Renderer: Unable to load configuration from file\n");
+	if (m_glcontext == nullptr)
+	{
+		MYLOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
+		ret = false;
+	}
+
+	GLenum error = glewInit();
+
+	if (error != GLEW_OK)
+	{
+		MYLOG("Glew library could not init %s\n", glewGetErrorString(error));
 		ret = false;
 	}
 	else
+		MYLOG("Using Glew %s", glewGetString(GLEW_VERSION));
+
+	if (ret == true)
 	{
-		camera.x = camera.y = 0;
-		camera.w = m_screen_width * m_screen_size;
-		camera.h = m_screen_height* m_screen_size;
+		//get version info
+		MYLOG("Vendor: %s", glGetString(GL_VENDOR));
+		MYLOG("Renderer: %s", glGetString(GL_RENDERER));
+		MYLOG("OpenGL version supported %s", glGetString(GL_VERSION));
+		MYLOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+			
+		//Initialize Projection Matrix
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
 
-		Uint32 flags = 0;
-		if (m_vsync == true)
+		//Check for error
+		GLenum error = glGetError();
+		if (error != GL_NO_ERROR)
 		{
-			flags |= SDL_RENDERER_PRESENTVSYNC;
-		}
-
-		renderer = SDL_CreateRenderer(App->window->m_window, -1, flags);
-
-		if (renderer == nullptr)
-		{
-			MYLOG("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+			MYLOG("Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
 
-		sprite = App->textures->Load(asset_file.c_str());
+		//Initialize ModelView Matrix
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		//Check for error
+		error = glGetError();
+		if (error != GL_NO_ERROR)
+		{
+			MYLOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			ret = false;
+		}
+
+		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+		glClearDepth(1.0f);
+		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_LIGHTING);
+		glEnable(GL_COLOR_MATERIAL);
+		//glEnable(GL_TEXTURE_2D);
+
+		if (LoadConfigFromFile(CONFIG_FILE) == false)
+		{
+			MYLOG("Renderer: Unable to load configuration from file\n");
+			ret = false;
+		}
+		else
+		{
+			camera.x = camera.y = 0;
+			camera.w = m_screen_width * m_screen_size;
+			camera.h = m_screen_height* m_screen_size;
+
+			Uint32 flags = 0;
+			if (m_vsync == true)
+			{
+				flags |= SDL_RENDERER_PRESENTVSYNC;
+			}
+
+			renderer = SDL_CreateRenderer(App->window->m_window, -1, flags);
+
+			if (renderer == nullptr)
+			{
+				MYLOG("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+				ret = false;
+			}
+
+			sprite = App->textures->Load(asset_file.c_str());
+		}
+
+		//Setup the viewport
+		int width = m_screen_width * m_screen_size;
+		int height = m_screen_height * m_screen_size;
+		int ratio = (float)width / (float)height;
+		//glViewport(0, height/2, width/2, height/2);
+		glOrtho(-1.0, 1.0, -1.0, 1.0, -5.0, 5.0);
 	}
 
 	return ret;
@@ -54,8 +121,6 @@ bool ModuleRender::Init()
 
 update_status ModuleRender::PreUpdate()
 {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-	SDL_RenderClear(renderer);
 	return UPDATE_CONTINUE;
 }
 
@@ -63,17 +128,17 @@ update_status ModuleRender::PreUpdate()
 update_status ModuleRender::Update( float dt )
 {
 	// Draw a sprite in the middle of the screen as reference
-	int w, h;
-	SDL_QueryTexture(sprite, NULL, NULL, &w, &h);
-	Blit(sprite, m_screen_width / 2 - w/2, m_screen_height / 2 - h/2, NULL);
+	//int w, h;
+	//SDL_QueryTexture(sprite, NULL, NULL, &w, &h);
+	//Blit(sprite, m_screen_width / 2 - w/2, m_screen_height / 2 - h/2, NULL);
 
-	//move camera
+	////move camera
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->renderer->camera.x += m_speed * dt;
+	//if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	//	App->renderer->camera.x += m_speed * dt;
 
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->renderer->camera.x -= m_speed * dt;
+	//if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	//	App->renderer->camera.x -= m_speed * dt;
 
 	return UPDATE_CONTINUE;
 }
@@ -82,8 +147,18 @@ update_status ModuleRender::Update( float dt )
 update_status ModuleRender::PostUpdate()
 {
 	//SDL_RenderPresent(renderer);
-	SDL_GL_SwapWindow(App->window->m_window);
 	++(App->frame_count);
+
+	glBegin(GL_TRIANGLES);
+
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(-1.0f, -0.5f, -4.0f); //lower left vertex
+	glVertex3f(1.0f, -0.5f, -4.0f); //lower right vertex
+	glVertex3f(0.0f, 0.5f, -4.0f); // upper vertex
+
+	glEnd();
+
+	SDL_GL_SwapWindow(App->window->m_window);
 	return UPDATE_CONTINUE;
 }
 
@@ -91,6 +166,8 @@ update_status ModuleRender::PostUpdate()
 bool ModuleRender::CleanUp()
 {
 	MYLOG("Destroying renderer");
+
+	SDL_GL_DeleteContext(m_glcontext);
 
 	//Destroy window
 	if(renderer != nullptr)
