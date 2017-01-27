@@ -243,3 +243,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# 3rd party library exceptions
+!MathGeoLib.pdb
