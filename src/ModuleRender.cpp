@@ -118,7 +118,7 @@ bool ModuleRender::Init()
 		//gluPerspective(60.0, ratio, 0.0, 5.0);
 
 		//Orthogonal projection
-		glOrtho(-1.0, 1.0, -1.0, 1.0, 0.0, 5.0);
+		glOrtho(-4.0, 4.0, -4.0, 4.0, -4.0, 4.0);
 	}
 
 	return ret;
@@ -132,29 +132,6 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update( float dt )
 {
-	// Draw a sprite in the middle of the screen as reference
-	//int w, h;
-	//SDL_QueryTexture(sprite, NULL, NULL, &w, &h);
-	//Blit(sprite, m_screen_width / 2 - w/2, m_screen_height / 2 - h/2, NULL);
-
-	////move camera
-
-	//if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-	//	App->renderer->camera.x += m_speed * dt;
-
-	//if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-	//	App->renderer->camera.x -= m_speed * dt;
-
-	return UPDATE_CONTINUE;
-}
-
-
-update_status ModuleRender::PostUpdate()
-{
-	//TODO: Delete all references to "old" SDL renderer
-	//SDL_RenderPresent(renderer);
-	++(App->frame_count);
-
 	glBegin(GL_TRIANGLES);
 
 	glColor3f(1.0f, 0.0f, 0.0f);
@@ -164,6 +141,14 @@ update_status ModuleRender::PostUpdate()
 
 	glEnd();
 
+	return UPDATE_CONTINUE;
+}
+
+
+update_status ModuleRender::PostUpdate()
+{
+	++(App->frame_count);
+	
 	SDL_GL_SwapWindow(App->window->m_window);
 	return UPDATE_CONTINUE;
 }

@@ -70,6 +70,9 @@
     <ClInclude Include="src\TimerUSec.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Primitive.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -115,6 +118,9 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\TimerUSec.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Primitive.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
