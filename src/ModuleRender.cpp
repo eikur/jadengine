@@ -5,6 +5,7 @@
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "SDL/include/SDL.h"
+#include "Primitive.h"
 
 
 ModuleRender::ModuleRender()
@@ -109,16 +110,19 @@ bool ModuleRender::Init()
 		}
 
 		//Setup the viewport
-		//int width = m_screen_width * m_screen_size;
-		//int height = m_screen_height * m_screen_size;
-		//int ratio = (float)width / (float)height;
+		int width = m_screen_width * m_screen_size;
+		int height = m_screen_height * m_screen_size;
+		double ratio = (double)width / (double)height;
 		//glViewport(0, height/2, width/2, height/2);
 
 		//Perspective projection
 		//gluPerspective(60.0, ratio, 0.0, 5.0);
 
 		//Orthogonal projection
-		glOrtho(-4.0, 4.0, -4.0, 4.0, -4.0, 4.0);
+		glOrtho(-2.0 * ratio, 2.0 * ratio, -2.0, 2.0, -4.0, 4.0);
+		//Isometric projection
+		glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
+		glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
 	}
 
 	return ret;
@@ -132,14 +136,7 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update( float dt )
 {
-	glBegin(GL_TRIANGLES);
-
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(-1.0f, -0.5f, -4.0f); //lower left vertex
-	glVertex3f(1.0f, -0.5f, -4.0f); //lower right vertex
-	glVertex3f(0.0f, 0.5f, -4.0f); // upper vertex
-
-	glEnd();
+	Primitive().DrawCube();
 
 	return UPDATE_CONTINUE;
 }
