@@ -136,6 +136,7 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update( float dt )
 {
+	Primitive().DrawAxis();
 	Primitive().DrawCube();
 
 	return UPDATE_CONTINUE;
