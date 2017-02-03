@@ -113,16 +113,27 @@ bool ModuleRender::Init()
 		int width = m_screen_width * m_screen_size;
 		int height = m_screen_height * m_screen_size;
 		double ratio = (double)width / (double)height;
-		//glViewport(0, height/2, width/2, height/2);
+		glViewport(0, 0, width, height);
+
+		//Orthographic projection
+		/*glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(-2.0 * ratio, 2.0 * ratio, -2.0, 2.0, -4.0, 4.0);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();*/
 
 		//Perspective projection
-		//gluPerspective(60.0, ratio, 0.0, 5.0);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluPerspective(120.0, ratio, 1.0, 10.0);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
 
-		//Orthogonal projection
-		glOrtho(-2.0 * ratio, 2.0 * ratio, -2.0, 2.0, -4.0, 4.0);
-		//Isometric projection
+		glTranslatef(0.0f, 0.0f, -2.0f);
 		glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
 		glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
+		
+		
 	}
 
 	return ret;
@@ -136,9 +147,11 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update( float dt )
 {
+	
 	Primitive().DrawAxis();
 	Primitive().DrawCube();
-
+	
+	
 	return UPDATE_CONTINUE;
 }
 
