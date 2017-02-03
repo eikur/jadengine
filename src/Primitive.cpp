@@ -1,6 +1,11 @@
 #include "Primitive.h"
 #include "glew-2.0.0/include/GL/glew.h"
 
+Primitive::~Primitive()
+{
+	delete[] m_cube_vertices;
+}
+
 void Primitive::DrawAxis()
 {
 	glLineWidth(2.0f);
@@ -29,58 +34,113 @@ void Primitive::DrawCilinder()
 
 void Primitive::DrawCube()
 {
-	glBegin(GL_TRIANGLES);
+	//glBegin(GL_TRIANGLES);
 
+	//// Cube front side - red
+	//glColor3f(1.0f, 0.0f, 0.0f);
+	//glVertex3f(-0.5f, -0.5f, 0.5f);
+	//glVertex3f(0.5f, -0.5f, 0.5f);
+	//glVertex3f(-0.5f, 0.5f, 0.5f);
+	//glVertex3f(0.5f, -0.5f, 0.5f);
+	//glVertex3f(0.5f, 0.5f, 0.5f);
+	//glVertex3f(-0.5f, 0.5f, 0.5f);
+	//// Cube upper side - green
+	//glColor3f(0.0f, 1.0f, 0.0f);
+	//glVertex3f(-0.5f, 0.5f, 0.5f);
+	//glVertex3f(0.5f, 0.5f, 0.5f);
+	//glVertex3f(-0.5f, 0.5f, -0.5f);
+	//glVertex3f(0.5f, 0.5f, 0.5f);
+	//glVertex3f(0.5f, 0.5f, -0.5f);
+	//glVertex3f(-0.5f, 0.5f, -0.5f);
+	//// Cube right side - blue
+	//glColor3f(0.0f, 0.0f, 1.0f);
+	//glVertex3f(0.5f, -0.5f, 0.5f);
+	//glVertex3f(0.5f, -0.5f, -0.5f);
+	//glVertex3f(0.5f, 0.5f, 0.5f);
+	//glVertex3f(0.5f, 0.5f, 0.5f);
+	//glVertex3f(0.5f, -0.5f, -0.5f);
+	//glVertex3f(0.5f, 0.5f, -0.5f);
+	//// Cube left side - yellow
+	//glColor3f(1.0f, 1.0f, 0.0f);
+	//glVertex3f(-0.5f, 0.5f, 0.5f);
+	//glVertex3f(-0.5f, -0.5f, -0.5f);
+	//glVertex3f(-0.5f, -0.5f, 0.5f);
+	//glVertex3f(-0.5f, 0.5f, -0.5f);
+	//glVertex3f(-0.5f, -0.5f, -0.5f);
+	//glVertex3f(-0.5f, 0.5f, 0.5f);
+	//// Cube bottom side - light blue
+	//glColor3f(0.0f, 1.0f, 1.0f);
+	//glVertex3f(-0.5f, -0.5f, -0.5f);
+	//glVertex3f(0.5f, -0.5f, 0.5f);
+	//glVertex3f(-0.5f, -0.5f, 0.5f);
+	//glVertex3f(-0.5f, -0.5f, -0.5f);
+	//glVertex3f(0.5f, -0.5f, -0.5f);
+	//glVertex3f(0.5f, -0.5f, 0.5f);
+	//// Cube back side - purple
+	//glColor3f(1.0f, 0.0f, 1.0f);
+	//glVertex3f(-0.5f, 0.5f, -0.5f);
+	//glVertex3f(0.5f, -0.5f, -0.5f);
+	//glVertex3f(-0.5f, -0.5f, -0.5f);
+	//glVertex3f(-0.5f, 0.5f, -0.5f);
+	//glVertex3f(0.5f, 0.5f, -0.5f);
+	//glVertex3f(0.5f, -0.5f, -0.5f);
+
+	//glEnd();
+
+	m_cube_vertices = new math::float3[36];
 	// Cube front side - red
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(-0.5f, -0.5f, 0.5f);
-	glVertex3f(0.5f, -0.5f, 0.5f);
-	glVertex3f(-0.5f, 0.5f, 0.5f);
-	glVertex3f(0.5f, -0.5f, 0.5f);
-	glVertex3f(0.5f, 0.5f, 0.5f);
-	glVertex3f(-0.5f, 0.5f, 0.5f);
+	m_cube_vertices[0] = { -0.5f, -0.5f, 0.5f };
+	m_cube_vertices[1] = { 0.5f, -0.5f, 0.5f };
+	m_cube_vertices[2] = { -0.5f, 0.5f, 0.5f };
+	m_cube_vertices[3] = { 0.5f, -0.5f, 0.5f };
+	m_cube_vertices[4] = { 0.5f, 0.5f, 0.5f };
+	m_cube_vertices[5] = { -0.5f, 0.5f, 0.5f };
 	// Cube upper side - green
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(-0.5f, 0.5f, 0.5f);
-	glVertex3f(0.5f, 0.5f, 0.5f);
-	glVertex3f(-0.5f, 0.5f, -0.5f);
-	glVertex3f(0.5f, 0.5f, 0.5f);
-	glVertex3f(0.5f, 0.5f, -0.5f);
-	glVertex3f(-0.5f, 0.5f, -0.5f);
+	m_cube_vertices[6] = { -0.5f, 0.5f, 0.5f };
+	m_cube_vertices[7] = { 0.5f, 0.5f, 0.5f };
+	m_cube_vertices[8] = { -0.5f, 0.5f, -0.5f };
+	m_cube_vertices[9] = { 0.5f, 0.5f, 0.5f };
+	m_cube_vertices[10] = { 0.5f, 0.5f, -0.5f };
+	m_cube_vertices[11] = { -0.5f, 0.5f, -0.5f };
 	// Cube right side - blue
-	glColor3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(0.5f, -0.5f, 0.5f);
-	glVertex3f(0.5f, -0.5f, -0.5f);
-	glVertex3f(0.5f, 0.5f, 0.5f);
-	glVertex3f(0.5f, 0.5f, 0.5f);
-	glVertex3f(0.5f, -0.5f, -0.5f);
-	glVertex3f(0.5f, 0.5f, -0.5f);
+	m_cube_vertices[12] = { 0.5f, -0.5f, 0.5f };
+	m_cube_vertices[13] = { 0.5f, -0.5f, -0.5f };
+	m_cube_vertices[14] = { 0.5f, 0.5f, 0.5f };
+	m_cube_vertices[15] = { 0.5f, 0.5f, 0.5f };
+	m_cube_vertices[16] = { 0.5f, -0.5f, -0.5f };
+	m_cube_vertices[17] = { 0.5f, 0.5f, -0.5f };
 	// Cube left side - yellow
-	glColor3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(-0.5f, 0.5f, 0.5f);
-	glVertex3f(-0.5f, -0.5f, -0.5f);
-	glVertex3f(-0.5f, -0.5f, 0.5f);
-	glVertex3f(-0.5f, 0.5f, -0.5f);
-	glVertex3f(-0.5f, -0.5f, -0.5f);
-	glVertex3f(-0.5f, 0.5f, 0.5f);
+	m_cube_vertices[18] = { -0.5f, 0.5f, 0.5f };
+	m_cube_vertices[19] = { -0.5f, -0.5f, -0.5f };
+	m_cube_vertices[20] = { -0.5f, -0.5f, 0.5f };
+	m_cube_vertices[21] = { -0.5f, 0.5f, -0.5f };
+	m_cube_vertices[22] = { -0.5f, -0.5f, -0.5f };
+	m_cube_vertices[23] = { -0.5f, 0.5f, 0.5f };
 	// Cube bottom side - light blue
-	glColor3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(-0.5f, -0.5f, -0.5f);
-	glVertex3f(0.5f, -0.5f, 0.5f);
-	glVertex3f(-0.5f, -0.5f, 0.5f);
-	glVertex3f(-0.5f, -0.5f, -0.5f);
-	glVertex3f(0.5f, -0.5f, -0.5f);
-	glVertex3f(0.5f, -0.5f, 0.5f);
+	m_cube_vertices[24] = { -0.5f, -0.5f, -0.5f };
+	m_cube_vertices[25] = { 0.5f, -0.5f, 0.5f };
+	m_cube_vertices[26] = { -0.5f, -0.5f, 0.5f };
+	m_cube_vertices[27] = { -0.5f, -0.5f, -0.5f };
+	m_cube_vertices[28] = { 0.5f, -0.5f, -0.5f };
+	m_cube_vertices[29] = { 0.5f, -0.5f, 0.5f };
 	// Cube back side - purple
-	glColor3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(-0.5f, 0.5f, -0.5f);
-	glVertex3f(0.5f, -0.5f, -0.5f);
-	glVertex3f(-0.5f, -0.5f, -0.5f);
-	glVertex3f(-0.5f, 0.5f, -0.5f);
-	glVertex3f(0.5f, 0.5f, -0.5f);
-	glVertex3f(0.5f, -0.5f, -0.5f);
+	m_cube_vertices[30] = { -0.5f, 0.5f, -0.5f };
+	m_cube_vertices[31] = { 0.5f, -0.5f, -0.5f };
+	m_cube_vertices[32] = { -0.5f, -0.5f, -0.5f };
+	m_cube_vertices[33] = { -0.5f, 0.5f, -0.5f };
+	m_cube_vertices[34] = { 0.5f, 0.5f, -0.5f };
+	m_cube_vertices[35] = { 0.5f, -0.5f, -0.5f };
 
-	glEnd();
+
+	glGenBuffers(1, &(m_buffer_id));
+	glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 36 * 3, m_cube_vertices, GL_STATIC_DRAW);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glDrawArrays(GL_TRIANGLES, 0, 36 * 3);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
 }
 
 void Primitive::DrawPlane()
@@ -92,4 +152,3 @@ void Primitive::DrawSphere()
 {
 
 }
-

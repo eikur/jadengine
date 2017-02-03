@@ -132,8 +132,7 @@ bool ModuleRender::Init()
 		glTranslatef(0.0f, 0.0f, -2.0f);
 		glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
 		glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
-		
-		
+
 	}
 
 	return ret;
@@ -149,8 +148,8 @@ update_status ModuleRender::Update( float dt )
 {
 	
 	Primitive().DrawAxis();
+	glColor3f(1.0f, 1.0f, 1.0f);
 	Primitive().DrawCube();
-	
 	
 	return UPDATE_CONTINUE;
 }
