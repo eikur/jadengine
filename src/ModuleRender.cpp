@@ -153,7 +153,7 @@ update_status ModuleRender::Update( float dt )
 {
 	
 	m_primitive->DrawAxis();
-	glColor3f(1.0f, 1.0f, 1.0f);
+	glColor3f(3.0f, 3.0f, 3.0f);
 	m_primitive->DrawCube();
 	
 	return UPDATE_CONTINUE;
