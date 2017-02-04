@@ -25,6 +25,7 @@ void Primitive::DrawAxis()
 	glVertex3f(0.0f, 0.0f, 1.0f);
 
 	glEnd();
+	glLineWidth(1.0f);
 }
 
 void Primitive::DrawCilinder()
@@ -145,7 +146,16 @@ void Primitive::DrawCube()
 
 void Primitive::DrawPlane()
 {
-
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glBegin(GL_LINES);
+	int max = 100;
+	for (int i = -max; i <= max; ++i) {
+		glVertex3f(i, 0, -max);
+		glVertex3f(i, 0, max);
+		glVertex3f(-max, 0, i);
+		glVertex3f(max, 0, i);
+	}
+	glEnd();
 }
 
 void Primitive::DrawSphere()
