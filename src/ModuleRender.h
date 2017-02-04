@@ -7,6 +7,7 @@
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
+class Primitive;
 
 class ModuleRender : public Module
 {
@@ -15,6 +16,7 @@ public:
 	~ModuleRender();
 
 	bool Init();
+	bool Start();
 	update_status PreUpdate();
 	update_status Update( float dt = 0.0f);
 	update_status PostUpdate();
@@ -43,6 +45,8 @@ private:
 	bool m_vsync = true;
 	
 	int m_limit_margin = 0;
+
+	Primitive *m_primitive;
 };
 
 #endif // __MODULERENDER_H__
