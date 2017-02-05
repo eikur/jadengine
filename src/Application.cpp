@@ -8,6 +8,7 @@
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModuleFonts.h"
+#include "ModuleEditorCamera.h"
 #include "MathGeoLib/include/MathGeoLib.h"
 #include "glew-2.0.0/include/GL/glew.h"
 
@@ -43,6 +44,7 @@ Application::Application()
 
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
+	modules.push_back(camera = new ModuleEditorCamera());
 	modules.push_back(audio = new ModuleAudio());
 
 	modules.push_back(fonts = new ModuleFonts());

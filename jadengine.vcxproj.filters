@@ -73,6 +73,9 @@
     <ClInclude Include="src\Primitive.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\ModuleEditorCamera.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -122,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="src\Primitive.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleEditorCamera.cpp">
+      <Filter>Core Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

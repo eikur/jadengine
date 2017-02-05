@@ -85,6 +85,7 @@
     <ClInclude Include="src\Module.h" />
     <ClInclude Include="src\ModuleAudio.h" />
     <ClInclude Include="src\ModuleCollision.h" />
+    <ClInclude Include="src\ModuleEditorCamera.h" />
     <ClInclude Include="src\ModuleFadeToBlack.h" />
     <ClInclude Include="src\ModuleFonts.h" />
     <ClInclude Include="src\ModuleInput.h" />
@@ -105,6 +106,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ModuleAudio.cpp" />
     <ClCompile Include="src\ModuleCollision.cpp" />
+    <ClCompile Include="src\ModuleEditorCamera.cpp" />
     <ClCompile Include="src\ModuleFadeToBlack.cpp" />
     <ClCompile Include="src\ModuleFonts.cpp" />
     <ClCompile Include="src\ModuleInput.cpp" />
