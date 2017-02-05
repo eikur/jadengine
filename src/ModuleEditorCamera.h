@@ -26,6 +26,9 @@ public:
 	// Load configuration from file
 	bool LoadConfigFromFile(const char* file_path);
 
+	float4x4 GetProjectionMatrix() const;
+	float3x4 GetViewMatrix() const;
+
 private:
 	Frustum frustum;
 

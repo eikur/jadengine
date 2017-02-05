@@ -6,6 +6,7 @@
 #include "ModuleTextures.h"
 #include "SDL/include/SDL.h"
 #include "Primitive.h"
+#include "ModuleEditorCamera.h"
 
 
 ModuleRender::ModuleRender()
@@ -126,6 +127,8 @@ bool ModuleRender::Init()
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		gluPerspective(120.0, ratio, 1.0, 10.0);
+		// In order to use ModuleEditorCamera
+		//glLoadMatrixf(App->camera->GetProjectionMatrix().ptr());
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
@@ -151,7 +154,7 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update( float dt )
 {
-	
+	m_primitive->DrawPlane();
 	m_primitive->DrawAxis();
 	glColor3f(3.0f, 3.0f, 3.0f);
 	m_primitive->DrawCube();

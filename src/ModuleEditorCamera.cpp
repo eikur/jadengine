@@ -17,13 +17,13 @@ bool ModuleEditorCamera::Init()
 
 	if (LoadConfigFromFile(CONFIG_FILE) == false)
 	{
-		MYLOG("Renderer: Unable to load configuration from file\n");
+		MYLOG("ModuleEditorCamera: Unable to load configuration from file\n");
 		ret = false;
 	}
 	else
 	{
 		float vertical_FOV = DegToRad(60.0f);
-		float aspect_ratio = m_screen_width / m_screen_height;
+		float aspect_ratio = (float)m_screen_width / (float)m_screen_height;
 		float horizontal_FOV = 2.0f * atanf(tanf(vertical_FOV / 2.0f) * aspect_ratio);
 		float near_plane_distance = 0.1f;
 		float far_plane_distance = 100.0f;
@@ -34,8 +34,7 @@ bool ModuleEditorCamera::Init()
 
 		frustum.SetPerspective(horizontal_FOV, vertical_FOV);
 		frustum.SetViewPlaneDistances(near_plane_distance, far_plane_distance);
-
-		frustum.ViewMatrix();
+		frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 	}
 
 	return ret;
@@ -49,6 +48,16 @@ bool ModuleEditorCamera::Start()
 bool ModuleEditorCamera::CleanUp()
 {
 	return true;
+}
+
+float3x4 ModuleEditorCamera::GetViewMatrix() const
+{
+	return frustum.ViewMatrix();
+}
+
+float4x4 ModuleEditorCamera::GetProjectionMatrix() const
+{
+	return frustum.ProjectionMatrix();
 }
 
 bool ModuleEditorCamera::LoadConfigFromFile(const char* file_path)
