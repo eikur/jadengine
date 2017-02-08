@@ -47,7 +47,7 @@ private:
 
 	int m_limit_margin = 0;
 
-	float m_advance_speed = 10.0f;
+	float m_advance_speed = 5.0f;
 
 };
 
