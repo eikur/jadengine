@@ -48,35 +48,30 @@ bool ModuleEditorCamera::Start()
 update_status ModuleEditorCamera::Update(float dt)
 {
 	float3 advance_move = float3::zero;
+	float mod = 0.0f;
 
-	float3 sideways_direction = frustum.Up().Cross(frustum.Front());
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+		mod = m_advance_speed_modifier;
+	else
+		mod = 1.0f;
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-	{
-		advance_move += frustum.Front() * m_advance_speed * dt;
-	}
+		advance_move += frustum.Front() * m_advance_speed * mod * dt;
+
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	{
-		advance_move -= frustum.Front() * m_advance_speed * dt;
-	}
+		advance_move -= frustum.Front() * m_advance_speed * mod * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
-	{
-		advance_move += frustum.Up() * m_advance_speed * dt;
-	}
+		advance_move += frustum.Up() * m_advance_speed * mod * dt;
+
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
-	{
-		advance_move -= frustum.Up() * m_advance_speed * dt;
-	}
+		advance_move -= frustum.Up() * m_advance_speed * mod * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		advance_move -= sideways_direction * m_advance_speed * dt;
-	}
+		advance_move -= frustum.Up().Cross(frustum.Front()) * m_advance_speed * mod * dt;
+
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	{
-		advance_move += sideways_direction * m_advance_speed * dt;
-	}
+		advance_move += frustum.Up().Cross(frustum.Front()) * m_advance_speed * mod * dt;
 
 	if (advance_move.Equals(float3::zero) == false)
 	{
