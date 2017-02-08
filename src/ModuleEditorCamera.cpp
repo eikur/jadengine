@@ -47,9 +47,26 @@ bool ModuleEditorCamera::Start()
 
 update_status ModuleEditorCamera::Update(float dt)
 {
+	Quat rotation = Quat::identity;
+
 	float3 advance_move = float3::zero;
 	float mod = 0.0f;
 
+// rotation
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		m_rotation_pitch += m_rotation_speed*dt;
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		m_rotation_pitch -= m_rotation_speed*dt;
+
+	// rotate
+	glMatrixMode(GL_PROJECTION);
+	rotation.SetFromAxisAngle(float3::unitY, DegToRad(m_rotation_pitch));
+	frustum.SetUp(rotation * frustum.Up());
+	frustum.SetFront(rotation * frustum.Front());
+	//glLoadMatrixf(GetProjectionMatrix().ptr());
+
+
+// translation
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		mod = m_advance_speed_modifier;
 	else
@@ -57,28 +74,24 @@ update_status ModuleEditorCamera::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		advance_move += frustum.Front() * m_advance_speed * mod * dt;
-
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		advance_move -= frustum.Front() * m_advance_speed * mod * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 		advance_move += frustum.Up() * m_advance_speed * mod * dt;
-
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
 		advance_move -= frustum.Up() * m_advance_speed * mod * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		advance_move -= frustum.Up().Cross(frustum.Front()) * m_advance_speed * mod * dt;
-
+		advance_move += frustum.WorldRight() * m_advance_speed * mod * dt;
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		advance_move += frustum.Up().Cross(frustum.Front()) * m_advance_speed * mod * dt;
+		advance_move -= frustum.WorldRight() * m_advance_speed * mod * dt;
 
 	if (advance_move.Equals(float3::zero) == false)
 	{
 		glMatrixMode(GL_PROJECTION);
 		glTranslatef(advance_move.x, advance_move.y, advance_move.z);
 	}
-
 
 	return UPDATE_CONTINUE;
 }
