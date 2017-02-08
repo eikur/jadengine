@@ -33,6 +33,8 @@ public:
 	void SetFOV(float vertical_fov);
 	void SetAspectRatio(float aspect_ratio);
 	void SetPlaneDistances(float near_plane_distance, float far_plane_distance);
+	void Position(float3 pos);
+	void Orientation(float3 front, float3 up);
 
 private:
 	Frustum frustum;

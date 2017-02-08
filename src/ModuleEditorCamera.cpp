@@ -32,11 +32,9 @@ bool ModuleEditorCamera::Init()
 		// Set vertical Field-of-view (parameter angle in degrees)
 		SetFOV(60.0f);
 		SetPlaneDistances(near_plane_distance, far_plane_distance);
+		Position(float3::zero);
+		Orientation(float3::unitZ, float3::unitY);
 		frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-
-		frustum.SetPos(float3::zero);
-		frustum.SetFront(float3::unitZ);
-		frustum.SetUp(float3::unitY);
 	}
 
 	return ret;
@@ -97,6 +95,17 @@ void ModuleEditorCamera::SetAspectRatio(float aspect_ratio)
 void ModuleEditorCamera::SetPlaneDistances(float near_plane_distance, float far_plane_distance)
 {
 	frustum.SetViewPlaneDistances(near_plane_distance, far_plane_distance);
+}
+
+void ModuleEditorCamera::Position(float3 pos)
+{
+	frustum.SetPos(pos);
+}
+
+void ModuleEditorCamera::Orientation(float3 front, float3 up)
+{
+	frustum.SetFront(front);
+	frustum.SetUp(up);
 }
 
 bool ModuleEditorCamera::LoadConfigFromFile(const char* file_path)
