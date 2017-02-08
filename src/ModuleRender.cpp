@@ -130,9 +130,9 @@ bool ModuleRender::Init()
 		//gluPerspective(120.0, ratio, 1.0, 10.0);
 		
 		glLoadMatrixf(App->camera->GetProjectionMatrix().ptr());
-		glTranslatef(0.0f, 0.0f, -2.0f);
-		glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
-		glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
+	//	glTranslatef(0.0f, 0.0f, -2.0f);
+	//	glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
+	//	glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -155,8 +155,10 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update( float dt )
 {
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 
 	m_primitive->DrawPlane();
 	m_primitive->DrawAxis();

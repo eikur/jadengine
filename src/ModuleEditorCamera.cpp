@@ -45,21 +45,40 @@ bool ModuleEditorCamera::Start()
 	return true;
 }
 
-update_status ModuleEditorCamera::Update( float dt )
+update_status ModuleEditorCamera::Update(float dt)
 {
-	float3 advance_direction = frustum.Front() - frustum.Pos();
+	/*
+	float3 advance_direction = frustum.Up().Cross(frustum.Front());
 	advance_direction.Normalize();
+	float3 advance_move;
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-	{ 
+	{
+		advance_move = advance_direction * m_advance_speed *dt;
+		glTranslatef(advance_move.x, advance_move.y, advance_move.z);
 
-		frustum.SetPos(frustum.Pos() + advance_direction*m_advance_speed*dt);
 		MYLOG("Advancing!")
 	}
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		frustum.SetPos(frustum.Pos() -advance_direction*m_advance_speed*dt);
+		advance_move = -advance_direction * m_advance_speed *dt;
+		glTranslatef(advance_move.x, advance_move.y, advance_move.z);
 		MYLOG("Receding!");
+	}
+	*/
+	float3 advance_move = float3::zero;
+	float3 ascend_move = float3::zero;
+	float3 sideways_move = float3::zero;
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		advance_move = frustum.Front() * m_advance_speed * dt;
+		glTranslatef(advance_move.x, advance_move.y, advance_move.z);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		advance_move = -frustum.Front() * m_advance_speed * dt;
+		glTranslatef(advance_move.x, advance_move.y, advance_move.z);
 	}
 
 	return UPDATE_CONTINUE;
