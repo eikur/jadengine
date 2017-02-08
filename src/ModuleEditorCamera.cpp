@@ -52,19 +52,15 @@ update_status ModuleEditorCamera::Update(float dt)
 	float3 advance_move = float3::zero;
 	float mod = 0.0f;
 
-// rotation
+	// pitch rotation
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		m_rotation_pitch += m_rotation_speed*dt;
+	{
+		glRotatef(DegToRad(m_rotation_speed), 0.0f, 1.0f, 0.0f);
+	}
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		m_rotation_pitch -= m_rotation_speed*dt;
-
-	// rotate
-	glMatrixMode(GL_PROJECTION);
-	rotation.SetFromAxisAngle(float3::unitY, DegToRad(m_rotation_pitch));
-	frustum.SetUp(rotation * frustum.Up());
-	frustum.SetFront(rotation * frustum.Front());
-	//glLoadMatrixf(GetProjectionMatrix().ptr());
-
+	{
+		glRotatef(-DegToRad(m_rotation_speed), 0.0f, 1.0f, 0.0f);
+	}
 
 // translation
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
