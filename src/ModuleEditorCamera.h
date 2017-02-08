@@ -31,6 +31,8 @@ public:
 	float4x4 GetProjectionMatrix() const;
 	float3x4 GetViewMatrix() const;
 	void SetFOV(float vertical_fov);
+	void SetAspectRatio(float aspect_ratio);
+	void SetPlaneDistances(float near_plane_distance, float far_plane_distance);
 
 private:
 	Frustum frustum;

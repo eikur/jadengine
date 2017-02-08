@@ -26,17 +26,13 @@ bool ModuleEditorCamera::Init()
 	}
 	else
 	{
-		float vertical_FOV = DegToRad(60.0f);
-		float aspect_ratio = (float)m_screen_width / (float)m_screen_height;
-		float horizontal_FOV = 2.0f * atanf(tanf(vertical_FOV / 2.0f) * aspect_ratio);
 		float near_plane_distance = 1.0f;
 		float far_plane_distance = 10.0f;
 		
 		// Set vertical Field-of-view (parameter angle in degrees)
 		SetFOV(60.0f);
-
+		SetPlaneDistances(near_plane_distance, far_plane_distance);
 		frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-		frustum.SetViewPlaneDistances(near_plane_distance, far_plane_distance);
 
 		frustum.SetPos(float3::zero);
 		frustum.SetFront(float3::unitZ);
@@ -90,6 +86,17 @@ void ModuleEditorCamera::SetFOV(float vertical_fov)
 {
 	float aspect_ratio = (float)App->window->m_screen_width / (float)App->window->m_screen_height;
 	frustum.SetVerticalFovAndAspectRatio(DegToRad(vertical_fov), aspect_ratio);
+}
+
+void ModuleEditorCamera::SetAspectRatio(float aspect_ratio)
+{
+	float horizontal_fov = 2.0f * atanf(tanf(frustum.VerticalFov() / 2.0f) * aspect_ratio);
+	frustum.SetHorizontalFovAndAspectRatio(horizontal_fov, aspect_ratio);
+}
+
+void ModuleEditorCamera::SetPlaneDistances(float near_plane_distance, float far_plane_distance)
+{
+	frustum.SetViewPlaneDistances(near_plane_distance, far_plane_distance);
 }
 
 bool ModuleEditorCamera::LoadConfigFromFile(const char* file_path)
