@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleEditorCamera.h"
+#include "ModuleWindow.h"
 
 
 ModuleEditorCamera::ModuleEditorCamera()
@@ -30,15 +31,16 @@ bool ModuleEditorCamera::Init()
 		float horizontal_FOV = 2.0f * atanf(tanf(vertical_FOV / 2.0f) * aspect_ratio);
 		float near_plane_distance = 1.0f;
 		float far_plane_distance = 10.0f;
+		
+		// Set vertical Field-of-view (parameter angle in degrees)
+		SetFOV(60.0f);
 
 		frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-		frustum.SetPerspective(horizontal_FOV, vertical_FOV);
 		frustum.SetViewPlaneDistances(near_plane_distance, far_plane_distance);
 
 		frustum.SetPos(float3::zero);
 		frustum.SetFront(float3::unitZ);
 		frustum.SetUp(float3::unitY);
-		
 	}
 
 	return ret;
@@ -82,6 +84,12 @@ float3x4 ModuleEditorCamera::GetViewMatrix() const
 float4x4 ModuleEditorCamera::GetProjectionMatrix() const
 {
 	return frustum.ProjectionMatrix();
+}
+
+void ModuleEditorCamera::SetFOV(float vertical_fov)
+{
+	float aspect_ratio = (float)App->window->m_screen_width / (float)App->window->m_screen_height;
+	frustum.SetVerticalFovAndAspectRatio(DegToRad(vertical_fov), aspect_ratio);
 }
 
 bool ModuleEditorCamera::LoadConfigFromFile(const char* file_path)

@@ -30,6 +30,7 @@ public:
 
 	float4x4 GetProjectionMatrix() const;
 	float3x4 GetViewMatrix() const;
+	void SetFOV(float vertical_fov);
 
 private:
 	Frustum frustum;

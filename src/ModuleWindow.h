@@ -23,10 +23,9 @@ public:
 	SDL_Window* m_window = nullptr;
 	SDL_Surface* m_screen_surface = nullptr;
 	int m_screen_width = 0;
-
-private:
-	
 	int m_screen_height = 0;
+private:
+
 	int m_screen_size = 0;
 	bool m_fullscreen = false;
 	bool m_vsync = true;
