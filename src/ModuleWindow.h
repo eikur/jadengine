@@ -28,6 +28,7 @@ private:
 
 	int m_screen_size = 0;
 	bool m_fullscreen = false;
+	bool m_resizable = false;
 	bool m_vsync = true;
 	std::string m_title = "";
 

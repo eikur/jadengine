@@ -8,6 +8,7 @@
 		"screen_size": 2,
 		"title": "JADEngine - running at xx fps",
 		"fullscreen": false,
+		"resizable": true,
 		"vsync": true	
 	},
 	"renderer":{
