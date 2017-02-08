@@ -20,6 +20,8 @@ public:
 	// Called before the first frame
 	bool Start();
 
+	update_status Update( float dt = 0.0f);
+
 	// Called before quitting
 	bool CleanUp();
 
@@ -39,6 +41,9 @@ private:
 	bool m_vsync = true;
 
 	int m_limit_margin = 0;
+
+	float m_advance_speed = 10.0f;
+
 };
 
 #endif // __MODULEEDITORCAMERA_H__

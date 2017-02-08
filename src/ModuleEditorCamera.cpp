@@ -1,5 +1,8 @@
 #include "Globals.h"
+#include "Application.h"
+#include "ModuleInput.h"
 #include "ModuleEditorCamera.h"
+
 
 ModuleEditorCamera::ModuleEditorCamera()
 {
@@ -28,13 +31,14 @@ bool ModuleEditorCamera::Init()
 		float near_plane_distance = 0.1f;
 		float far_plane_distance = 100.0f;
 
-		frustum.SetFront(float3::unitZ);
-		frustum.SetPos(float3::zero);
-		frustum.SetUp(float3::unitY);
-
+		frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 		frustum.SetPerspective(horizontal_FOV, vertical_FOV);
 		frustum.SetViewPlaneDistances(near_plane_distance, far_plane_distance);
-		frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
+
+		frustum.SetPos(float3(3, 3, 3));
+		frustum.SetFront(float3(0,0,0));
+		frustum.SetUp(float3(0, 1, 0));
+		
 	}
 
 	return ret;
@@ -43,6 +47,27 @@ bool ModuleEditorCamera::Init()
 bool ModuleEditorCamera::Start()
 {
 	return true;
+}
+
+update_status ModuleEditorCamera::Update( float dt )
+{
+	float3 advance_direction = frustum.Front() - frustum.Pos();
+	advance_direction.Normalize();
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{ 
+
+		frustum.SetPos(frustum.Pos() + advance_direction*m_advance_speed*dt);
+		MYLOG("Advancing!")
+	}
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		frustum.SetPos(frustum.Pos() -advance_direction*dt*m_advance_speed);
+		MYLOG("Receding!");
+	}
+
+
+	return UPDATE_CONTINUE;
 }
 
 bool ModuleEditorCamera::CleanUp()

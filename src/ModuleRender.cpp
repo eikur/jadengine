@@ -126,15 +126,16 @@ bool ModuleRender::Init()
 		//Perspective projection
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		gluPerspective(120.0, ratio, 1.0, 10.0);
+	//	gluPerspective(120.0, ratio, 1.0, 10.0);
 		// In order to use ModuleEditorCamera
-		//glLoadMatrixf(App->camera->GetProjectionMatrix().ptr());
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		glLoadMatrixf(App->camera->GetProjectionMatrix().ptr());
 
-		glTranslatef(0.0f, 0.0f, -2.0f);
+		glTranslatef(0.0f, 0.0f, -1.6f);
 		glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
 		glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
 	}
 
 	return ret;

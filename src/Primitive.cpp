@@ -2,7 +2,9 @@
 #include "glew-2.0.0/include/GL/glew.h"
 #include "Globals.h"
 
-Primitive::Primitive() {}
+Primitive::Primitive() {
+	m_cube_vertices = new float3[36];
+}
 
 
 Primitive::~Primitive()
@@ -12,7 +14,7 @@ Primitive::~Primitive()
 
 void Primitive::DrawAxis()
 {
-	glLineWidth(2.0f);
+	glLineWidth(10.0f);
 	glBegin(GL_LINES);
 	
 	// X axis - red
@@ -39,8 +41,6 @@ void Primitive::DrawCilinder()
 
 void Primitive::DrawCube()
 {
-	
-	m_cube_vertices = new float3[36];
 	// Cube front side - red
 	m_cube_vertices[0] = { -0.5f, -0.5f, 0.5f };
 	m_cube_vertices[1] = { 0.5f, -0.5f, 0.5f };

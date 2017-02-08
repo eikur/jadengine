@@ -42,9 +42,9 @@ Application::Application()
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(window = new ModuleWindow());
 
+	modules.push_back(camera = new ModuleEditorCamera());
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
-	modules.push_back(camera = new ModuleEditorCamera());
 	modules.push_back(audio = new ModuleAudio());
 
 	modules.push_back(fonts = new ModuleFonts());
