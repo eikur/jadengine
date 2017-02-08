@@ -126,10 +126,10 @@ bool ModuleRender::Init()
 		//Perspective projection
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-	//	gluPerspective(120.0, ratio, 1.0, 10.0);
-		// In order to use ModuleEditorCamera
+		
+		//gluPerspective(120.0, ratio, 1.0, 10.0);
+		
 		glLoadMatrixf(App->camera->GetProjectionMatrix().ptr());
-
 		glTranslatef(0.0f, 0.0f, -1.6f);
 		glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
 		glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
@@ -155,6 +155,9 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update( float dt )
 {
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
 	m_primitive->DrawPlane();
 	m_primitive->DrawAxis();
 	glColor3f(3.0f, 3.0f, 3.0f);

@@ -28,16 +28,16 @@ bool ModuleEditorCamera::Init()
 		float vertical_FOV = DegToRad(60.0f);
 		float aspect_ratio = (float)m_screen_width / (float)m_screen_height;
 		float horizontal_FOV = 2.0f * atanf(tanf(vertical_FOV / 2.0f) * aspect_ratio);
-		float near_plane_distance = 0.1f;
-		float far_plane_distance = 100.0f;
+		float near_plane_distance = 1.0f;
+		float far_plane_distance = 10.0f;
 
 		frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 		frustum.SetPerspective(horizontal_FOV, vertical_FOV);
 		frustum.SetViewPlaneDistances(near_plane_distance, far_plane_distance);
 
-		frustum.SetPos(float3(3, 3, 3));
-		frustum.SetFront(float3(0,0,0));
-		frustum.SetUp(float3(0, 1, 0));
+		frustum.SetPos(float3::zero);
+		frustum.SetFront(float3::unitZ);
+		frustum.SetUp(float3::unitY);
 		
 	}
 
@@ -62,10 +62,9 @@ update_status ModuleEditorCamera::Update( float dt )
 	}
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		frustum.SetPos(frustum.Pos() -advance_direction*dt*m_advance_speed);
+		frustum.SetPos(frustum.Pos() -advance_direction*m_advance_speed*dt);
 		MYLOG("Receding!");
 	}
-
 
 	return UPDATE_CONTINUE;
 }
