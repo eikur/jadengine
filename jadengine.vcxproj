@@ -80,7 +80,9 @@
     <ClInclude Include="3rdparty\parson\parson.h" />
     <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\Axis.h" />
     <ClInclude Include="src\Globals.h" />
+    <ClInclude Include="src\Grid.h" />
     <ClInclude Include="src\MemLeaks.h" />
     <ClInclude Include="src\Module.h" />
     <ClInclude Include="src\ModuleAudio.h" />
@@ -96,12 +98,15 @@
     <ClInclude Include="src\ModuleWindow.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Primitive.h" />
+    <ClInclude Include="src\SolidCube.h" />
     <ClInclude Include="src\TimerMSec.h" />
     <ClInclude Include="src\TimerUSec.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdparty\parson\parson.c" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Axis.cpp" />
+    <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ModuleAudio.cpp" />
@@ -115,7 +120,7 @@
     <ClCompile Include="src\ModuleTextures.cpp" />
     <ClCompile Include="src\ModuleTimer.cpp" />
     <ClCompile Include="src\ModuleWindow.cpp" />
-    <ClCompile Include="src\Primitive.cpp" />
+    <ClCompile Include="src\SolidCube.cpp" />
     <ClCompile Include="src\TimerUSec.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

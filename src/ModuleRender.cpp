@@ -5,7 +5,9 @@
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "SDL/include/SDL.h"
-#include "Primitive.h"
+#include "SolidCube.h"
+#include "Grid.h"
+#include "Axis.h"
 #include "ModuleEditorCamera.h"
 
 
@@ -143,7 +145,9 @@ bool ModuleRender::Init()
 bool ModuleRender::Start()
 {
 	bool ret = true;
-	m_primitive = new Primitive();
+	m_cube = new SolidCube();
+	m_axis = new Axis();
+	m_grid = new Grid();
 	return ret;
 }
 
@@ -160,10 +164,10 @@ update_status ModuleRender::Update( float dt )
 
 	glMatrixMode(GL_MODELVIEW);
 
-	m_primitive->DrawPlane();
-	m_primitive->DrawAxis();
+	m_grid->Draw();
+	m_axis->Draw();
 	glColor3f(3.0f, 3.0f, 3.0f);
-	m_primitive->DrawCube();
+	m_cube->Draw();
 	
 	return UPDATE_CONTINUE;
 }
@@ -190,7 +194,7 @@ bool ModuleRender::CleanUp()
 		SDL_DestroyRenderer(renderer);
 	}
 
-	RELEASE(m_primitive);
+	RELEASE(m_cube);
 
 	return true;
 }

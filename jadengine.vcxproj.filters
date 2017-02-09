@@ -11,6 +11,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{ad89cf24-f35e-4d0c-90e5-820c054c274d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Primitives">
+      <UniqueIdentifier>{d8b35203-f51d-4391-b2b1-58343213e696}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Module.h">
@@ -70,11 +73,20 @@
     <ClInclude Include="src\TimerUSec.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\Primitive.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="src\ModuleEditorCamera.h">
       <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Primitive.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SolidCube.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Axis.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Grid.h">
+      <Filter>Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -123,11 +135,17 @@
     <ClCompile Include="src\TimerUSec.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\Primitive.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="src\ModuleEditorCamera.cpp">
       <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SolidCube.cpp">
+      <Filter>Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Axis.cpp">
+      <Filter>Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Grid.cpp">
+      <Filter>Primitives</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

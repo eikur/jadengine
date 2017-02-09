@@ -7,7 +7,9 @@
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
-class Primitive;
+class SolidCube;
+class Axis;
+class Grid;
 
 class ModuleRender : public Module
 {
@@ -46,7 +48,9 @@ private:
 	
 	int m_limit_margin = 0;
 
-	Primitive *m_primitive;
+	SolidCube *m_cube;
+	Grid *m_grid;
+	Axis *m_axis;
 };
 
 #endif // __MODULERENDER_H__
