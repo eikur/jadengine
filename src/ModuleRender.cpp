@@ -185,8 +185,24 @@ update_status ModuleRender::PreUpdate()
 	m_grid->Draw();
 	m_axis->Draw();
 
-	m_cube->Draw();
+//	m_cube->Draw();
+	glBindTexture(GL_TEXTURE_2D, ImageName);
+	
+	glBegin(GL_QUADS);
 
+	glVertex3f(-0.5f, -0.5f, 0.5f);	//A
+	glTexCoord2d(0.0f, 0.0f);
+
+	glVertex3f(0.5f, -0.5f, 0.5f);	//B
+	glTexCoord2d(1.0f, 0.0f);
+
+	glVertex3f(-0.5f, 0.5f, 0.5f);	//C
+	glTexCoord2d(0.0f, 1.0f);
+
+	glVertex3f(0.5f, 0.5f, 0.5f);	//D
+	glTexCoord2d(1.0f, 1.0f);
+
+	glEnd();
 
 
 
