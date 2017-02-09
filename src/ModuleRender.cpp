@@ -74,15 +74,16 @@ bool ModuleRender::Init()
 			ret = false;
 		}
 
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-		glClearDepth(1.0f);
-		glClearColor(0.f, 0.f, 0.f, 1.f);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		//glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
+		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+		glClearDepth(1.0f);
+		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		if (LoadConfigFromFile(CONFIG_FILE) == false)
 		{
@@ -140,10 +141,10 @@ bool ModuleRender::Init()
 		glLoadIdentity();
 
 		// checker image
-		GLubyte checkImage[8][8][4];
+		GLubyte checkImage[64][64][4];
 
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
+		for (int i = 0; i < 64; i++) {
+			for (int j = 0; j < 64; j++) {
 				int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
 				checkImage[i][j][0] = (GLubyte)c;
 				checkImage[i][j][1] = (GLubyte)c;
@@ -161,14 +162,14 @@ bool ModuleRender::Init()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 8, 8, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 64, 64,0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 	}
 	return ret;
 }
 bool ModuleRender::Start()
 {
 	bool ret = true;
-//	m_cube = new SolidCube();
+	m_cube = new SolidCube();
 	m_axis = new Axis();
 	m_grid = new Grid();
 
@@ -181,27 +182,47 @@ update_status ModuleRender::PreUpdate()
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glMatrixMode(GL_MODELVIEW);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	
 	m_grid->Draw();
 	m_axis->Draw();
 
 //	m_cube->Draw();
-	glBindTexture(GL_TEXTURE_2D, ImageName);
 	
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, ImageName);
+
 	glBegin(GL_QUADS);
 
-	glVertex3f(-0.5f, -0.5f, 0.5f);	//A
-	glTexCoord2d(0.0f, 0.0f);
+		glTexCoord2d(0.0f, 0.0f); 	glVertex3f(-0.5f, -0.5f, 0.5f);	//A
+		glTexCoord2d(1.0f, 0.0f);  	glVertex3f(0.5f, -0.5f, 0.5f);	//B
+		glTexCoord2d(1.0f, 1.0f);  	glVertex3f(0.5f, 0.5f, 0.5f);	//D
+		glTexCoord2d(0.0f, 1.0f);  	glVertex3f(-0.5f, 0.5f, 0.5f);	//C
 
-	glVertex3f(0.5f, -0.5f, 0.5f);	//B
-	glTexCoord2d(1.0f, 0.0f);
+		glTexCoord2d(0.0f, 0.0f); glVertex3f(0.5f, -0.5f, 0.5f);	//B
+		glTexCoord2d(1.0f, 0.0f); glVertex3f(0.5f, -0.5f, -0.5f);	//F
+		glTexCoord2d(1.0f, 1.0f); glVertex3f(0.5f, 0.5f, -0.5f);	//H
+		glTexCoord2d(0.0f, 1.0f); glVertex3f(0.5f, 0.5f, 0.5f);	//D
 
-	glVertex3f(-0.5f, 0.5f, 0.5f);	//C
-	glTexCoord2d(0.0f, 1.0f);
+		glTexCoord2d(0.0f, 0.0f); glVertex3f(-0.5f, 0.5f, 0.5f);	//C
+		glTexCoord2d(1.0f, 0.0f); glVertex3f(0.5f, 0.5f, 0.5f);	//D
+		glTexCoord2d(1.0f, 1.0f); glVertex3f(0.5f, 0.5f, -0.5f);	//H
+		glTexCoord2d(0.0f, 1.0f); glVertex3f(-0.5f, 0.5f, -0.5f);	//G
 
-	glVertex3f(0.5f, 0.5f, 0.5f);	//D
-	glTexCoord2d(1.0f, 1.0f);
+		glTexCoord2d(0.0f, 0.0f); glVertex3f(0.5f, -0.5f, 0.5f);	//B
+		glTexCoord2d(1.0f, 0.0f); glVertex3f(-0.5f, -0.5f, 0.5f);	//A
+		glTexCoord2d(1.0f, 1.0f); glVertex3f(-0.5f, -0.5f, -0.5f);	//E
+		glTexCoord2d(0.0f, 1.0f); glVertex3f(0.5f, -0.5f, -0.5f);	//F
 
+		glTexCoord2d(0.0f, 0.0f); glVertex3f(0.5f, -0.5f, -0.5f);	//F
+		glTexCoord2d(1.0f, 0.0f); glVertex3f(-0.5f, -0.5f, -0.5f);	//E
+		glTexCoord2d(1.0f, 1.0f); glVertex3f(-0.5f, 0.5f, -0.5f);	//G
+		glTexCoord2d(0.0f, 1.0f); glVertex3f(0.5f, 0.5f, -0.5f);	//H
+
+		glTexCoord2d(0.0f, 0.0f); glVertex3f(-0.5f, -0.5f, -0.5f);	//E
+		glTexCoord2d(1.0f, 0.0f); glVertex3f(-0.5f, -0.5f, 0.5f);	//A
+		glTexCoord2d(1.0f, 1.0f); glVertex3f(-0.5f, 0.5f, 0.5f);	//C
+		glTexCoord2d(0.0f, 1.0f); glVertex3f(-0.5f, 0.5f, -0.5f);	//G
 	glEnd();
 
 
