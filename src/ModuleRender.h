@@ -51,6 +51,9 @@ private:
 	SolidCube *m_cube;
 	Grid *m_grid;
 	Axis *m_axis;
+
+	GLuint ImageName = 0;
+
 };
 
 #endif // __MODULERENDER_H__

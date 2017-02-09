@@ -49,7 +49,7 @@ bool ModuleRender::Init()
 		MYLOG("Renderer: %s", glGetString(GL_RENDERER));
 		MYLOG("OpenGL version supported %s", glGetString(GL_VERSION));
 		MYLOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-			
+
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -128,26 +128,51 @@ bool ModuleRender::Init()
 		//Perspective projection
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		
+
 		//gluPerspective(120.0, ratio, 1.0, 10.0);
-		
+
 		glLoadMatrixf(App->camera->GetProjectionMatrix().ptr());
-	//	glTranslatef(0.0f, 0.0f, -2.0f);
-	//	glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
-	//	glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
+		//	glTranslatef(0.0f, 0.0f, -2.0f);
+		//	glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
+		//	glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-	}
 
+		// checker image
+		GLubyte checkImage[8][8][4];
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+				checkImage[i][j][0] = (GLubyte)c;
+				checkImage[i][j][1] = (GLubyte)c;
+				checkImage[i][j][2] = (GLubyte)c;
+				checkImage[i][j][3] = (GLubyte)255;
+			}
+		}
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glGenTextures(1, &ImageName);
+
+		glBindTexture(GL_TEXTURE_2D, ImageName);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 8, 8, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+	}
 	return ret;
 }
 bool ModuleRender::Start()
 {
 	bool ret = true;
-	m_cube = new SolidCube();
+//	m_cube = new SolidCube();
 	m_axis = new Axis();
 	m_grid = new Grid();
+
+	// aqui pasa la magia
 	return ret;
 }
 
