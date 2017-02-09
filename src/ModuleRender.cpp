@@ -153,22 +153,26 @@ bool ModuleRender::Start()
 
 update_status ModuleRender::PreUpdate()
 {
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glMatrixMode(GL_MODELVIEW);
+	m_grid->Draw();
+
+	glColor3f(3.0f, 3.0f, 3.0f);
+	m_cube->Draw();
+
+	m_axis->Draw();
+
+
+
+
 	return UPDATE_CONTINUE;
 }
 
 // Called every draw update
 update_status ModuleRender::Update( float dt )
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glMatrixMode(GL_MODELVIEW);
-
-	m_grid->Draw();
-	m_axis->Draw();
-	glColor3f(3.0f, 3.0f, 3.0f);
-	m_cube->Draw();
-	
 	return UPDATE_CONTINUE;
 }
 
@@ -195,6 +199,8 @@ bool ModuleRender::CleanUp()
 	}
 
 	RELEASE(m_cube);
+	RELEASE(m_axis);
+	RELEASE(m_grid);
 
 	return true;
 }

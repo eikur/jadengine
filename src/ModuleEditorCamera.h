@@ -50,7 +50,7 @@ private:
 	float m_advance_speed = 3.0f;
 	float m_advance_speed_modifier = 3.0f;
 	
-	float m_rotation_speed = 3.0f;
+	float m_rotation_speed = 1.0f;
 };
 
 #endif // __MODULEEDITORCAMERA_H__

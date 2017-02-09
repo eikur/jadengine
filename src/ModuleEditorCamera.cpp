@@ -85,7 +85,7 @@ update_status ModuleEditorCamera::Update(float dt)
 
 	if (advance_move.Equals(float3::zero) == false)
 	{
-		glMatrixMode(GL_PROJECTION);
+		glMatrixMode(GL_MODELVIEW);
 		glTranslatef(advance_move.x, advance_move.y, advance_move.z);
 	}
 
