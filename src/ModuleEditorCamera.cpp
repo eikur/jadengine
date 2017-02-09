@@ -55,12 +55,16 @@ update_status ModuleEditorCamera::Update(float dt)
 	// pitch rotation
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		glRotatef(DegToRad(m_rotation_speed), 0.0f, 1.0f, 0.0f);
+		rotation.RotateY(DegToRad(m_rotation_speed));
+		glRotatef(m_rotation_speed, 0.0f, 1.0f, 0.0f);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		glRotatef(-DegToRad(m_rotation_speed), 0.0f, 1.0f, 0.0f);
+		glRotatef(-m_rotation_speed, 0.0f, 1.0f, 0.0f);
+		rotation.RotateY(DegToRad(m_rotation_speed));
 	}
+
+
 
 // translation
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)

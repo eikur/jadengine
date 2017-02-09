@@ -82,7 +82,7 @@ bool ModuleRender::Init()
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
-		//glEnable(GL_TEXTURE_2D);
+		glEnable(GL_TEXTURE_2D);
 
 		if (LoadConfigFromFile(CONFIG_FILE) == false)
 		{
@@ -158,11 +158,10 @@ update_status ModuleRender::PreUpdate()
 
 	glMatrixMode(GL_MODELVIEW);
 	m_grid->Draw();
+	m_axis->Draw();
 
-	glColor3f(3.0f, 3.0f, 3.0f);
 	m_cube->Draw();
 
-	m_axis->Draw();
 
 
 
