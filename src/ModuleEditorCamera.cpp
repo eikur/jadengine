@@ -32,8 +32,8 @@ bool ModuleEditorCamera::Init()
 		// Set vertical Field-of-view (parameter angle in degrees)
 		SetFOV(60.0f);
 		SetPlaneDistances(near_plane_distance, far_plane_distance);
-		Position(float3::zero);
-		Orientation(float3::unitZ, float3::unitY);
+		
+		frustum.SetFrame(float3::zero, float3::unitZ, float3::unitY);
 		frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 	}
 
