@@ -31,9 +31,6 @@ bool ModuleWindow::Init()
 	}
 	else
 	{
-		int width = m_screen_width * m_screen_size;
-		int height = m_screen_height * m_screen_size;
-
 		Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
 
 		if(m_fullscreen == true)
@@ -46,7 +43,7 @@ bool ModuleWindow::Init()
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		m_window = SDL_CreateWindow(m_title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		m_window = SDL_CreateWindow(m_title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_screen_width, m_screen_height, flags);
 		
 		if(m_window == nullptr)
 		{
@@ -118,7 +115,6 @@ bool ModuleWindow::LoadConfigFromFile(const char* file_path)
 
 	m_screen_width = (int) json_object_dotget_number(json_object(root_value), "window.screen_width");
 	m_screen_height = (int)json_object_dotget_number(json_object(root_value), "window.screen_height");
-	m_screen_size = (int)json_object_dotget_number(json_object(root_value), "window.screen_size");
 	m_fullscreen = (json_object_dotget_boolean(json_object(root_value), "window.fullscreen") != 0) ? true : false;
 	m_resizable = (json_object_dotget_boolean(json_object(root_value), "window.resizable") != 0) ? true : false;
 	m_vsync = (json_object_dotget_boolean(json_object(root_value), "window.vsync") != 0) ? true : false;
@@ -127,7 +123,7 @@ bool ModuleWindow::LoadConfigFromFile(const char* file_path)
 	
 	json_value_free(root_value);
 	
-	if (m_screen_width == 0 || m_screen_height == 0 || m_screen_size == 0 || m_title == "")
+	if (m_screen_width == 0 || m_screen_height == 0 || m_title == "")
 		return false;
 	else 
 		return true;

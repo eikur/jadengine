@@ -64,18 +64,12 @@ public:
 	const iPoint& GetMouseMotion() const;
 	const iPoint& GetMousePosition() const;
 
-	// Load configuration from file
-	bool LoadConfigFromFile(const char* file_path);
-
 private:
 	bool		windowEvents[WE_COUNT];
 	KeyState*	keyboard;
 	KeyState	mouse_buttons[NUM_MOUSE_BUTTONS];
 	iPoint mouse_motion;
 	iPoint mouse;
-
-	int m_screen_size = 0;
-
 };
 
 #endif // __MODULEINPUT_H__

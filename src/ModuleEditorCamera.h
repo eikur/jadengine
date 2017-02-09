@@ -40,12 +40,9 @@ private:
 	Frustum frustum;
 
 	int m_screen_height = 0;
-	int m_screen_size = 0;
 	int m_screen_width = 0;
 	int m_speed = 0;
 	bool m_vsync = true;
-
-	int m_limit_margin = 0;
 
 	float m_advance_speed = 3.0f;
 	float m_advance_speed_modifier = 3.0f;

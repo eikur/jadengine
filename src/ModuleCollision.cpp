@@ -57,8 +57,8 @@ update_status ModuleCollision::Update( float dt )
 
 void ModuleCollision::DebugDraw()
 {
-	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it)
-		App->renderer->DrawQuad((*it)->rect, 0, 0, 255, 80);
+/*	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it)
+		App->renderer->DrawQuad((*it)->rect, 0, 0, 255, 80);*/
 }
 
 // Called before quitting

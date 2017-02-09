@@ -3,9 +3,8 @@
 		"fps_cap": 30
 	},
 	"window": {
-		"screen_height": 224,
-		"screen_width": 320,
-		"screen_size": 2,
+		"screen_height": 768,
+		"screen_width": 1024,
 		"title": "JADEngine - running at xx fps",
 		"fullscreen": false,
 		"resizable": true,

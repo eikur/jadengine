@@ -147,15 +147,13 @@ bool ModuleEditorCamera::LoadConfigFromFile(const char* file_path)
 
 	m_screen_width = (int)json_object_dotget_number(json_object(root_value), "window.screen_width");
 	m_screen_height = (int)json_object_dotget_number(json_object(root_value), "window.screen_height");
-	m_screen_size = (int)json_object_dotget_number(json_object(root_value), "window.screen_size");
 	m_vsync = (json_object_dotget_boolean(json_object(root_value), "window.vsync") != 0) ? true : false;
 
-	m_limit_margin = (int)json_object_dotget_number(json_object(root_value), "renderer.camera.x_limit_margin");
 	m_speed = (int)json_object_dotget_number(json_object(root_value), "renderer.camera.speed");
 
 	json_value_free(root_value);
 
-	if (m_screen_width == 0 || m_screen_height == 0 || m_screen_size == 0)
+	if (m_screen_width == 0 || m_screen_height == 0)
 		return false;
 	else
 		return true;

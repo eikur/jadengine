@@ -24,9 +24,6 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	bool Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed = 1.0f, bool flip = false);
-	bool DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera = true);
-
 private:
 	bool LoadConfigFromFile(const char* file_path);
 
@@ -42,12 +39,9 @@ private:
 	int m_speed = 0;
 
 	int m_screen_height = 0;
-	int m_screen_size = 0;
 	int m_screen_width = 0;
 	bool m_vsync = true;
 	
-	int m_limit_margin = 0;
-
 	SolidCube *m_cube;
 	Grid *m_grid;
 	Axis *m_axis;

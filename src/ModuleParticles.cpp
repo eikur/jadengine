@@ -40,7 +40,7 @@ bool ModuleParticles::CleanUp()
 // Update: draw particles 
 update_status ModuleParticles::Update( float dt )
 {
-	for (list<Particle*>::iterator it = active.begin(); it != active.end();)
+/*	for (list<Particle*>::iterator it = active.begin(); it != active.end();)
 	{
 		Particle* p = *it;
 
@@ -55,7 +55,7 @@ update_status ModuleParticles::Update( float dt )
 			++it;
 		}
 	}
-
+*/
 	
 
 	return UPDATE_CONTINUE;
