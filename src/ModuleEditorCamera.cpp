@@ -27,13 +27,16 @@ bool ModuleEditorCamera::Init()
 	else
 	{
 		float near_plane_distance = 1.0f;
-		float far_plane_distance = 10.0f;
+		float far_plane_distance = 100.0f;
 		
 		// Set vertical Field-of-view (parameter angle in degrees)
 		SetFOV(60.0f);
 		SetPlaneDistances(near_plane_distance, far_plane_distance);
 		
-		frustum.SetFrame(float3::zero, float3::unitZ, float3::unitY);
+		float3 frustum_pos = float3(0.0f, 2.0f, 5.0f);
+		float3 frustum_front = float3(0.0f, 0.0f, -1.0f);
+		float3 frustum_up = float3::unitY;
+		frustum.SetFrame(frustum_pos, frustum_front, frustum_up);
 		frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 	}
 
@@ -89,8 +92,10 @@ update_status ModuleEditorCamera::Update(float dt)
 
 	if (advance_move.Equals(float3::zero) == false)
 	{
-		glMatrixMode(GL_MODELVIEW);
+		//glMatrixMode(GL_MODELVIEW);
+		glMatrixMode(GL_PROJECTION);
 		glTranslatef(advance_move.x, advance_move.y, advance_move.z);
+		frustum.Translate(advance_move);
 	}
 
 	return UPDATE_CONTINUE;
@@ -101,14 +106,20 @@ bool ModuleEditorCamera::CleanUp()
 	return true;
 }
 
-float3x4 ModuleEditorCamera::GetViewMatrix() const
+float4x4 ModuleEditorCamera::GetViewMatrix() const
 {
-	return frustum.ViewMatrix();
+	float4x4 matrix;
+	matrix = frustum.ViewMatrix();
+	matrix.Transpose();
+	return matrix;
 }
 
 float4x4 ModuleEditorCamera::GetProjectionMatrix() const
 {
-	return frustum.ProjectionMatrix();
+	float4x4 matrix;
+	matrix = frustum.ProjectionMatrix();
+	matrix.Transpose();
+	return matrix;
 }
 
 void ModuleEditorCamera::SetFOV(float vertical_fov)
