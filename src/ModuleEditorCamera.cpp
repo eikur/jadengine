@@ -27,7 +27,7 @@ bool ModuleEditorCamera::Init()
 	else
 	{
 		float near_plane_distance = 1.0f;
-		float far_plane_distance = 10.0f;
+		float far_plane_distance = 100.0f;
 		
 		// Set vertical Field-of-view (parameter angle in degrees)
 		SetFOV(60.0f);
@@ -109,7 +109,10 @@ float4x4 ModuleEditorCamera::GetViewMatrix() const
 
 float4x4 ModuleEditorCamera::GetProjectionMatrix() const
 {
-	return frustum.ProjectionMatrix();
+	float4x4 matrix;
+	matrix = frustum.ProjectionMatrix();
+	matrix.Transpose();
+	return matrix;
 }
 
 void ModuleEditorCamera::SetFOV(float vertical_fov)

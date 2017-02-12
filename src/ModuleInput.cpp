@@ -2,6 +2,9 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "SDL/include/SDL.h"
+#include "ModuleWindow.h"
+#include "ModuleEditorCamera.h"
+#include "ModuleRender.h"
 
 #define MAX_KEYS 300
 
@@ -88,6 +91,13 @@ update_status ModuleInput::PreUpdate()
 			case SDL_WINDOWEVENT:
 				switch(event.window.event)
 				{
+					case SDL_WINDOWEVENT_SIZE_CHANGED:
+					App->window->m_screen_width	= event.window.data1;
+					App->window->m_screen_height = event.window.data2;
+					App->camera->SetAspectRatio((float)App->window->m_screen_width / (float)App->window->m_screen_height);
+					App->renderer->m_projection_changed = true;
+					break;
+					
 					//case SDL_WINDOWEVENT_LEAVE:
 					case SDL_WINDOWEVENT_HIDDEN:
 					case SDL_WINDOWEVENT_MINIMIZED:

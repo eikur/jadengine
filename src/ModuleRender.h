@@ -26,12 +26,14 @@ public:
 
 private:
 	bool LoadConfigFromFile(const char* file_path);
+	void LoadProjection();
 
 
 public:
 	SDL_Renderer* renderer = nullptr;
 	SDL_GLContext m_glcontext;
 	SDL_Rect camera;
+	bool m_projection_changed = false;
 
 private:
 	SDL_Texture* sprite = nullptr;

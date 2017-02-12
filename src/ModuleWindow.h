@@ -22,6 +22,8 @@ public:
 public:
 	SDL_Window* m_window = nullptr;
 	SDL_Surface* m_screen_surface = nullptr;
+	int m_init_width = 0;
+	int m_init_height = 0;
 	int m_screen_width = 0;
 	int m_screen_height = 0;
 private:

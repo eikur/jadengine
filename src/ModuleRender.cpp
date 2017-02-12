@@ -115,7 +115,6 @@ bool ModuleRender::Init()
 
 		//Setup the viewport
 		double ratio = (double)m_screen_width / (double)m_screen_height;
-		glViewport(0, 0, m_screen_width, m_screen_height);
 
 		//Orthographic projection
 		/*glMatrixMode(GL_PROJECTION);
@@ -170,6 +169,15 @@ bool ModuleRender::Start()
 
 update_status ModuleRender::PreUpdate()
 {
+	glViewport(0, 0, App->window->m_screen_width, App->window->m_screen_height);
+	if (m_projection_changed)
+		LoadProjection();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	//glTranslatef(0.0f, -2.0f, -2.0f);
+	glLoadMatrixf(App->camera->GetViewMatrix().ptr());
+
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -307,6 +315,20 @@ bool ModuleRender::CleanUp()
 	RELEASE(m_grid);
 
 	return true;
+}
+
+void ModuleRender::LoadProjection()
+{
+	//Perspective projection
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glLoadMatrixf(App->camera->GetProjectionMatrix().ptr());
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	m_projection_changed = false;
 }
 
 //---------------------------------------------------------------
