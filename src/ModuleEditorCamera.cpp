@@ -48,29 +48,22 @@ bool ModuleEditorCamera::Start()
 update_status ModuleEditorCamera::Update(float dt)
 {
 	Quat rotation = Quat::identity;
+	float mod = App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : 1.0f;
 
-	float3 advance_move = float3::zero;
-	float mod = 0.0f;
-
-	// pitch rotation
+//rotation
+	// camera pitch
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-	{
-		rotation.RotateY(-DegToRad(m_rotation_speed*dt));
-		glRotatef(DegToRad(m_rotation_speed*dt), 0.0f, 1.0f, 0.0f);
-	}
+		Orientation(rotation.RotateX(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Front()), rotation.RotateX(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Up()));
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-	{
-		glRotatef(-DegToRad(m_rotation_speed*dt), 0.0f, 1.0f, 0.0f);
-		rotation.RotateY(-DegToRad(m_rotation_speed*dt));
-	}
+		Orientation(rotation.RotateX(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Front()), rotation.RotateX(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Up()));
 
+	// camera yaw
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		Orientation(rotation.RotateY(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Front()), rotation.RotateY(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Up()));
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		Orientation(rotation.RotateY(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Front()), rotation.RotateY(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Up()));
 
-// translation
-	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		mod = m_advance_speed_modifier;
-	else
-		mod = 1.0f;
-
+	// translation
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		Position(frustum.Pos() + frustum.Front()*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
@@ -83,8 +76,6 @@ update_status ModuleEditorCamera::Update(float dt)
 		Position(frustum.Pos() + frustum.WorldRight()*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		Position(frustum.Pos() - frustum.WorldRight()*m_advance_speed * mod * dt);
-
-	//MYLOG("frustum pos: %.2f, %.2f, %.2f", frustum.Pos().x, frustum.Pos().y, frustum.Pos().z);
 
 	return UPDATE_CONTINUE;
 }
