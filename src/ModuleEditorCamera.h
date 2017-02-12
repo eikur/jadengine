@@ -29,7 +29,7 @@ public:
 	bool LoadConfigFromFile(const char* file_path);
 
 	float4x4 GetProjectionMatrix() const;
-	float3x4 GetViewMatrix() const;
+	float4x4 GetViewMatrix() const;
 	void SetFOV(float vertical_fov);
 	void SetAspectRatio(float aspect_ratio);
 	void SetPlaneDistances(float near_plane_distance, float far_plane_distance);
@@ -47,7 +47,7 @@ private:
 	float m_advance_speed = 3.0f;
 	float m_advance_speed_modifier = 3.0f;
 	
-	float m_rotation_speed = 1.0f;
+	float m_rotation_speed = 10000.0f;
 };
 
 #endif // __MODULEEDITORCAMERA_H__

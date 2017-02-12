@@ -110,7 +110,7 @@ bool ModuleRender::Init()
 				ret = false;
 			}
 
-			sprite = App->textures->Load(asset_file.c_str());
+			//sprite = App->textures->Load(asset_file.c_str());
 		}
 
 		//Setup the viewport
@@ -126,17 +126,10 @@ bool ModuleRender::Init()
 
 		//Perspective projection
 		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-
-		//gluPerspective(120.0, ratio, 1.0, 10.0);
-
 		glLoadMatrixf(App->camera->GetProjectionMatrix().ptr());
-		//	glTranslatef(0.0f, 0.0f, -2.0f);
-		//	glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
-		//	glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
 
 		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		glLoadMatrixf(App->camera->GetViewMatrix().ptr());
 
 		// checker image
 		GLubyte checkImage[64][64][4];
@@ -167,11 +160,11 @@ bool ModuleRender::Init()
 bool ModuleRender::Start()
 {
 	bool ret = true;
+
 	m_cube = new SolidCube();
 	m_axis = new Axis();
 	m_grid = new Grid();
 
-	// aqui pasa la magia
 	return ret;
 }
 
@@ -179,7 +172,7 @@ update_status ModuleRender::PreUpdate()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	
 	m_grid->Draw();
@@ -275,8 +268,8 @@ update_status ModuleRender::PreUpdate()
 	glTexCoord2d(1.0f, 0.0f); glVertex3f(-0.5f, -0.5f, -0.5f);	//E
 	glTexCoord2d(1.0f, 1.0f); glVertex3f(-0.5f, 0.5f, -0.5f);	//G
 	glEnd();
-
-
+	
+	glLoadMatrixf(App->camera->GetViewMatrix().ptr());
 
 	return UPDATE_CONTINUE;
 }

@@ -33,7 +33,7 @@ bool ModuleEditorCamera::Init()
 		SetFOV(60.0f);
 		SetPlaneDistances(near_plane_distance, far_plane_distance);
 		
-		frustum.SetFrame(float3::zero, float3::unitZ, float3::unitY);
+		frustum.SetFrame(float3::zero, -float3::unitZ, float3::unitY);
 		frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 	}
 
@@ -55,15 +55,14 @@ update_status ModuleEditorCamera::Update(float dt)
 	// pitch rotation
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		rotation.RotateY(DegToRad(m_rotation_speed));
-		glRotatef(m_rotation_speed, 0.0f, 1.0f, 0.0f);
+		rotation.RotateY(-DegToRad(m_rotation_speed*dt));
+		glRotatef(DegToRad(m_rotation_speed*dt), 0.0f, 1.0f, 0.0f);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		glRotatef(-m_rotation_speed, 0.0f, 1.0f, 0.0f);
-		rotation.RotateY(DegToRad(m_rotation_speed));
+		glRotatef(-DegToRad(m_rotation_speed*dt), 0.0f, 1.0f, 0.0f);
+		rotation.RotateY(-DegToRad(m_rotation_speed*dt));
 	}
-
 
 
 // translation
@@ -73,25 +72,19 @@ update_status ModuleEditorCamera::Update(float dt)
 		mod = 1.0f;
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-		advance_move += frustum.Front() * m_advance_speed * mod * dt;
+		Position(frustum.Pos() + frustum.Front()*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		advance_move -= frustum.Front() * m_advance_speed * mod * dt;
-
+		Position(frustum.Pos() - frustum.Front()*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
-		advance_move += frustum.Up() * m_advance_speed * mod * dt;
+		Position(frustum.Pos() + frustum.Up()*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
-		advance_move -= frustum.Up() * m_advance_speed * mod * dt;
-
+		Position(frustum.Pos() - frustum.Up()*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		advance_move += frustum.WorldRight() * m_advance_speed * mod * dt;
+		Position(frustum.Pos() + frustum.WorldRight()*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		advance_move -= frustum.WorldRight() * m_advance_speed * mod * dt;
+		Position(frustum.Pos() - frustum.WorldRight()*m_advance_speed * mod * dt);
 
-	if (advance_move.Equals(float3::zero) == false)
-	{
-		glMatrixMode(GL_MODELVIEW);
-		glTranslatef(advance_move.x, advance_move.y, advance_move.z);
-	}
+	//MYLOG("frustum pos: %.2f, %.2f, %.2f", frustum.Pos().x, frustum.Pos().y, frustum.Pos().z);
 
 	return UPDATE_CONTINUE;
 }
@@ -101,9 +94,17 @@ bool ModuleEditorCamera::CleanUp()
 	return true;
 }
 
-float3x4 ModuleEditorCamera::GetViewMatrix() const
+float4x4 ModuleEditorCamera::GetViewMatrix() const
 {
-	return frustum.ViewMatrix();
+	float3x4 fvm = frustum.ViewMatrix();
+	float4x4 tmp = float4x4::identity;
+
+	for (int i = 0; i < 3; i++)
+		for (int j = 0; j < 4; j++)
+			tmp[i][j] = fvm[i][j];
+	
+	// change from row-major to column major
+	return tmp.Transposed();
 }
 
 float4x4 ModuleEditorCamera::GetProjectionMatrix() const
