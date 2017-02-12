@@ -35,6 +35,7 @@ public:
 	void SetPlaneDistances(float near_plane_distance, float far_plane_distance);
 	void Position(float3 pos);
 	void Orientation(float3 front, float3 up);
+	void LookAt(float3 look_at);
 
 private:
 	Frustum frustum;

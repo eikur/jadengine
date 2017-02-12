@@ -26,7 +26,7 @@ bool ModuleEditorCamera::Init()
 	}
 	else
 	{
-		float near_plane_distance = 1.0f;
+		float near_plane_distance = 0.1f;
 		float far_plane_distance = 100.0f;
 		
 		// Set vertical Field-of-view (parameter angle in degrees)
@@ -47,35 +47,54 @@ bool ModuleEditorCamera::Start()
 
 update_status ModuleEditorCamera::Update(float dt)
 {
-	Quat rotation = Quat::identity;
+	float3 front = frustum.Front();
+	float3 up = frustum.Up();
+	float3 right = frustum.WorldRight();
+	
 	float mod = App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : 1.0f;
+
+	Quat rotation = Quat::identity;
+	Quat rot;
+	float angle_up_z = RadToDeg(up.AngleBetween(float3::unitZ));
+
 
 //rotation
 	// camera pitch
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		Orientation(rotation.RotateX(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Front()), rotation.RotateX(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Up()));
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		Orientation(rotation.RotateX(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Front()), rotation.RotateX(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Up()));
-
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && angle_up_z > 30.0f)
+	{
+		rot = rotation.RotateAxisAngle(right, DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+		Orientation(rot.Mul(front), rot.Mul(up));
+	}
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && angle_up_z < 150.f)
+	{
+		rot = rotation.RotateAxisAngle(right, -DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+		Orientation(rot.Mul(front), rot.Mul(up));
+	}
 	// camera yaw
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		Orientation(rotation.RotateY(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Front()), rotation.RotateY(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Up()));
+	{
+		rot = rotation.RotateY(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+		Orientation(rot.Mul(front), rot.Mul(up));
+	}
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		Orientation(rotation.RotateY(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Front()), rotation.RotateY(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier).Mul(frustum.Up()));
+	{
+		rot = rotation.RotateY(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+		Orientation(rot.Mul(front), rot.Mul(up));
+	}
 
 	// translation
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-		Position(frustum.Pos() + frustum.Front()*m_advance_speed * mod * dt);
+		Position(frustum.Pos() + front*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		Position(frustum.Pos() - frustum.Front()*m_advance_speed * mod * dt);
+		Position(frustum.Pos() - front*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
-		Position(frustum.Pos() + frustum.Up()*m_advance_speed * mod * dt);
+		Position(frustum.Pos() + up*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
-		Position(frustum.Pos() - frustum.Up()*m_advance_speed * mod * dt);
+		Position(frustum.Pos() - up*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		Position(frustum.Pos() + frustum.WorldRight()*m_advance_speed * mod * dt);
+		Position(frustum.Pos() + right*m_advance_speed * mod * dt);
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		Position(frustum.Pos() - frustum.WorldRight()*m_advance_speed * mod * dt);
+		Position(frustum.Pos() - right*m_advance_speed * mod * dt);
 
 	return UPDATE_CONTINUE;
 }
@@ -139,6 +158,14 @@ void ModuleEditorCamera::Orientation(float3 front, float3 up)
 	//over the individual SetPos/SetFront/SetUp functions if you need to do a batch of two or more changes, to avoid redundant recomputation of the world matrix.
 }
 
+void ModuleEditorCamera::LookAt(float3 look_at)
+{
+	float3 new_front = look_at - frustum.Pos();
+	new_front.Normalize();
+	float3 translation = new_front - frustum.Front();
+	Orientation(new_front, frustum.Up() + translation);
+}
+//-----------------------------------------------------
 bool ModuleEditorCamera::LoadConfigFromFile(const char* file_path)
 {
 	JSON_Value *root_value = json_parse_file(file_path);
