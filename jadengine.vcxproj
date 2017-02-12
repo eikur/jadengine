@@ -99,6 +99,7 @@
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Primitive.h" />
     <ClInclude Include="src\SolidCube.h" />
+    <ClInclude Include="src\SolidSphere.h" />
     <ClInclude Include="src\TimerMSec.h" />
     <ClInclude Include="src\TimerUSec.h" />
   </ItemGroup>
@@ -121,6 +122,7 @@
     <ClCompile Include="src\ModuleTimer.cpp" />
     <ClCompile Include="src\ModuleWindow.cpp" />
     <ClCompile Include="src\SolidCube.cpp" />
+    <ClCompile Include="src\SolidSphere.cpp" />
     <ClCompile Include="src\TimerUSec.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

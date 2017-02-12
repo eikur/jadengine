@@ -88,6 +88,9 @@
     <ClInclude Include="src\Grid.h">
       <Filter>Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="src\SolidSphere.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -145,6 +148,9 @@
       <Filter>Primitives</Filter>
     </ClCompile>
     <ClCompile Include="src\Grid.cpp">
+      <Filter>Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SolidSphere.cpp">
       <Filter>Primitives</Filter>
     </ClCompile>
   </ItemGroup>

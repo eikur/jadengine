@@ -5,6 +5,7 @@
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "SDL/include/SDL.h"
+#include "SolidSphere.h"
 #include "SolidCube.h"
 #include "Grid.h"
 #include "Axis.h"
@@ -160,6 +161,7 @@ bool ModuleRender::Start()
 {
 	bool ret = true;
 
+	m_sphere = new SolidSphere(0.5f, 10, 10);
 	m_cube = new SolidCube();
 	m_axis = new Axis();
 	m_grid = new Grid();
