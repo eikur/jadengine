@@ -130,8 +130,13 @@ void ModuleEditorCamera::Position(float3 pos)
 
 void ModuleEditorCamera::Orientation(float3 front, float3 up)
 {
+	/*
 	frustum.SetFront(front);
 	frustum.SetUp(up);
+	*/
+	frustum.SetFrame(frustum.Pos(), front, up);
+	//Calling this function recomputes the cached world matrix of this Frustum. As a micro-optimization, prefer this function 
+	//over the individual SetPos/SetFront/SetUp functions if you need to do a batch of two or more changes, to avoid redundant recomputation of the world matrix.
 }
 
 bool ModuleEditorCamera::LoadConfigFromFile(const char* file_path)
