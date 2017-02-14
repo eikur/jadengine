@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Globals.h"
 
+
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
@@ -11,6 +12,7 @@ class SolidSphere;
 class SolidCube;
 class Axis;
 class Grid;
+class Model;
 
 class ModuleRender : public Module
 {
@@ -49,8 +51,10 @@ private:
 	SolidCube *m_cube;
 	Grid *m_grid;
 	Axis *m_axis;
-
 	GLuint ImageName = 0;
+
+	Model *m_model = nullptr;
+	
 
 };
 

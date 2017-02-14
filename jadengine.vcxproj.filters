@@ -14,6 +14,9 @@
     <Filter Include="Primitives">
       <UniqueIdentifier>{d8b35203-f51d-4391-b2b1-58343213e696}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{6b231b50-09ac-48cb-b21c-f781016b19ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Module.h">
@@ -91,6 +94,9 @@
     <ClInclude Include="src\SolidSphere.h">
       <Filter>Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model.h">
+      <Filter>Models</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -152,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="src\SolidSphere.cpp">
       <Filter>Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model.cpp">
+      <Filter>Models</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

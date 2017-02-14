@@ -10,6 +10,7 @@
 #include "Grid.h"
 #include "Axis.h"
 #include "ModuleEditorCamera.h"
+#include "Model.h"
 
 
 ModuleRender::ModuleRender()
@@ -165,6 +166,9 @@ bool ModuleRender::Start()
 	m_cube = new SolidCube();
 	m_axis = new Axis();
 	m_grid = new Grid();
+
+	m_model = new Model();
+	m_model->Load("Assets/Batman/Batman.obj");
 
 	return ret;
 }

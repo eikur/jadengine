@@ -84,6 +84,7 @@
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\Grid.h" />
     <ClInclude Include="src\MemLeaks.h" />
+    <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Module.h" />
     <ClInclude Include="src\ModuleAudio.h" />
     <ClInclude Include="src\ModuleCollision.h" />
@@ -110,6 +111,7 @@
     <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\ModuleAudio.cpp" />
     <ClCompile Include="src\ModuleCollision.cpp" />
     <ClCompile Include="src\ModuleEditorCamera.cpp" />
