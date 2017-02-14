@@ -54,48 +54,70 @@ update_status ModuleEditorCamera::Update(float dt)
 	float mod = App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : 1.0f;
 
 	Quat rotation = Quat::identity;
-	Quat rot;
 	float angle_up_z = RadToDeg(up.AngleBetween(float3::unitZ));
+	
+	iPoint mouse_motion = App->input->GetMouseMotion();
 
 
 //rotation
 	// camera pitch
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && angle_up_z > 30.0f)
 	{
-		rot = rotation.RotateAxisAngle(right, DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
-		Orientation(rot.Mul(front), rot.Mul(up));
+		rotation = rotation.RotateAxisAngle(right, DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+		Orientation(rotation.Mul(front), rotation.Mul(up));
 	}
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && angle_up_z < 150.f)
 	{
-		rot = rotation.RotateAxisAngle(right, -DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
-		Orientation(rot.Mul(front), rot.Mul(up));
+		rotation = rotation.RotateAxisAngle(right, -DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+		Orientation(rotation.Mul(front), rotation.Mul(up));
 	}
 	// camera yaw
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		rot = rotation.RotateY(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
-		Orientation(rot.Mul(front), rot.Mul(up));
+		rotation = rotation.RotateY(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+		Orientation(rotation.Mul(front), rotation.Mul(up));
 	}
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		rot = rotation.RotateY(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
-		Orientation(rot.Mul(front), rot.Mul(up));
+		rotation = rotation.RotateY(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+		Orientation(rotation.Mul(front), rotation.Mul(up));
 	}
 
 	// translation
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-		Position(frustum.Pos() + front*m_advance_speed * mod * dt);
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		Position(frustum.Pos() - front*m_advance_speed * mod * dt);
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
-		Position(frustum.Pos() + up*m_advance_speed * mod * dt);
-	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
-		Position(frustum.Pos() - up*m_advance_speed * mod * dt);
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		Position(frustum.Pos() + right*m_advance_speed * mod * dt);
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		Position(frustum.Pos() - right*m_advance_speed * mod * dt);
 
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	{
+		if (mouse_motion.y != 0 )
+		{
+			if (mouse_motion.y > 0)
+				rotation = rotation.RotateAxisAngle(right, -DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+			else
+				rotation = rotation.RotateAxisAngle(right, DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+			Orientation(rotation.Mul(front), rotation.Mul(up));
+		}
+		rotation = Quat::identity;
+		if (mouse_motion.x != 0  )
+		{
+			if (mouse_motion.x > 0)
+				rotation = rotation.RotateY(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+			else
+				rotation = rotation.RotateY(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+			Orientation(rotation.Mul(front), rotation.Mul(up));
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+			Position(frustum.Pos() + front*m_advance_speed * mod * dt);
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+			Position(frustum.Pos() - front*m_advance_speed * mod * dt);
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
+			Position(frustum.Pos() + up*m_advance_speed * mod * dt);
+		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
+			Position(frustum.Pos() - up*m_advance_speed * mod * dt);
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			Position(frustum.Pos() + right*m_advance_speed * mod * dt);
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			Position(frustum.Pos() - right*m_advance_speed * mod * dt);
+	}
 	return UPDATE_CONTINUE;
 }
 
