@@ -28,16 +28,27 @@ void Model::Clear()
 
 void Model::Draw()
 {
-	for (size_t mesh = 0; mesh < scene->mNumMeshes; mesh++)
+	for (int mesh = 0; mesh < scene->mNumMeshes; mesh++)
 	{
-		for (size_t vertex = 0; vertex +2 < scene->mMeshes[mesh]->mNumVertices; vertex+=3)
+		aiMesh *m = scene->mMeshes[mesh];
+		for (int face = 0; face < m->mNumFaces; face++)
 		{
+			aiFace f = m->mFaces[face];
+
+
 			glBegin(GL_TRIANGLES);
-			glVertex3f(scene->mMeshes[mesh]->mVertices[vertex].x, scene->mMeshes[mesh]->mVertices[vertex].y, scene->mMeshes[mesh]->mVertices[vertex].z);
-			glVertex3f(scene->mMeshes[mesh]->mVertices[vertex+1].x, scene->mMeshes[mesh]->mVertices[vertex+1].y, scene->mMeshes[mesh]->mVertices[vertex+1].z);
-			glVertex3f(scene->mMeshes[mesh]->mVertices[vertex+2].x, scene->mMeshes[mesh]->mVertices[vertex+2].y, scene->mMeshes[mesh]->mVertices[vertex+2].z);
+
+			for (int i = 0; i < f.mNumIndices; i++) {
+				int index = f.mIndices[i];
+				if (m->mColors[0] != NULL)
+					glColor4fv((GLfloat*)&m->mColors[0][index]);
+				if (m->mNormals != NULL)
+					glNormal3fv(&m->mNormals[index].x);
+				glVertex3fv(&m->mVertices[index].x);
+			}
 			glEnd();
 		}
 	}
-
 }
+
+
