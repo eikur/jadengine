@@ -246,3 +246,6 @@ ModelManifest.xml
 
 # 3rd party library exceptions
 !MathGeoLib.pdb
+
+# Do not ignore objs within assets
+!Assets/**/*.obj
