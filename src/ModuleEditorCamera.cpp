@@ -57,10 +57,11 @@ update_status ModuleEditorCamera::Update(float dt)
 	float angle_up_z = RadToDeg(up.AngleBetween(float3::unitZ));
 	
 	iPoint mouse_motion = App->input->GetMouseMotion();
+	int mouse_wheel = App->input->GetMouseWheel();
 
 
 //rotation
-	// camera pitch
+/*
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && angle_up_z > 30.0f)
 	{
 		rotation = rotation.RotateAxisAngle(right, DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
@@ -82,9 +83,26 @@ update_status ModuleEditorCamera::Update(float dt)
 		rotation = rotation.RotateY(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
 		Orientation(rotation.Mul(front), rotation.Mul(up));
 	}
+*/
 
-	// translation
+//mouse zoom 
 
+	if (mouse_wheel != 0)
+	{
+		Position(frustum.Pos() + front*(float)mouse_wheel * 10* mod * dt);
+		MYLOG("mousewheel = %d", mouse_wheel);
+	}
+
+// mouse drag
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+	{
+		if (mouse_motion.y != 0)
+			Position(frustum.Pos() + up* (float) mouse_motion.y * m_mouse_speed * mod* dt);
+		if (mouse_motion.x != 0)
+			Position(frustum.Pos() - right*(float)mouse_motion.x * m_mouse_speed *  mod * dt);
+	}
+
+// mouse view
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		if (mouse_motion.y != 0 )

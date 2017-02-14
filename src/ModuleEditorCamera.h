@@ -47,6 +47,8 @@ private:
 
 	float m_advance_speed = 3.0f;
 	float m_advance_speed_modifier = 3.0f;
+
+	float m_mouse_speed = 0.5f;
 	
 	float m_rotation_speed = 10.0f;
 	float m_rotation_speed_modifier = 5.0f;
