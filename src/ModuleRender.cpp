@@ -328,6 +328,8 @@ bool ModuleRender::CleanUp()
 	RELEASE(m_cube);
 	RELEASE(m_axis);
 	RELEASE(m_grid);
+	RELEASE(m_sphere);
+	RELEASE(m_model);
 
 	return true;
 }
