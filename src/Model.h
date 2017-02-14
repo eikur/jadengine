@@ -1,7 +1,8 @@
 #ifndef __MODEL_H__
 #define __MODEL_H__
 
-class aiScene;
+struct aiScene;
+
 class Model
 {
 	const aiScene *scene = nullptr;

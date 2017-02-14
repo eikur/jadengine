@@ -1,10 +1,9 @@
 #ifndef __SOLIDSPHERE_H__
 #define __SOLIDSPHERE_H__
 
-#include "Primitive.h"
-#include "Globals.h"
 #include <vector>
 
+#include "Primitive.h"
 
 class SolidSphere : public Primitive
 {

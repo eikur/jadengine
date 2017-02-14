@@ -1,5 +1,7 @@
+#include "Globals.h"
 #include "SolidSphere.h"
-#include "glew-2.0.0/include/GL/glew.h"
+
+
 
 SolidSphere::SolidSphere(float radius, unsigned int rings, unsigned int sectors)
 {

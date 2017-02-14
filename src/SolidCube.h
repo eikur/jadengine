@@ -2,7 +2,6 @@
 #define __SOLIDCUBE_H__
 
 #include "Primitive.h"
-#include "Globals.h"
 
 class SolidCube : public Primitive
 {

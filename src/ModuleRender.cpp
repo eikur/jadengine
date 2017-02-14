@@ -77,9 +77,15 @@ bool ModuleRender::Init()
 		}
 
 
-		//glEnable(GL_DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
+		GLfloat light_difuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		GLfloat light_position[] = { 0.25f, 1.0f, 1.0f,1.0f };
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, light_difuse);
+		glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+		glEnable(GL_LIGHT0);
 		glEnable(GL_LIGHTING);
+
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
@@ -195,7 +201,7 @@ update_status ModuleRender::PreUpdate()
 //	m_cube->Draw();
 	
 	glColor3f(1.0f, 1.0f, 1.0f);
-	glBindTexture(GL_TEXTURE_2D, ImageName);
+	//glBindTexture(GL_TEXTURE_2D, ImageName);
 	/*
 	glBegin(GL_QUADS);
 
@@ -230,6 +236,7 @@ update_status ModuleRender::PreUpdate()
 		glTexCoord2d(0.0f, 1.0f); glVertex3f(-0.5f, 0.5f, -0.5f);	//G
 	glEnd();
 	*/
+	/*
 	glBegin(GL_TRIANGLES);
 
 
@@ -282,7 +289,9 @@ update_status ModuleRender::PreUpdate()
 	glTexCoord2d(1.0f, 0.0f); glVertex3f(-0.5f, -0.5f, -0.5f);	//E
 	glTexCoord2d(1.0f, 1.0f); glVertex3f(-0.5f, 0.5f, -0.5f);	//G
 	glEnd();
-	
+	*/
+	glColor3f(1.0f, 1.0f, 1.0f);
+	m_model->Draw();
 	glLoadMatrixf(App->camera->GetViewMatrix().ptr());
 
 	return UPDATE_CONTINUE;
