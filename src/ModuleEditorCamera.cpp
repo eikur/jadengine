@@ -72,21 +72,11 @@ update_status ModuleEditorCamera::Update(float dt)
 
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
-		if (mouse_motion.y != 0 )
+		if (mouse_motion.IsZero() == false)
 		{
-			if (mouse_motion.y > 0)
-				rotation = rotation.RotateAxisAngle(right, -DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
-			else
-				rotation = rotation.RotateAxisAngle(right, DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
-			Orientation(rotation.Mul(front), rotation.Mul(up));
-		}
-		rotation = Quat::identity;
-		if (mouse_motion.x != 0  )
-		{
-			if (mouse_motion.x > 0)
-				rotation = rotation.RotateY(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
-			else
-				rotation = rotation.RotateY(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
+			rotation = rotation.RotateAxisAngle(right, -DegToRad(m_rotation_speed)*dt*mouse_motion.y);
+			front = rotation.Mul(front);	up = rotation.Mul(up);
+			rotation = rotation.RotateY(-DegToRad(m_rotation_speed)*dt*mouse_motion.x);
 			Orientation(rotation.Mul(front), rotation.Mul(up));
 		}
 
