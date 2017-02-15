@@ -51,7 +51,7 @@ update_status ModuleEditorCamera::Update(float dt)
 	float3 up = frustum.Up();
 	float3 right = frustum.WorldRight();
 	
-	float mod = App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : 1.0f;
+	float mod = App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : (App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : 1.0f);
 
 	Quat rotation = Quat::identity;
 	float angle_up_z = RadToDeg(up.AngleBetween(float3::unitZ));
@@ -59,41 +59,9 @@ update_status ModuleEditorCamera::Update(float dt)
 	iPoint mouse_motion = App->input->GetMouseMotion();
 	int mouse_wheel = App->input->GetMouseWheel();
 
-
-//rotation
-/*
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && angle_up_z > 30.0f)
-	{
-		rotation = rotation.RotateAxisAngle(right, DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
-		Orientation(rotation.Mul(front), rotation.Mul(up));
-	}
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && angle_up_z < 150.f)
-	{
-		rotation = rotation.RotateAxisAngle(right, -DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
-		Orientation(rotation.Mul(front), rotation.Mul(up));
-	}
-	// camera yaw
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-	{
-		rotation = rotation.RotateY(DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
-		Orientation(rotation.Mul(front), rotation.Mul(up));
-	}
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-	{
-		rotation = rotation.RotateY(-DegToRad(m_rotation_speed)*dt*m_rotation_speed_modifier);
-		Orientation(rotation.Mul(front), rotation.Mul(up));
-	}
-*/
-
-//mouse zoom 
-
 	if (mouse_wheel != 0)
-	{
-		Position(frustum.Pos() + front*(float)mouse_wheel * 10* mod * dt);
-		MYLOG("mousewheel = %d", mouse_wheel);
-	}
+		Position(frustum.Pos() + front*(float)mouse_wheel * m_mouse_wheel_speed* mod * dt);
 
-// mouse drag
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
 		if (mouse_motion.y != 0)
@@ -102,7 +70,6 @@ update_status ModuleEditorCamera::Update(float dt)
 			Position(frustum.Pos() - right*(float)mouse_motion.x * m_mouse_speed *  mod * dt);
 	}
 
-// mouse view
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		if (mouse_motion.y != 0 )
