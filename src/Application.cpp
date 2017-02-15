@@ -51,9 +51,9 @@ Application::Application()
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(window = new ModuleWindow());
 
+	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(camera = new ModuleEditorCamera());
 	modules.push_back(renderer = new ModuleRender());
-	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(audio = new ModuleAudio());
 
 	modules.push_back(fonts = new ModuleFonts());
@@ -62,9 +62,6 @@ Application::Application()
 	modules.push_back(collision = new ModuleCollision());
 	modules.push_back(particles = new ModuleParticles());
 	modules.push_back(fade = new ModuleFadeToBlack());
-
-	// To be removed - just to check that MathGeoLib is properly linked
-	float3 math_geo_lib_test = { 1, 2, 3 };
 }
 
 Application::~Application()

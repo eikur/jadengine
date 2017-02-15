@@ -22,7 +22,7 @@ bool ModuleFonts::Init()
 	}
 	else
 	{
-		graphics = App->textures->Load(asset_file.c_str());
+//		graphics = App->textures->Load(asset_file.c_str());
 	}
 	return res;
 }
@@ -31,7 +31,7 @@ bool ModuleFonts::CleanUp()
 {
 	MYLOG("Fonts: Unloading fonts\n");
 
-	App->textures->Unload(graphics);
+//	App->textures->Unload(graphics);
 
 	for (std::vector<Font*>::iterator it = fonts.begin(); it != fonts.end(); ++it)
 		RELEASE(*it);

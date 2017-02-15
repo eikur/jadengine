@@ -117,8 +117,6 @@ bool ModuleRender::Init()
 				MYLOG("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
 				ret = false;
 			}
-
-			//sprite = App->textures->Load(asset_file.c_str());
 		}
 
 		//Setup the viewport
@@ -138,29 +136,10 @@ bool ModuleRender::Init()
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf(App->camera->GetViewMatrix().ptr());
 
-		// checker image
-		GLubyte checkImage[64][64][4];
+		// Texture load
+		//ImageName = App->textures->CreateCheckersTexture();
+		ImageName = App->textures->LoadTexture("graphics/Lenna.png");
 
-		for (int i = 0; i < 64; i++) {
-			for (int j = 0; j < 64; j++) {
-				int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
-				checkImage[i][j][0] = (GLubyte)c;
-				checkImage[i][j][1] = (GLubyte)c;
-				checkImage[i][j][2] = (GLubyte)c;
-				checkImage[i][j][3] = (GLubyte)255;
-			}
-		}
-
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glGenTextures(1, &ImageName);
-
-		glBindTexture(GL_TEXTURE_2D, ImageName);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 64, 64,0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 	}
 	return ret;
 }
@@ -187,7 +166,6 @@ update_status ModuleRender::PreUpdate()
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	//glTranslatef(0.0f, -2.0f, -2.0f);
 	glLoadMatrixf(App->camera->GetViewMatrix().ptr());
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -201,7 +179,8 @@ update_status ModuleRender::PreUpdate()
 //	m_cube->Draw();
 	
 	glColor3f(1.0f, 1.0f, 1.0f);
-	//glBindTexture(GL_TEXTURE_2D, ImageName);
+	glBindTexture(GL_TEXTURE_2D, ImageName);
+
 	/*
 	glBegin(GL_QUADS);
 
@@ -236,9 +215,7 @@ update_status ModuleRender::PreUpdate()
 		glTexCoord2d(0.0f, 1.0f); glVertex3f(-0.5f, 0.5f, -0.5f);	//G
 	glEnd();
 	*/
-	/*
 	glBegin(GL_TRIANGLES);
-
 
 	glTexCoord2d(0.0f, 0.0f); glVertex3f(-0.5f, -0.5f, 0.5f);	//A
 	glTexCoord2d(1.0f, 0.0f); glVertex3f(0.5f, -0.5f, 0.5f);	//B
@@ -289,8 +266,9 @@ update_status ModuleRender::PreUpdate()
 	glTexCoord2d(1.0f, 0.0f); glVertex3f(-0.5f, -0.5f, -0.5f);	//E
 	glTexCoord2d(1.0f, 1.0f); glVertex3f(-0.5f, 0.5f, -0.5f);	//G
 	glEnd();
-	*/
+
 	glColor3f(1.0f, 1.0f, 1.0f);
+	glTranslatef(3.0f, 0.0f, 0.0f);
 	m_model->Draw();
 	glLoadMatrixf(App->camera->GetViewMatrix().ptr());
 
