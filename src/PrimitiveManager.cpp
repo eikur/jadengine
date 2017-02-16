@@ -27,4 +27,9 @@ Primitive* PrimitiveManager::createPrimitive(Primitive::Types primitive_type)
 	case Primitive::Types::SOLID_CUBE: ret = new SolidCube(); break;
 	case Primitive::Types::SOLID_SPHERE: ret = new SolidSphere(0.5f, 10, 10); break;
 	}
+
+	if (ret != nullptr)
+		m_primitives.push_back(ret);
+
+	return ret;
 }
