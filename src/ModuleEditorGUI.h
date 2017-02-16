@@ -3,6 +3,7 @@
 
 #include "Module.h"
 
+
 class ModuleEditorGUI : public Module
 {
 public: 
@@ -12,8 +13,9 @@ public:
 	bool Init();
 	update_status Update(float dt);
 	bool CleanUp();
-private:
-	ImVec4 clear_color;
+
+	void Draw();
+
 };
 
 #endif

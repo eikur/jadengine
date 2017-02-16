@@ -7,7 +7,6 @@
 
 #include "ModuleEditorGUI.h"
 
-
 ModuleEditorGUI::ModuleEditorGUI(bool active) : Module(active)
 {
 }
@@ -24,11 +23,23 @@ bool ModuleEditorGUI::Init()
 
 update_status ModuleEditorGUI::Update(float)
 {
-	ImGui_ImplSdlGL3_NewFrame(App->window->m_window);
-	clear_color = ImColor(114, 144, 154);
-	ImGui::Text("Hello world");
-	ImGui::ColorEdit3("clear color", (float*)&clear_color);
+	bool t = true;
+	ImVec4 clear_color = ImColor(114, 144, 154);
 
+	ImGui_ImplSdlGL3_NewFrame(App->window->m_window);
+
+//	ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_FirstUseEver);
+	ImGui::Begin("About",  &t);
+	ImGui::Text("jadengine");
+	ImGui::Text("LINE OF DESCRIPTIOn");
+	ImGui::Text("author1 // author2 // author 3");
+	ImGui::Text("Doom pit of hell libraries");
+	ImGui::Text("License: GPL2.0");
+	ImGui::End();
+
+	glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
+
+	ImGui::Render();
 	return UPDATE_CONTINUE;
 }
 
@@ -36,4 +47,10 @@ bool ModuleEditorGUI::CleanUp()
 {
 	ImGui_ImplSdlGL3_Shutdown();
 	return true;
+}
+
+void ModuleEditorGUI::Draw()
+{
+	ImGui::Render();
+
 }

@@ -17,6 +17,7 @@ class ModuleCollision;
 class ModuleParticles;
 class ModuleFonts;
 class ModuleEditorCamera;
+class ModuleEditorGUI;
 
 class Application
 {
@@ -43,6 +44,7 @@ public:
 	ModuleParticles* particles = nullptr;
 	ModuleFonts* fonts = nullptr;
 	ModuleEditorCamera* camera = nullptr;
+	ModuleEditorGUI* gui = nullptr;
 
 	Uint32 frame_count = 0;
 	float FPS = 0.0f;

@@ -10,7 +10,6 @@
 #include "PrimitiveManager.h"
 #include "Primitive.h"
 
-
 ModuleRender::ModuleRender()
 {
 }
@@ -275,7 +274,6 @@ update_status ModuleRender::PreUpdate()
 	if (m_model != nullptr)
 		m_model->Draw();
 	glLoadMatrixf(App->camera->GetViewMatrix().ptr());*/
-
 	return UPDATE_CONTINUE;
 }
 
@@ -289,7 +287,7 @@ update_status ModuleRender::Update( float dt )
 update_status ModuleRender::PostUpdate()
 {
 	++(App->frame_count);
-	
+
 	SDL_GL_SwapWindow(App->window->m_window);
 	return UPDATE_CONTINUE;
 }
