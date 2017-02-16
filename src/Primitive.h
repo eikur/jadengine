@@ -18,13 +18,21 @@ public:
 	: m_type(primitive_type) {}
 	virtual ~Primitive() {}
 	virtual void Draw() {}
-	virtual void Scale(float3 v) 
+	Primitive* Scale(float3 v) { m_scale = v; return this; }
+	Primitive* Translate(float3 v) { m_pos = v; return this; }
+	Primitive* Rotate(float angle, float3 v) 
 	{ 
-		m_scale = v;
+		m_rotate_angle = angle; 
+		m_rotate_vector = v;
+		return this; 
 	}
+
 protected:
 	Types m_type = UNKNOWN;
 	float3 m_scale = float3::one;
+	float3 m_pos = float3::zero;
+	float m_rotate_angle = 0.0f;
+	float3 m_rotate_vector = float3::zero;
 };
 
 #endif // __PRIMITIVE_H__

@@ -150,7 +150,16 @@ bool ModuleRender::Start()
 
 	m_primitives->createPrimitive(Primitive::Types::AXIS);
 	m_primitives->createPrimitive(Primitive::Types::GRID);
-	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)->Scale(float3(0.1f, 0.1f, 0.1f));
+	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
+		->Translate(float3(1.0, 1.0f, 1.0f))
+		->Scale(float3(0.1f, 0.1f, 0.1f));
+	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
+		->Translate(float3(-1.0, 1.0f, 1.0f))
+		->Scale(float3(0.1f, 0.1f, 0.1f));
+	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
+		->Translate(float3(0.0, 1.0f, -2.0f))
+		->Scale(float3(2.0f, 2.0f, 2.0f))
+		->Rotate(45.0f, float3(0.0f, 1.0f, 0.0f));
 
 	m_model = new Model();
 	if (m_model->Load("Assets/Batman/Batman.obj") == false)
@@ -175,9 +184,6 @@ update_status ModuleRender::PreUpdate()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	
 	m_primitives->DrawAllPrimitives();
-//	m_sphere->Draw();
-
-//	m_cube->Draw();
 	
 	//glColor3f(1.0f, 1.0f, 1.0f);
 	//glBindTexture(GL_TEXTURE_2D, ImageName);

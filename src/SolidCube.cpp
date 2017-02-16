@@ -41,7 +41,10 @@ void SolidCube::Draw()
 	*/
 	//glTranslatef(3.0f, 0.0f, 0.0f);
 	glPushMatrix();
+
+	glTranslatef(m_pos.x, m_pos.y, m_pos.z);
 	glScalef(m_scale.x, m_scale.y, m_scale.z);
+	glRotatef(m_rotate_angle, m_rotate_vector.x, m_rotate_vector.y, m_rotate_vector.z);
 
 	glBegin(GL_TRIANGLES);
 	
