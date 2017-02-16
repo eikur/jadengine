@@ -97,6 +97,9 @@
     <ClInclude Include="src\Model.h">
       <Filter>Models</Filter>
     </ClInclude>
+    <ClInclude Include="src\PrimitiveManager.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -161,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="src\Model.cpp">
       <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PrimitiveManager.cpp">
+      <Filter>Primitives</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

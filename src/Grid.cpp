@@ -3,6 +3,7 @@
 #include "Globals.h"
 
 Grid::Grid()
+: Primitive(Primitive::Types::GRID)
 {
 }
 

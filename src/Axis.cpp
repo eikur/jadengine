@@ -3,6 +3,7 @@
 #include "Globals.h"
 
 Axis::Axis()
+: Primitive(Primitive::Types::AXIS)
 {
 }
 
