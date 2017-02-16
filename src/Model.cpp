@@ -12,13 +12,16 @@ Model::~Model() {
 	
 }
 
-void Model::Load(const char* file)
+bool Model::Load(const char* file)
 {
 	scene = aiImportFile(file, aiProcess_PreTransformVertices | aiProcess_FlipUVs);
 	if (scene == nullptr)
 	{
-		
+		MYLOG("Model could not be loaded. Path: %s", file);
+		return false;
 	}
+	else
+		return true;
 }
 
 void Model::Clear()

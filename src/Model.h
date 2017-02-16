@@ -12,7 +12,7 @@ public:
 	Model();
 	~Model();
 
-	void Load(const char *file);
+	bool Load(const char *file);
 	void Clear();
 	void Draw();
 };

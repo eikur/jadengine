@@ -153,7 +153,8 @@ bool ModuleRender::Start()
 	m_grid = new Grid();
 
 	m_model = new Model();
-	m_model->Load("Assets/Batman/Batman.obj");
+	if (m_model->Load("Assets/Batman/Batman.obj") == false)
+		RELEASE(m_model);
 
 	return ret;
 }
@@ -269,7 +270,9 @@ update_status ModuleRender::PreUpdate()
 
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glTranslatef(3.0f, 0.0f, 0.0f);
-	m_model->Draw();
+	glBindTexture(GL_TEXTURE_2D, 0);
+	if (m_model != nullptr)
+		m_model->Draw();
 	glLoadMatrixf(App->camera->GetViewMatrix().ptr());
 
 	return UPDATE_CONTINUE;
