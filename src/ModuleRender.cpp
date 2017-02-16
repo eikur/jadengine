@@ -5,12 +5,10 @@
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "SDL/include/SDL.h"
-#include "SolidSphere.h"
-#include "SolidCube.h"
-#include "Grid.h"
-#include "Axis.h"
 #include "ModuleEditorCamera.h"
 #include "Model.h"
+#include "PrimitiveManager.h"
+#include "Primitive.h"
 
 
 ModuleRender::ModuleRender()
@@ -19,11 +17,15 @@ ModuleRender::ModuleRender()
 
 // Destructor
 ModuleRender::~ModuleRender()
-{}
+{
+}
 
 // Called before render is available
 bool ModuleRender::Init()
 {
+	MYLOG("Creating primitive manager");
+	m_primitives = new PrimitiveManager();
+
 	MYLOG("Creating 3D renderer context");
 	bool ret = true;
 	m_glcontext = SDL_GL_CreateContext(App->window->m_window);
@@ -147,10 +149,9 @@ bool ModuleRender::Start()
 {
 	bool ret = true;
 
-	m_sphere = new SolidSphere(0.5f, 10, 10);
-	m_cube = new SolidCube();
-	m_axis = new Axis();
-	m_grid = new Grid();
+	m_primitives->createPrimitive(Primitive::Types::AXIS);
+	m_primitives->createPrimitive(Primitive::Types::GRID);
+	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)->Scale(float3(0.1f, 0.1f, 0.1f));
 
 	m_model = new Model();
 	if (m_model->Load("Assets/Batman/Batman.obj") == false)
@@ -174,13 +175,13 @@ update_status ModuleRender::PreUpdate()
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	
-	m_grid->Draw();
-	m_axis->Draw();
+	m_primitives->DrawAllPrimitives();
+//	m_sphere->Draw();
 
 //	m_cube->Draw();
 	
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glBindTexture(GL_TEXTURE_2D, ImageName);
+	//glColor3f(1.0f, 1.0f, 1.0f);
+	//glBindTexture(GL_TEXTURE_2D, ImageName);
 
 	/*
 	glBegin(GL_QUADS);
@@ -216,7 +217,7 @@ update_status ModuleRender::PreUpdate()
 		glTexCoord2d(0.0f, 1.0f); glVertex3f(-0.5f, 0.5f, -0.5f);	//G
 	glEnd();
 	*/
-	glBegin(GL_TRIANGLES);
+	/*glBegin(GL_TRIANGLES);
 
 	glTexCoord2d(0.0f, 0.0f); glVertex3f(-0.5f, -0.5f, 0.5f);	//A
 	glTexCoord2d(1.0f, 0.0f); glVertex3f(0.5f, -0.5f, 0.5f);	//B
@@ -273,7 +274,7 @@ update_status ModuleRender::PreUpdate()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	if (m_model != nullptr)
 		m_model->Draw();
-	glLoadMatrixf(App->camera->GetViewMatrix().ptr());
+	glLoadMatrixf(App->camera->GetViewMatrix().ptr());*/
 
 	return UPDATE_CONTINUE;
 }
@@ -306,10 +307,7 @@ bool ModuleRender::CleanUp()
 		SDL_DestroyRenderer(renderer);
 	}
 
-	RELEASE(m_cube);
-	RELEASE(m_axis);
-	RELEASE(m_grid);
-	RELEASE(m_sphere);
+	RELEASE(m_primitives);
 	RELEASE(m_model);
 
 	return true;

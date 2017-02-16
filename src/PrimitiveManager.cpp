@@ -34,3 +34,11 @@ Primitive* PrimitiveManager::createPrimitive(Primitive::Types primitive_type)
 
 	return ret;
 }
+
+void PrimitiveManager::DrawAllPrimitives() const
+{
+	for (std::list<Primitive*>::const_iterator it = m_primitives.begin(); it != m_primitives.end(); ++it)
+	{
+		(*it)->Draw();
+	}
+}

@@ -10,6 +10,7 @@ public:
 	PrimitiveManager();
 	~PrimitiveManager();
 	Primitive* createPrimitive(Primitive::Types primitive_type);
+	void DrawAllPrimitives() const;
 
 private:
 	std::list<Primitive*> m_primitives;

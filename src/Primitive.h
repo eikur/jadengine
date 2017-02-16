@@ -18,9 +18,13 @@ public:
 	: m_type(primitive_type) {}
 	virtual ~Primitive() {}
 	virtual void Draw() {}
-private:
+	virtual void Scale(float3 v) 
+	{ 
+		m_scale = v;
+	}
+protected:
 	Types m_type = UNKNOWN;
-
+	float3 m_scale = float3::one;
 };
 
 #endif // __PRIMITIVE_H__
