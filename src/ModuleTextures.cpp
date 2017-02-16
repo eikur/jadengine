@@ -104,6 +104,16 @@ GLuint ModuleTextures::CreateCheckersTexture()
 	return texture_id;
 }
 
+void ModuleTextures::UseTexture2D(GLuint texture_id)
+{
+	glBindTexture(GL_TEXTURE_2D, texture_id);
+}
+
+void ModuleTextures::DontUseTexture2D()
+{
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 void ModuleTextures::UnloadTexture(GLuint *texture_id)
 {
 	for (list<GLuint*>::iterator it = textures.begin(); it != textures.end(); ++it)

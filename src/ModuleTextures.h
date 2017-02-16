@@ -19,6 +19,9 @@ public:
 	
 	GLuint CreateCheckersTexture();
 
+	void UseTexture2D(GLuint texture);
+	void DontUseTexture2D();
+
 private:
 	std::list<GLuint*> textures;
 };

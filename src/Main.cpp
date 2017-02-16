@@ -4,6 +4,9 @@
 
 #include "SDL/include/SDL.h"
 
+#include "ImGui/imgui.h"
+#include "ImGui/opengl3_example/imgui_impl_glfw_gl3.h"
+
 #ifdef _MSC_VER
 #	pragma comment(lib, "3rdparty/SDL/libx86/SDL2.lib")
 #	pragma comment(lib, "3rdparty/SDL/libx86/SDL2main.lib")
