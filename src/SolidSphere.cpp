@@ -4,6 +4,7 @@
 
 
 SolidSphere::SolidSphere(float radius, unsigned int rings, unsigned int sectors)
+: Primitive(Primitive::Types::SOLID_SPHERE)
 {
 	float const R = 1. / (float)(rings - 1);
 	float const S = 1. / (float)(sectors - 1);
