@@ -21,7 +21,22 @@ bool Model::Load(const char* file)
 		return false;
 	}
 	else
+	{
+		index = new int*[scene->mNumMeshes];
+		for (int mesh = 0; mesh < scene->mNumMeshes; mesh++)
+		{
+			aiMesh *m = scene->mMeshes[mesh];
+			index[mesh] = new int[m->mNumFaces * 3];
+			for (int face = 0; face < scene->mMeshes[mesh]->mNumFaces; face++)
+			{
+				aiFace f = m->mFaces[face];
+				for (int i = 0; i < 3; i++) {
+					index[mesh][3 * face + i] = f.mIndices[i];
+				}
+			}
+		}
 		return true;
+	}
 }
 
 void Model::Clear()

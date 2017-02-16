@@ -5,7 +5,6 @@ struct aiScene;
 
 class Model
 {
-	const aiScene *scene = nullptr;
 
 public:
 
@@ -15,6 +14,12 @@ public:
 	bool Load(const char *file);
 	void Clear();
 	void Draw();
+
+private:
+	const aiScene *scene = nullptr;
+	int **index;
+
+
 };
 
 #endif /* _MODEL_H_*/
