@@ -46,7 +46,8 @@ private:
 
 	PrimitiveManager *m_primitives;
 	
-	GLuint ImageName = 0;
+	GLuint m_checkers_texture = 0;
+	GLuint m_lenna_texture = 0;
 
 	Model *m_model = nullptr;
 	

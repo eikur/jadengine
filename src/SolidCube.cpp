@@ -81,10 +81,6 @@ SolidCube::SolidCube()
 	glGenBuffers(1, &m_index_buffer_id);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof(GLbyte), m_indices, GL_STATIC_DRAW);
-
-	ImageName = App->textures->LoadTexture("graphics/Lenna.png");
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glBindTexture(GL_TEXTURE_2D, ImageName);
 }
 
 SolidCube::~SolidCube()
@@ -102,7 +98,7 @@ void SolidCube::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	App->textures->UseTexture2D(ImageName);
+	App->textures->UseTexture2D(m_texture_id);
 
 	// Index buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_id);

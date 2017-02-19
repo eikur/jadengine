@@ -138,9 +138,8 @@ bool ModuleRender::Init()
 		glLoadMatrixf(App->camera->GetViewMatrix().ptr());
 
 		// Texture load
-		//ImageName = App->textures->CreateCheckersTexture();
-		ImageName = App->textures->LoadTexture("graphics/Lenna.png");
-
+		m_checkers_texture = App->textures->CreateCheckersTexture();
+		m_lenna_texture = App->textures->LoadTexture("graphics/Lenna.png");
 	}
 	return ret;
 }
@@ -152,14 +151,17 @@ bool ModuleRender::Start()
 	m_primitives->createPrimitive(Primitive::Types::GRID);
 	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
 		->Translate(float3(1.0, 1.0f, 1.0f))
-		->Scale(float3(0.1f, 0.1f, 0.1f));
+		->Scale(float3(0.1f, 0.1f, 0.1f))
+		->ApplyTexture(m_checkers_texture);
 	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
 		->Translate(float3(-1.0, 1.0f, 1.0f))
-		->Scale(float3(0.1f, 0.1f, 0.1f));
+		->Scale(float3(0.1f, 0.1f, 0.1f))
+		->ApplyTexture(m_checkers_texture);
 	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
 		->Translate(float3(0.0, 1.0f, -2.0f))
 		->Scale(float3(2.0f, 2.0f, 2.0f))
-		->Rotate(45.0f, float3(0.0f, 1.0f, 0.0f));
+		->Rotate(45.0f, float3(0.0f, 1.0f, 0.0f))
+		->ApplyTexture(m_lenna_texture);
 
 	m_model = new Model();
 	if (m_model->Load("Assets/Batman/Batman.obj") == false)

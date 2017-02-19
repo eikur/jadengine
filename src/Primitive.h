@@ -26,6 +26,11 @@ public:
 		m_rotate_vector = v;
 		return this; 
 	}
+	Primitive* ApplyTexture(const GLuint& texture_id)
+	{
+		m_texture_id = texture_id;
+		return this;
+	}
 
 protected:
 	Types m_type = UNKNOWN;
@@ -33,6 +38,7 @@ protected:
 	float3 m_pos = float3::zero;
 	float m_rotate_angle = 0.0f;
 	float3 m_rotate_vector = float3::zero;
+	GLuint m_texture_id = 0;
 };
 
 #endif // __PRIMITIVE_H__

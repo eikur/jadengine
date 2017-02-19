@@ -15,7 +15,6 @@ private:
 	GLfloat m_vertices[24*3];
 	float2 m_uv_coord[24];
 	GLubyte m_indices[36];
-	GLuint ImageName = 0;
 };
 
 #endif // __SOLIDCUBE_H__
