@@ -34,7 +34,9 @@ bool Model::Load(const char* file)
 					index[mesh][3 * face + i] = f.mIndices[i];
 				}
 			}
+			RELEASE_ARRAY(index[mesh]);
 		}
+		RELEASE_ARRAY(index);
 		return true;
 	}
 }
