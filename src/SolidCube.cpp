@@ -69,13 +69,11 @@ SolidCube::SolidCube()
 	glGenBuffers(1, &m_vertex_buffer_id);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, 24 * 3 * sizeof(GLfloat), m_vertices, GL_STATIC_DRAW);
-	glVertexPointer(3, GL_FLOAT, 0, nullptr);
 
 	// Create a buffer for UV coordinates
 	glGenBuffers(1, &m_uv_coord_buffer_id);
 	glBindBuffer(GL_ARRAY_BUFFER, m_uv_coord_buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, 24 * 2 * sizeof(GLfloat), m_uv_coord, GL_STATIC_DRAW);
-	glTexCoordPointer(2, GL_FLOAT, 0, nullptr);
 
 	// Create a buffer for the indices
 	glGenBuffers(1, &m_index_buffer_id);
@@ -99,6 +97,11 @@ void SolidCube::Draw()
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	App->textures->UseTexture2D(m_texture_id);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer_id);
+	glVertexPointer(3, GL_FLOAT, 0, nullptr);
+	glBindBuffer(GL_ARRAY_BUFFER, m_uv_coord_buffer_id);
+	glTexCoordPointer(2, GL_FLOAT, 0, nullptr);
 
 	// Index buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_id);

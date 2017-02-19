@@ -1,5 +1,7 @@
 #include "Globals.h"
 #include "SolidSphere.h"
+#include "Application.h"
+#include "ModuleTextures.h"
 
 
 
@@ -40,17 +42,49 @@ SolidSphere::SolidSphere(float radius, unsigned int rings, unsigned int sectors)
 		*i++ = (r + 1) * sectors + s;
 	}
 
+	// Create buffer and load vertex data
+	glGenBuffers(1, &m_vertex_buffer_id);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer_id);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float3), &vertices[0], GL_STATIC_DRAW);
+	glVertexPointer(3, GL_FLOAT, 0, nullptr);
+
+	// Create a buffer for UV coordinates
+/*	glGenBuffers(1, &m_uv_coord_buffer_id);
+	glBindBuffer(GL_ARRAY_BUFFER, m_uv_coord_buffer_id);
+	glBufferData(GL_ARRAY_BUFFER, 24 * 2 * sizeof(GLfloat), m_uv_coord, GL_STATIC_DRAW);
+	glTexCoordPointer(2, GL_FLOAT, 0, nullptr);*/
+
+	// Create a buffer for the indices
+	glGenBuffers(1, &m_index_buffer_id);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(short), &indices[0], GL_STATIC_DRAW);
 }
 
 SolidSphere::~SolidSphere() {}
 
 void SolidSphere::Draw()
 {
-	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
+
+	glTranslatef(m_pos.x, m_pos.y, m_pos.z);
+	glScalef(m_scale.x, m_scale.y, m_scale.z);
+	glRotatef(m_rotate_angle, m_rotate_vector.x, m_rotate_vector.y, m_rotate_vector.z);
+
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, &vertices[0]);
-	glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_SHORT, &indices[0]);
+	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	App->textures->UseTexture2D(m_texture_id);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer_id);
+	glVertexPointer(3, GL_FLOAT, 0, nullptr);
+
+	// Index buffer
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_id);
+
+	// Draw the triangles
+	glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_SHORT, 0);
 	glDisableClientState(GL_VERTEX_ARRAY);
+	//glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
 	glPopMatrix();
 }
