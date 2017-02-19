@@ -14,8 +14,9 @@ public:
 
 private:
 	GLuint m_vao_id, m_vertex_buffer_id, m_index_buffer_id, m_uv_coord_buffer_id;
-	std::vector<float3> vertices;
-	std::vector<short> indices;
+	std::vector<float3> m_vertices;
+	std::vector<float2> m_uv_coords;
+	std::vector<short> m_indices;
 };
 
 

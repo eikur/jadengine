@@ -163,7 +163,8 @@ bool ModuleRender::Start()
 		->Rotate(45.0f, float3(0.0f, 1.0f, 0.0f))
 		->ApplyTexture(m_lenna_texture);
 	m_primitives->createPrimitive(Primitive::Types::SOLID_SPHERE)
-		->Translate(float3(0.0, 1.0f, 2.0f));
+		->Translate(float3(0.0, 1.0f, 2.0f))
+		->ApplyTexture(m_checkers_texture);
 
 	m_model = new Model();
 	if (m_model->Load("Assets/Batman/Batman.obj") == false)
