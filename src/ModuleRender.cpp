@@ -188,8 +188,8 @@ update_status ModuleRender::PreUpdate()
 	//glColor3f(1.0f, 1.0f, 1.0f);
 	//glBindTexture(GL_TEXTURE_2D, ImageName);
 
-	/*
-	glBegin(GL_QUADS);
+	
+	/*glBegin(GL_QUADS);
 
 		glTexCoord2d(0.0f, 0.0f); 	glVertex3f(-0.5f, -0.5f, 0.5f);	//A
 		glTexCoord2d(1.0f, 0.0f);  	glVertex3f(0.5f, -0.5f, 0.5f);	//B
