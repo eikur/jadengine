@@ -1,6 +1,8 @@
 #include "SolidCube.h"
 #include "glew-2.0.0/include/GL/glew.h"
 #include "Globals.h"
+#include "Application.h"
+#include "ModuleTextures.h"
 
 /*
 
@@ -69,10 +71,20 @@ SolidCube::SolidCube()
 	glBufferData(GL_ARRAY_BUFFER, 24 * 3 * sizeof(GLfloat), m_vertices, GL_STATIC_DRAW);
 	glVertexPointer(3, GL_FLOAT, 0, nullptr);
 
+	// Create a buffer for UV coordinates
+	glGenBuffers(1, &m_uv_coord_buffer_id);
+	glBindBuffer(GL_ARRAY_BUFFER, m_uv_coord_buffer_id);
+	glBufferData(GL_ARRAY_BUFFER, 24 * 2 * sizeof(GLfloat), m_uv_coord, GL_STATIC_DRAW);
+	glTexCoordPointer(2, GL_FLOAT, 0, nullptr);
+
 	// Create a buffer for the indices
 	glGenBuffers(1, &m_index_buffer_id);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof(GLbyte), m_indices, GL_STATIC_DRAW);
+
+	ImageName = App->textures->LoadTexture("graphics/Lenna.png");
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, ImageName);
 }
 
 SolidCube::~SolidCube()
@@ -88,6 +100,9 @@ void SolidCube::Draw()
 	glRotatef(m_rotate_angle, m_rotate_vector.x, m_rotate_vector.y, m_rotate_vector.z);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	App->textures->UseTexture2D(ImageName);
 
 	// Index buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_id);
@@ -95,6 +110,9 @@ void SolidCube::Draw()
 	// Draw the triangles
 	glDrawElements(GL_TRIANGLES, 12 * 3, GL_UNSIGNED_BYTE, 0);
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	App->textures->DontUseTexture2D();
 
 	glPopMatrix();
 }
