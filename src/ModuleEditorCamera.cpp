@@ -54,7 +54,6 @@ update_status ModuleEditorCamera::Update(float dt)
 	float mod = App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : (App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : 1.0f);
 
 	Quat rotation = Quat::identity;
-	float angle_up_z = RadToDeg(up.AngleBetween(float3::unitZ));
 	
 	iPoint mouse_motion = App->input->GetMouseMotion();
 	int mouse_wheel = App->input->GetMouseWheel();

@@ -58,7 +58,7 @@ bool ModuleRender::Init()
 		glLoadIdentity();
 
 		//Check for error
-		GLenum error = glGetError();
+		error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
 			MYLOG("Error initializing OpenGL! %s\n", gluErrorString(error));
@@ -121,7 +121,7 @@ bool ModuleRender::Init()
 		}
 
 		//Setup the viewport
-		double ratio = (double)m_screen_width / (double)m_screen_height;
+		//double ratio = (double)m_screen_width / (double)m_screen_height;
 
 		//Orthographic projection
 		/*glMatrixMode(GL_PROJECTION);
@@ -195,7 +195,7 @@ update_status ModuleRender::PreUpdate()
 }
 
 // Called every draw update
-update_status ModuleRender::Update( float dt )
+update_status ModuleRender::Update( float )
 {
 	return UPDATE_CONTINUE;
 }

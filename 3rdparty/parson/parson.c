@@ -495,7 +495,8 @@ static int parse_utf_16(const char **unprocessed, char **processed) {
 		return JSONFailure;
 	}
 	if (cp < 0x80) {
-		*processed_ptr = (unsigned int)cp; /* 0xxxxxxx */
+		//*processed_ptr = (unsigned int)cp; /* 0xxxxxxx */
+		*processed_ptr = (char)cp; /* 0xxxxxxx */
 	}
 	else if (cp < 0x800) {
 		*processed_ptr++ = ((cp >> 6) & 0x1F) | 0xC0; /* 110xxxxx */

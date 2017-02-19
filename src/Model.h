@@ -17,7 +17,7 @@ public:
 
 private:
 	const aiScene *scene = nullptr;
-	int **index;
+	int **indices;
 
 
 };

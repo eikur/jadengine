@@ -22,21 +22,21 @@ bool Model::Load(const char* file)
 	}
 	else
 	{
-		index = new int*[scene->mNumMeshes];
-		for (int mesh = 0; mesh < scene->mNumMeshes; mesh++)
+		indices = new int*[scene->mNumMeshes];
+		for (unsigned int mesh = 0; mesh < scene->mNumMeshes; mesh++)
 		{
 			aiMesh *m = scene->mMeshes[mesh];
-			index[mesh] = new int[m->mNumFaces * 3];
-			for (int face = 0; face < scene->mMeshes[mesh]->mNumFaces; face++)
+			indices[mesh] = new int[m->mNumFaces * 3];
+			for (unsigned int face = 0; face < scene->mMeshes[mesh]->mNumFaces; face++)
 			{
 				aiFace f = m->mFaces[face];
 				for (int i = 0; i < 3; i++) {
-					index[mesh][3 * face + i] = f.mIndices[i];
+					indices[mesh][3 * face + i] = f.mIndices[i];
 				}
 			}
-			RELEASE_ARRAY(index[mesh]);
+			RELEASE_ARRAY(indices[mesh]);
 		}
-		RELEASE_ARRAY(index);
+		RELEASE_ARRAY(indices);
 		return true;
 	}
 }
@@ -48,18 +48,18 @@ void Model::Clear()
 
 void Model::Draw()
 {
-	for (int mesh = 0; mesh < scene->mNumMeshes; mesh++)
+	for (unsigned int mesh = 0; mesh < scene->mNumMeshes; mesh++)
 	{
 		aiMesh *m = scene->mMeshes[mesh];
-		for (int face = 0; face < m->mNumFaces; face++)
+		for (unsigned int face = 0; face < m->mNumFaces; face++)
 		{
 			aiFace f = m->mFaces[face];
 
 
 			glBegin(GL_TRIANGLES);
 
-			for (int i = 0; i < f.mNumIndices; i++) {
-				int index = f.mIndices[i];
+			for (unsigned int i = 0; i < f.mNumIndices; i++) {
+				unsigned int index = f.mIndices[i];
 				if (m->mColors[0] != NULL)
 					glColor4fv((GLfloat*)&m->mColors[0][index]);
 				if (m->mNormals != NULL)

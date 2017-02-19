@@ -38,7 +38,7 @@ bool ModuleParticles::CleanUp()
 }
 
 // Update: draw particles 
-update_status ModuleParticles::Update( float dt )
+update_status ModuleParticles::Update( float )
 {
 /*	for (list<Particle*>::iterator it = active.begin(); it != active.end();)
 	{
@@ -98,7 +98,7 @@ bool Particle::Update( float dt )
 	// Return false if the particle must be destroyed
 
 	//death by age
-	++age;
+	age += dt;
 	if(age >= time_to_live)	{
 		to_delete = true;
 		if (has_collider)

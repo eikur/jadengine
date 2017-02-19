@@ -17,10 +17,10 @@ void Grid::Draw()
 	glBegin(GL_LINES);
 	int max = 100;
 	for (int i = -max; i <= max; ++i) {
-		glVertex3f(i, 0, -max);
-		glVertex3f(i, 0, max);
-		glVertex3f(-max, 0, i);
-		glVertex3f(max, 0, i);
+		glVertex3f((GLfloat) i, 0, (GLfloat)-max);
+		glVertex3f((GLfloat)i, 0, (GLfloat)max);
+		glVertex3f((GLfloat)-max, 0, (GLfloat)i);
+		glVertex3f((GLfloat)max, 0, (GLfloat)i);
 	}
 	glEnd();
 }

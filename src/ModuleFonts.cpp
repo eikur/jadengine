@@ -97,7 +97,7 @@ bool ModuleFonts::LoadConfigFromFile(const char* file_path)
 	return true;
 }
 
-void ModuleFonts::Print(int x, int y, int font_id, const std::string text) const
+void ModuleFonts::Print(int, int, int, const std::string ) const
 {	
 	// find selected font
 /*	std::vector<Font*>::const_iterator it;

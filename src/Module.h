@@ -58,7 +58,7 @@ public:
 		return UPDATE_CONTINUE;
 	}
 
-	virtual update_status Update( float dt = 0.0f)
+	virtual update_status Update( float = 0.0f)
 	{
 		return UPDATE_CONTINUE;
 	}
