@@ -15,7 +15,18 @@
 
 using namespace std;
 
-ModuleTextures::ModuleTextures()
+ModuleTextures::ModuleTextures() : Module(true)
+{
+
+}
+
+// Destructor
+ModuleTextures::~ModuleTextures()
+{
+
+}
+
+bool ModuleTextures::Init()
 {
 	MYLOG("Init Image library");
 	bool ret = true;
@@ -25,42 +36,55 @@ ModuleTextures::ModuleTextures()
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
 	//	ilutEnable(ILUT_OPENGL_CONV);
+	return true;
 }
 
-// Destructor
-ModuleTextures::~ModuleTextures()
+bool ModuleTextures::CleanUp()
 {
 	MYLOG("Freeing textures");
-	for (list<GLuint*>::iterator it = textures.begin(); it != textures.end(); ++it)
-		ilDeleteImages(1, *it);
+	for (std::map<std::string, unsigned, LessString>::iterator it = textures.begin(); it != textures.end(); )
+	{
+		glDeleteTextures(1, &(*it).second);
+		textures.erase(it);
+		it = textures.begin();
+	}
 	textures.clear();
+	return true;
 }
-
-
 
 GLuint ModuleTextures::LoadTexture(std::string texture_path)
 {
 	ILuint image_id;
 	GLuint texture_id;
 	
-	ilGenImages(1, &image_id);
-	ilBindImage(image_id);
-
-	if (ilLoadImage(texture_path.c_str()) == IL_FALSE)
+	std::map<std::string, unsigned, LessString>::iterator it; 
+	it = textures.find(texture_path);
+	if (it != textures.end())
 	{
-		MYLOG("Texture could not be loaded. Error: %s", iluErrorString(ilGetError()));
-		ilDeleteImages(1, &image_id);
-		return 0;
+		return textures[texture_path];
 	}
 	else
 	{
-		// bind to OpenGL
-		texture_id = ilutGLBindTexImage();
-		textures.push_back(&texture_id);	// map
+		ilGenImages(1, &image_id);
+		ilBindImage(image_id);
 
-		ilDeleteImages(1, &image_id);
-		return texture_id;
+		if (ilLoadImage(texture_path.c_str()) == IL_FALSE)
+		{
+			MYLOG("Texture could not be loaded. Error: %s", iluErrorString(ilGetError()));
+			ilDeleteImages(1, &image_id);
+			return 0;
+		}
+		else
+		{
+			// bind to OpenGL
+			texture_id = ilutGLBindTexImage();
+			textures[texture_path] = texture_id;
+
+			ilDeleteImages(1, &image_id);
+			return texture_id;
+		}
 	}
+
 }
 
 GLuint ModuleTextures::CreateCheckersTexture()
@@ -104,18 +128,18 @@ void ModuleTextures::DontUseTexture2D()
 
 void ModuleTextures::UnloadTexture(GLuint *texture_id)
 {
-	for (list<GLuint*>::iterator it = textures.begin(); it != textures.end(); ++it)
+	for (std::map<std::string, unsigned, LessString>::iterator it = textures.begin(); it != textures.end(); ++it)
 	{
-		if (*it == texture_id)
+		if ((*it).second == *texture_id)
 		{
-			glDeleteTextures(1, *it);
+			glDeleteTextures(1, &(*it).second);
 			textures.erase(it);
 			break;
 		}
 	}
 	
 }
-
+/*
 ModuleTextures* ModuleTextures::GetInstance()
 {
 	if (!instance.get())
@@ -125,3 +149,4 @@ ModuleTextures* ModuleTextures::GetInstance()
 }
 
 std::auto_ptr<ModuleTextures> ModuleTextures::instance;
+*/

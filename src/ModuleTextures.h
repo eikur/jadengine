@@ -1,18 +1,17 @@
 #ifndef __MODULETEXTURES_H__
 #define __MODULETEXTURES_H__
 
-#include<list>
-//#include "Globals.h"
-//#include <assimp/include/types.h>
 #include <string>
 #include <map>
 
+#include "Module.h"
 
-class ModuleTextures 
+
+class ModuleTextures : public Module
 {
 	struct LessString
 	{
-		bool operator()(const std::string left, const std::string right)
+		bool operator()(const std::string left, const std::string right) const
 		{
 			return ::strcmp(left.c_str(), right.c_str()) < 0;
 		}
@@ -20,12 +19,15 @@ class ModuleTextures
 
 	typedef std::map<std::string, unsigned, LessString> TextureList;
 
-	TextureList textures2;
-	static std::auto_ptr<ModuleTextures> instance;
+	TextureList textures;
+//	static std::auto_ptr<ModuleTextures> instance;
 
 public:
 	ModuleTextures();
 	~ModuleTextures();
+
+	bool Init();
+	bool CleanUp();
 
 	GLuint LoadTexture(std::string texture_path);
 	void UnloadTexture(GLuint* texture_id);
@@ -36,9 +38,7 @@ public:
 	void DontUseTexture2D();
 
 private:
-	std::list<GLuint*> textures;
-
-	static ModuleTextures* GetInstance();
+//	static ModuleTextures* GetInstance();
 };
 
 #endif // __MODULETEXTURES_H__

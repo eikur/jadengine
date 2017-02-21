@@ -140,6 +140,8 @@ bool ModuleRender::Init()
 		// Texture load
 		m_checkers_texture = App->textures->CreateCheckersTexture();
 		m_lenna_texture = App->textures->LoadTexture("graphics/Lenna.png");
+		GLuint sprite = App->textures->LoadTexture("graphics/sprite.png");
+		App->textures->UnloadTexture(&sprite);
 	}
 	return ret;
 }
