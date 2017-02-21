@@ -106,9 +106,6 @@
     <ClInclude Include="src\ModuleEditorGUI.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="src\TextureManager.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -191,9 +188,6 @@
     </ClCompile>
     <ClCompile Include="src\ModuleEditorGUI.cpp">
       <Filter>Core Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TextureManager.cpp">
-      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

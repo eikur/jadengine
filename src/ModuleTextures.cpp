@@ -17,17 +17,6 @@ using namespace std;
 
 ModuleTextures::ModuleTextures()
 {
-}
-
-// Destructor
-ModuleTextures::~ModuleTextures()
-{
-
-}
-
-// Called before render is available
-bool ModuleTextures::Init()
-{
 	MYLOG("Init Image library");
 	bool ret = true;
 
@@ -35,22 +24,21 @@ bool ModuleTextures::Init()
 	iluInit();
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
-//	ilutEnable(ILUT_OPENGL_CONV);
-
-	return ret;
+	//	ilutEnable(ILUT_OPENGL_CONV);
 }
 
-// Called before quitting
-bool ModuleTextures::CleanUp()
+// Destructor
+ModuleTextures::~ModuleTextures()
 {
-	MYLOG("Freeing textures module");
+	MYLOG("Freeing textures");
 	for (list<GLuint*>::iterator it = textures.begin(); it != textures.end(); ++it)
 		ilDeleteImages(1, *it);
 	textures.clear();
-	return true;
 }
 
-GLuint ModuleTextures::LoadTexture(const char* texture_path)
+
+
+GLuint ModuleTextures::LoadTexture(std::string texture_path)
 {
 	ILuint image_id;
 	GLuint texture_id;
@@ -58,7 +46,7 @@ GLuint ModuleTextures::LoadTexture(const char* texture_path)
 	ilGenImages(1, &image_id);
 	ilBindImage(image_id);
 
-	if (ilLoadImage(texture_path) == IL_FALSE)
+	if (ilLoadImage(texture_path.c_str()) == IL_FALSE)
 	{
 		MYLOG("Texture could not be loaded. Error: %s", iluErrorString(ilGetError()));
 		ilDeleteImages(1, &image_id);
@@ -68,7 +56,7 @@ GLuint ModuleTextures::LoadTexture(const char* texture_path)
 	{
 		// bind to OpenGL
 		texture_id = ilutGLBindTexImage();
-		textures.push_back(&texture_id);
+		textures.push_back(&texture_id);	// map
 
 		ilDeleteImages(1, &image_id);
 		return texture_id;
@@ -127,3 +115,13 @@ void ModuleTextures::UnloadTexture(GLuint *texture_id)
 	}
 	
 }
+
+ModuleTextures* ModuleTextures::GetInstance()
+{
+	if (!instance.get())
+		instance.reset(new ModuleTextures());
+
+	return instance.get();
+}
+
+std::auto_ptr<ModuleTextures> ModuleTextures::instance;

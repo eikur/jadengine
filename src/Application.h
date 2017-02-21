@@ -36,7 +36,7 @@ private:
 public:
 	ModuleRender* renderer = nullptr;
 	ModuleWindow* window = nullptr;
-	ModuleTextures* textures = nullptr;
+	//ModuleTextures* textures = nullptr;
 	ModuleInput* input = nullptr;
 	ModuleAudio* audio = nullptr;
 	ModuleFadeToBlack* fade = nullptr;
@@ -45,6 +45,8 @@ public:
 	ModuleFonts* fonts = nullptr;
 	ModuleEditorCamera* camera = nullptr;
 	ModuleEditorGUI* gui = nullptr;
+
+	ModuleTextures* textures = nullptr;
 
 	Uint32 frame_count = 0;
 	float FPS = 0.0f;
