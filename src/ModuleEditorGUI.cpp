@@ -97,17 +97,20 @@ bool ModuleEditorGUI::ShowMainMenu()
 //------------------------------ Show Menu Items --------------------------
 void ModuleEditorGUI::ShowAbout(bool *enabled)
 {
-	if (ImGui::Begin("About JADEngine", enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
-		ImGui::Separator();
-		ImGui::Text("JADEngine uses OpenGL, DevIL and Assimp libraries.");
-		ImGui::Text("For further detail, check Source Code.");
-		ImGui::Separator();
-		ImGui::Text("This engine is licensed under GPL 2.0 clauses.");
-		ImGui::Separator();
-		ImGui::Text("Adolfo Zarrias // Daniel Perez // Jorge Soriano");
-		ImGui::Text("2017");
+	ImGui::SetNextWindowPos(ImVec2(App->window->m_screen_width / 2 - 150, App->window->m_screen_height/2 - 100));
+	if (ImGui::Begin("About JADEngine", enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize)==false) {
 		ImGui::End();
+		return;
 	}
+	ImGui::Separator();
+	ImGui::Text("JADEngine uses OpenGL, DevIL and Assimp libraries.");
+	ImGui::Text("For further detail, check Source Code.");
+	ImGui::Separator();
+	ImGui::Text("This engine is licensed under GPL 2.0 clauses.");
+	ImGui::Separator();
+	ImGui::Text("Adolfo Zarrias // Daniel Perez // Jorge Soriano");
+	ImGui::Text("2017");
+	ImGui::End();
 }
 
 void ModuleEditorGUI::ShowConsole(bool *p_open) {
@@ -118,11 +121,13 @@ void ModuleEditorGUI::ShowStats(bool *enabled) {
 	// example> overlayLayout
 	ImGui::SetNextWindowPos(ImVec2(App->window->m_screen_width*3/4, 25));
 	ImGui::SetNextWindowSize(ImVec2(App->window->m_screen_width/4 - 5, 80));
-	if (!ImGui::Begin("Statistics", enabled, ImVec2(0, 0), 0.3f, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings))
+	if (!ImGui::Begin("Statistics", enabled, ImVec2(0, 0), 0.3f, ImGuiWindowFlags_NoTitleBar| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings))
 	{
 		ImGui::End();
 		return;
 	}
+	ImGui::Text("Stats");
+	ImGui::Separator();
 	ImGui::Text("%.2f/60 fps", App->FPS );
 	ImGui::Text("Mouse: (%.1f,%.1f)", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
 	ImGui::End();
