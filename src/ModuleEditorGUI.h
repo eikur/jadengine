@@ -16,6 +16,15 @@ public:
 
 	void Draw();
 
+private:
+	bool ShowMainMenu();
+	void ShowAbout(bool *p_open);
+
+private:
+	bool show_about = false;
+	bool show_console = false;
+	bool show_inspector = false;
+	bool show_stats = false;
 };
 
 #endif
