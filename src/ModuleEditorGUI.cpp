@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include <Windows.h>
+#include "ModuleEditorCamera.h"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_sdl_gl3.h"
@@ -30,7 +31,6 @@ update_status ModuleEditorGUI::Update(float)
 
 	ImGui_ImplSdlGL3_NewFrame(App->window->m_window);
 
-	//ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiWindowFlags_AlwaysAutoResize);
 	if (show_about) ShowAbout(&show_about);
 	if (show_console) ShowConsole(&show_console);
 	if (show_hierarchy) ShowHierarchy(&show_hierarchy);
@@ -39,14 +39,13 @@ update_status ModuleEditorGUI::Update(float)
 
 	if (ShowMainMenu() == false)
 		return UPDATE_STOP;
+	else
+	{
+		ImGui::ShowTestWindow();
 
-// example > log
-// example> overlayLayout
-// help > about
-	ImGui::ShowTestWindow();
-
-	Draw();
-	return UPDATE_CONTINUE;
+		Draw();
+		return UPDATE_CONTINUE;
+	}
 }
 
 bool ModuleEditorGUI::CleanUp()
@@ -98,23 +97,35 @@ bool ModuleEditorGUI::ShowMainMenu()
 //------------------------------ Show Menu Items --------------------------
 void ModuleEditorGUI::ShowAbout(bool *enabled)
 {
-	ImGui::Begin("About JADEngine", enabled, ImGuiWindowFlags_AlwaysAutoResize);
-	ImGui::Separator();
-	ImGui::Text("JADEngine uses OpenGL, DevIL and Assimp libraries.");
-	ImGui::Text("For further detail, check Source Code.");
-	ImGui::Separator();
-	ImGui::Text("This engine is licensed under GPL 2.0 clauses.");
-	ImGui::Separator();
-	ImGui::Text("Adolfo Zarrias // Daniel Perez // Jorge Soriano");
-	ImGui::Text("2017");
-	ImGui::End();
+	if (ImGui::Begin("About JADEngine", enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::Separator();
+		ImGui::Text("JADEngine uses OpenGL, DevIL and Assimp libraries.");
+		ImGui::Text("For further detail, check Source Code.");
+		ImGui::Separator();
+		ImGui::Text("This engine is licensed under GPL 2.0 clauses.");
+		ImGui::Separator();
+		ImGui::Text("Adolfo Zarrias // Daniel Perez // Jorge Soriano");
+		ImGui::Text("2017");
+		ImGui::End();
+	}
 }
 
 void ModuleEditorGUI::ShowConsole(bool *p_open) {
-
+	// example > log
 }
 
-void ModuleEditorGUI::ShowStats(bool *p_open) {
+void ModuleEditorGUI::ShowStats(bool *enabled) {
+	// example> overlayLayout
+	ImGui::SetNextWindowPos(ImVec2(App->window->m_screen_width*3/4, 25));
+	ImGui::SetNextWindowSize(ImVec2(App->window->m_screen_width/4 - 5, 80));
+	if (!ImGui::Begin("Statistics", enabled, ImVec2(0, 0), 0.3f, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings))
+	{
+		ImGui::End();
+		return;
+	}
+	ImGui::Text("%.2f/60 fps", App->FPS );
+	ImGui::Text("Mouse: (%.1f,%.1f)", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
+	ImGui::End();
 
 }
 
