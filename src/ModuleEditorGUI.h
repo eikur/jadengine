@@ -18,12 +18,19 @@ public:
 
 private:
 	bool ShowMainMenu();
+
+	void ShowConsole(bool *p_open);
+	void ShowStats(bool *p_open);
+	void ShowInspector(bool *p_open);
+	void ShowHierarchy(bool *p_open);
+	
 	void ShowAbout(bool *p_open);
 
 private:
 	bool show_about = false;
 	bool show_console = false;
 	bool show_inspector = false;
+	bool show_hierarchy = false;
 	bool show_stats = false;
 };
 

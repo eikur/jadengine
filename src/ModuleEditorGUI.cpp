@@ -32,6 +32,10 @@ update_status ModuleEditorGUI::Update(float)
 
 	//ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiWindowFlags_AlwaysAutoResize);
 	if (show_about) ShowAbout(&show_about);
+	if (show_console) ShowConsole(&show_console);
+	if (show_hierarchy) ShowHierarchy(&show_hierarchy);
+	if (show_inspector) ShowInspector(&show_inspector);
+	if (show_stats) ShowStats(&show_stats);
 
 	if (ShowMainMenu() == false)
 		return UPDATE_STOP;
@@ -64,25 +68,26 @@ bool ModuleEditorGUI::ShowMainMenu()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Exit", "CTRL+X")) { return false; }
+			if (ImGui::MenuItem("Exit", "ESC")) { return false; }
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Window"))
 		{
-			if (ImGui::MenuItem("Console", "C")) {}
-			if (ImGui::MenuItem("Hierarchy", "H")) {}
-			if (ImGui::MenuItem("Inspector", "I")) {}
-			if (ImGui::MenuItem("Stats", "S")) {}
+			if (ImGui::MenuItem("Console", NULL, &show_console)) {}
+			if (ImGui::MenuItem("Hierarchy", NULL, &show_hierarchy)) {}
+			if (ImGui::MenuItem("Inspector", NULL, &show_inspector)) {}
+			if (ImGui::MenuItem("Stats", NULL, &show_stats)) {}
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Help"))
+		if (ImGui::BeginMenu("Documentation"))
 		{
-			if (ImGui::MenuItem("Source Code")) {
+			if (ImGui::MenuItem("Repository")) {
 				ShellExecute(NULL, "open", "www.github.com/eikur/jadengine",
 					NULL, NULL, SW_SHOWNORMAL);
 			}
-			if (ImGui::MenuItem("About JADEngine", NULL, &show_about)) {}
+			ImGui::Separator();
+			if (ImGui::MenuItem("About", NULL, &show_about)) {}
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
@@ -90,7 +95,7 @@ bool ModuleEditorGUI::ShowMainMenu()
 	return true;
 }
 
-//------------------------------ about --------------------------
+//------------------------------ Show Menu Items --------------------------
 void ModuleEditorGUI::ShowAbout(bool *enabled)
 {
 	ImGui::Begin("About JADEngine", enabled, ImGuiWindowFlags_AlwaysAutoResize);
@@ -103,4 +108,20 @@ void ModuleEditorGUI::ShowAbout(bool *enabled)
 	ImGui::Text("Adolfo Zarrias // Daniel Perez // Jorge Soriano");
 	ImGui::Text("2017");
 	ImGui::End();
+}
+
+void ModuleEditorGUI::ShowConsole(bool *p_open) {
+
+}
+
+void ModuleEditorGUI::ShowStats(bool *p_open) {
+
+}
+
+void ModuleEditorGUI::ShowInspector(bool *p_open) {
+
+}
+
+void ModuleEditorGUI::ShowHierarchy(bool *p_open) {
+
 }
