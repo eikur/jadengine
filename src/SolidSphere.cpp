@@ -43,10 +43,10 @@ SolidSphere::SolidSphere(float radius, unsigned int rings, unsigned int sectors)
 	m_indices.resize(rings * sectors * 4);
 	std::vector<short>::iterator i = m_indices.begin();
 	for (r = 0; r < rings - 1; r++) for (s = 0; s < sectors - 1; s++) {
-		*i++ = (short) r * sectors + s;
-		*i++ = (short) r * sectors + (s + 1);
+		*i++ = (short) r * sectors + s;	
+		*i++ = (short)(r + 1) * sectors + s;
 		*i++ = (short) (r + 1) * sectors + (s + 1);
-		*i++ = (short) (r + 1) * sectors + s;
+		*i++ = (short)r * sectors + (s + 1);
 	}
 
 	// Create buffer and load vertex data
@@ -73,10 +73,10 @@ void SolidSphere::Draw()
 {
 	glPushMatrix();
 
-	glTranslatef(m_pos.x, m_pos.y, m_pos.z);
 	glScalef(m_scale.x, m_scale.y, m_scale.z);
 	glRotatef(m_rotate_angle, m_rotate_vector.x, m_rotate_vector.y, m_rotate_vector.z);
-
+	glTranslatef(m_pos.x, m_pos.y, m_pos.z);
+	
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
