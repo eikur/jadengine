@@ -53,13 +53,11 @@ SolidSphere::SolidSphere(float radius, unsigned int rings, unsigned int sectors)
 	glGenBuffers(1, &m_vertex_buffer_id);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(float3), &m_vertices[0], GL_STATIC_DRAW);
-	glVertexPointer(3, GL_FLOAT, 0, nullptr);
 
 	// Create a buffer for UV coordinates
 	glGenBuffers(1, &m_uv_coord_buffer_id);
 	glBindBuffer(GL_ARRAY_BUFFER, m_uv_coord_buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, m_uv_coords.size() * sizeof(float2), &m_uv_coords[0], GL_STATIC_DRAW);
-	glTexCoordPointer(2, GL_FLOAT, 0, nullptr);
 
 	// Create a buffer for the indices
 	glGenBuffers(1, &m_index_buffer_id);
