@@ -4,8 +4,11 @@
 #include <assimp/include/scene.h>
 #include <vector>
 #include "Globals.h"
+#include "Application.h"
+#include "ModuleTextures.h"
 
-Mesh::Mesh(aiMesh* mesh)
+Mesh::Mesh(aiMesh* mesh, GLuint texture_id)
+	: m_texture_id(texture_id)
 {
 	m_num_elements = mesh->mNumFaces * 3;
 
@@ -67,7 +70,10 @@ Mesh::Mesh(aiMesh* mesh)
 		indices.clear();
 	}
 
+	// Unbind buffers
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 }
 
 Mesh::~Mesh() {
@@ -78,6 +84,9 @@ Mesh::~Mesh() {
 }
 
 void Mesh::Draw() {
+	if (m_texture_id != 0)
+		App->textures->UseTexture2D(m_texture_id);
+
 	if (m_vbo[VERTEX_BUFFER]) {
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -86,7 +95,7 @@ void Mesh::Draw() {
 
 	if (m_vbo[TEXCOORD_BUFFER]) {
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo[TEXCOORD_BUFFER]);
-		glClientActiveTexture(GL_TEXTURE0);
+		//glClientActiveTexture(GL_TEXTURE0);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, 0, 0);
 	}
@@ -105,5 +114,7 @@ void Mesh::Draw() {
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
+
+	App->textures->DontUseTexture2D();
 }
 

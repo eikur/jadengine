@@ -7,6 +7,8 @@
 
 #include "Model.h"
 #include "Mesh.h"
+#include "Application.h"
+#include "ModuleTextures.h"
 
 Model::Model() {}
 Model::~Model() {
@@ -17,6 +19,8 @@ Model::~Model() {
 
 bool Model::Load(const char* file)
 {
+	std::string file_path(file);
+	
 	scene = aiImportFile(file, aiProcess_PreTransformVertices | aiProcess_FlipUVs | aiProcess_Triangulate);
 	if (scene == nullptr)
 	{
@@ -25,9 +29,23 @@ bool Model::Load(const char* file)
 	}
 	else
 	{
+		// Load meshes
 		for (size_t i = 0; i < scene->mNumMeshes; ++i) {
-			m_meshes.push_back(new Mesh(scene->mMeshes[i]));
+			// Load textures
+			const aiMaterial* material = scene->mMaterials[scene->mMeshes[i]->mMaterialIndex];
+			GLuint texture_id = 0;
+			if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+				aiString path;
+				if (material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS) {
+					std::string full_path(path.C_Str());
+					full_path = file_path.substr(0, file_path.rfind('/') + 1) + full_path;
+					texture_id = App->textures->LoadTexture(full_path);
+					m_textures.push_back(App->textures->LoadTexture(full_path));
+				}
+			}
+			m_meshes.push_back(new Mesh(scene->mMeshes[i], texture_id));
 		}
+
 		return true;
 	}
 }

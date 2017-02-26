@@ -22,7 +22,7 @@ private:
 	const aiScene *scene = nullptr;
 	int **indices;
 	std::vector<Mesh*> m_meshes;
-
+	std::vector<GLuint> m_textures;
 };
 
 #endif /* _MODEL_H_*/

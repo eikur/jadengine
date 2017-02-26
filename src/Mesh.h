@@ -17,12 +17,13 @@ public:
 		NORMAL_BUFFER,
 		INDEX_BUFFER
 	};
-	Mesh(aiMesh* mesh);
+	Mesh(aiMesh* mesh, GLuint texture_id);
 	~Mesh();
 	void Draw();
 private:
 	GLuint m_num_elements;
 	GLuint m_vbo[4] = { 0 };
+	GLuint m_texture_id = 0;
 };
 
 #endif // __MESH_H__
