@@ -41,7 +41,7 @@ update_status ModuleEditorGUI::Update(float)
 		return UPDATE_STOP;
 	else
 	{
-		ImGui::ShowTestWindow();
+		//ImGui::ShowTestWindow();
 
 		Draw();
 		return UPDATE_CONTINUE;
