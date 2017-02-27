@@ -140,17 +140,16 @@ bool ModuleRender::Init()
 		// Texture load
 		m_checkers_texture = App->textures->CreateCheckersTexture();
 		m_lenna_texture = App->textures->LoadTexture("graphics/Lenna.png");
-		GLuint sprite = App->textures->LoadTexture("graphics/sprite.png");
-		App->textures->UnloadTexture(&sprite);
 	}
 	return ret;
 }
 bool ModuleRender::Start()
 {
 	bool ret = true;
-
+	
 	m_primitives->createPrimitive(Primitive::Types::AXIS);
 	m_primitives->createPrimitive(Primitive::Types::GRID);
+	
 	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
 		->Translate(float3(1.0, 1.0f, 1.0f))
 		->Scale(float3(0.1f, 0.1f, 0.1f))
@@ -171,7 +170,7 @@ bool ModuleRender::Start()
 	m_model = new Model();
 	if (m_model->Load("Assets/Batman/Batman.obj") == false)
 		RELEASE(m_model);
-
+		
 	return ret;
 }
 
