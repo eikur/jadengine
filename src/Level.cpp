@@ -16,21 +16,27 @@ Level::~Level() {
 
 bool Level::Load(const char* path, const char* file )
 {
-	std::string file_path(file);
+	std::string file_path = path; 
+	file_path.append(file);;
 
-	//scene = aiImportFile(file, aiProcess_PreTransformVertices | aiProcess_FlipUVs | aiProcess_Triangulate);
-	scene = aiImportFile(file, aiProcess_Triangulate);
+	scene = aiImportFile(file_path.c_str(), aiProcess_Triangulate);
 	if (scene == nullptr)
 	{
 		MYLOG("Level could not be loaded. Path: %s", file);
 		return false;
 	}
-	else
-	{
-		
 
-		return true;
-	}
+	root = CopyaiNode(scene->mRootNode);
+	
+	std::string name;
+	/*float3 position = float3(0, 0, 0);
+	Quat rotation = Quat(1, 0, 0, 0);
+	std::vector<unsigned> meshes;
+	Node* parent = nullptr;
+	std::vector<Node*> children;
+	*/
+	
+
 }
 
 void Level::Clear()
@@ -77,7 +83,21 @@ void Level::LinkNode(Level::Node* node, Level::Node* new_parent) {
 	// añadir el nodo al vector de su nuevo padre
 	if (new_parent != nullptr)
 		new_parent->children.push_back(node);
-//	else
-//		root = node;
+
 }
 
+Level::Node* Level::CopyaiNode( aiNode* origin)
+{
+	Node* ret = new Node();
+	ret->name = origin->mName.C_Str();
+	if (origin->mParent != nullptr)
+		ret->parent = FindNode(origin->mName.C_Str());
+	else
+		ret->parent = nullptr;
+
+	for (int i = 0; i < origin->mNumChildren; i++)
+	{
+		ret->children.push_back(CopyaiNode(origin->mChildren[i]));
+	}
+	return ret;
+}

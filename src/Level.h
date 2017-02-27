@@ -5,6 +5,7 @@
 #include "MathGeoLib\include\MathGeoLib.h"
 
 struct aiScene;
+struct aiNode;
 
 class Level
 {
@@ -68,6 +69,7 @@ public:
 	Node* FindNode(const char* name);
 	void LinkNode(Node* node, Node* new_parent);
 
+	Node* CopyaiNode(aiNode* origin);
 
 };
 

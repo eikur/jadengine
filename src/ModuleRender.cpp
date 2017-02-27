@@ -9,6 +9,7 @@
 #include "Model.h"
 #include "PrimitiveManager.h"
 #include "Primitive.h"
+#include "Level.h"
 
 ModuleRender::ModuleRender()
 {
@@ -140,6 +141,9 @@ bool ModuleRender::Init()
 		// Texture load
 		m_checkers_texture = App->textures->CreateCheckersTexture();
 		m_lenna_texture = App->textures->LoadTexture("graphics/Lenna.png");
+
+		Level *lvl = new Level();
+		lvl->Load("assets/street/", "Street.obj");
 	}
 	return ret;
 }
