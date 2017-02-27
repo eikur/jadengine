@@ -26,17 +26,8 @@ bool Level::Load(const char* path, const char* file )
 		return false;
 	}
 
-	root = CopyaiNode(scene->mRootNode);
-	
-	std::string name;
-	/*float3 position = float3(0, 0, 0);
-	Quat rotation = Quat(1, 0, 0, 0);
-	std::vector<unsigned> meshes;
-	Node* parent = nullptr;
-	std::vector<Node*> children;
-	*/
-	
-
+	CopyaiNode(scene->mRootNode);	
+	MYLOG("opp");
 }
 
 void Level::Clear()
@@ -57,9 +48,8 @@ void Level::Draw()
 
 Level::Node* Level::FindNode(const char* name)
 {
-	// to do : erase me please :)
-	Node a;
-	return &a;
+	Node* ret = root->FindNodeInChildren(name);
+	return ret;
 }
 
 
@@ -88,16 +78,46 @@ void Level::LinkNode(Level::Node* node, Level::Node* new_parent) {
 
 Level::Node* Level::CopyaiNode( aiNode* origin)
 {
-	Node* ret = new Node();
+	Node* ret;
+	if (origin->mParent == nullptr)
+	{
+		root = new Node();
+		ret = root; 
+	}
+	else
+		ret = new Node();
+	
 	ret->name = origin->mName.C_Str();
 	if (origin->mParent != nullptr)
-		ret->parent = FindNode(origin->mName.C_Str());
+		ret->parent = FindNode(origin->mParent->mName.C_Str());
 	else
 		ret->parent = nullptr;
 
+	// load meshes and materials for each node here
+
+	//recursive for children
 	for (int i = 0; i < origin->mNumChildren; i++)
 	{
 		ret->children.push_back(CopyaiNode(origin->mChildren[i]));
 	}
 	return ret;
+}
+
+
+//------------------------------------------
+Level::Node* Level::Node::FindNodeInChildren(const char* n)
+{
+	Node* tmp; 
+
+	if (strcmp(name.c_str(),n) == 0)
+		return this; 
+	
+	for (std::vector<Node*>::iterator it = children.begin(); it != children.end(); ++it)
+	{
+		tmp = (*it)->FindNodeInChildren(n);
+		if (tmp != nullptr)
+			return tmp;
+	}
+
+	return nullptr;
 }

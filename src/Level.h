@@ -17,6 +17,8 @@ class Level
 		std::vector<unsigned> meshes;
 		Node* parent = nullptr;
 		std::vector<Node*> children;
+
+		Node* FindNodeInChildren(const char* name);
 	};
 
 	struct Mesh
