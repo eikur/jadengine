@@ -109,6 +109,9 @@
     <ClInclude Include="src\Mesh.h">
       <Filter>Models</Filter>
     </ClInclude>
+    <ClInclude Include="src\Level.h">
+      <Filter>Models</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -193,6 +196,9 @@
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="src\Mesh.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Level.cpp">
       <Filter>Models</Filter>
     </ClCompile>
   </ItemGroup>
