@@ -21,7 +21,8 @@ bool Model::Load(const char* file)
 {
 	std::string file_path(file);
 	
-	scene = aiImportFile(file, aiProcess_PreTransformVertices | aiProcess_FlipUVs | aiProcess_Triangulate);
+	//scene = aiImportFile(file, aiProcess_PreTransformVertices | aiProcess_FlipUVs | aiProcess_Triangulate);
+	scene = aiImportFile(file, aiProcess_PreTransformVertices | aiProcess_Triangulate);
 	if (scene == nullptr)
 	{
 		MYLOG("Model could not be loaded. Path: %s", file);
