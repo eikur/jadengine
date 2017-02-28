@@ -36,8 +36,8 @@ class Level
 	{
 		float4 ambient = float4(1.0f, 1.0f, 1.0f, 1.0f);
 		float4 diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
-		float4 spectular = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float shiness = 0.0f;
+		float4 specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		float shininess = 0.0f;
 		unsigned int texture = 0;
 	};
 

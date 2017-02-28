@@ -149,19 +149,14 @@ void Level::CopyAllMeshes(const aiScene* scn)
 }
 void Level::CopyAllMaterials(const aiScene* scn)
 {
+	aiColor4D *tmpColor = new aiColor4D();
 	for (unsigned int i = 0; i < scn->mNumMaterials; i++)
 	{
-	//	Material tmp;
-		
-		aiMaterialProperty *a0 = scn->mMaterials[i]->mProperties[0];
-		aiMaterialProperty *a1= scn->mMaterials[i]->mProperties[1];
-		aiMaterialProperty *a2 = scn->mMaterials[i]->mProperties[2];
-		aiMaterialProperty *a3 = scn->mMaterials[i]->mProperties[3];
-		aiMaterialProperty *a4 = scn->mMaterials[i]->mProperties[4];
-		aiMaterialProperty *a5 = scn->mMaterials[i]->mProperties[5];
-		aiMaterialProperty *a6 = scn->mMaterials[i]->mProperties[6];
-		aiMaterialProperty *a7 = scn->mMaterials[i]->mProperties[7];
-		aiMaterialProperty *a8 = scn->mMaterials[i]->mProperties[8];
+		Material mat;
+		// not working yet
+		scn->mMaterials[i]->Get(AI_MATKEY_COLOR_AMBIENT, tmpColor);
+		scn->mMaterials[i]->Get(AI_MATKEY_COLOR_DIFFUSE, tmpColor);
+		scn->mMaterials[i]->Get(AI_MATKEY_COLOR_SPECULAR, tmpColor);
 		MYLOG("HOLA");
 		/*
 		float4 ambient = float4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -170,6 +165,6 @@ void Level::CopyAllMaterials(const aiScene* scn)
 		float shiness = 0.0f;
 		unsigned int texture = 0;
 		*/
-	//	materials.push_back(tmp);
+		materials.push_back(mat);
 	}
 }
