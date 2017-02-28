@@ -6,6 +6,8 @@
 
 struct aiScene;
 struct aiNode;
+struct aiMesh;
+struct aiMaterial;
 
 class Level
 {
@@ -17,8 +19,6 @@ class Level
 		std::vector<unsigned> meshes;
 		Node* parent = nullptr;
 		std::vector<Node*> children;
-
-		Node* FindNodeInChildren(const char* name);
 	};
 
 	struct Mesh
@@ -28,7 +28,7 @@ class Level
 		float3* tex_coords = nullptr;
 		float3* normals = nullptr;
 		unsigned int num_vertices = 0;
-		unsigned* indices;
+		unsigned index;
 		unsigned int num_indices = 0;
 	};
 
@@ -71,7 +71,11 @@ public:
 	Node* FindNode(const char* name);
 	void LinkNode(Node* node, Node* new_parent);
 
-	Node* CopyaiNode(aiNode* origin);
+	Node* LoadNodes(const aiNode* origin);
+	Mesh* LoadMeshes(aiMesh* mesh);
+
+	void CopyAllMeshes(const aiScene* scn);
+	void CopyAllMaterials(const aiScene* scn);	
 
 };
 
