@@ -100,6 +100,15 @@ Level::Node* Level::LoadNodes(const  aiNode* origin)
 		ret->parent = FindNode(origin->mParent->mName.C_Str());
 	else
 		ret->parent = nullptr;
+	// load transformations for each node
+	aiVector3D translation;
+	aiVector3D scaling;
+	aiQuaternion rotation;
+	origin->mTransformation.Decompose(scaling, rotation, translation);
+	float3 pos(translation.x, translation.y, translation.z);
+	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+	ret->position = pos; 
+	ret->rotation = rot;
 
 	// load meshes and materials for each node here
 	for (unsigned int i = 0; i < origin->mNumMeshes; i++)
