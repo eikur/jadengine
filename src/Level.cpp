@@ -10,9 +10,7 @@
 #include "ModuleTextures.h"
 
 Level::Level() {}
-Level::~Level() {
-
-}
+Level::~Level() {}
 
 bool Level::Load(const char* path, const char* file )
 {
@@ -30,8 +28,7 @@ bool Level::Load(const char* path, const char* file )
 	CopyAllMaterials(scene);
 
 	LoadNodes(scene->mRootNode);	
-//	LoadMeshesIndices();
-//	LoadMaterialsIndices();
+	//LoadMaterialsIndices(scene->mMa);
 	MYLOG("opp");
 }
 
@@ -48,6 +45,10 @@ void Level::Draw()
 		(*it)->Draw();
 	}
 	*/
+	// para cada nodo
+	// para cada malla
+	// coger cada material y pim
+
 }
 
 
@@ -149,20 +150,26 @@ void Level::CopyAllMeshes(const aiScene* scn)
 }
 void Level::CopyAllMaterials(const aiScene* scn)
 {
-	aiColor4D *tmpColor = new aiColor4D();
+	aiColor4D tmpColor;
 	for (unsigned int i = 0; i < scn->mNumMaterials; i++)
 	{
 		Material mat;
 		// not working yet
-		scn->mMaterials[i]->Get(AI_MATKEY_COLOR_AMBIENT, tmpColor);
-		scn->mMaterials[i]->Get(AI_MATKEY_COLOR_DIFFUSE, tmpColor);
-		scn->mMaterials[i]->Get(AI_MATKEY_COLOR_SPECULAR, tmpColor);
-		MYLOG("HOLA");
+		if (scn->mMaterials[i]->Get(AI_MATKEY_COLOR_AMBIENT, tmpColor) != aiReturn_SUCCESS)
+			break;
+		mat.ambient.x = tmpColor.r; mat.ambient.y = tmpColor.g, mat.ambient.z = tmpColor.b; mat.ambient.w = tmpColor.a;
+		if (scn->mMaterials[i]->Get(AI_MATKEY_COLOR_DIFFUSE, tmpColor) != aiReturn_SUCCESS)
+			break;
+		mat.diffuse.x = tmpColor.r; mat.diffuse.y = tmpColor.g, mat.diffuse.z = tmpColor.b; mat.diffuse.w = tmpColor.a;
+
+		if (scn->mMaterials[i]->Get(AI_MATKEY_COLOR_SPECULAR, tmpColor) != aiReturn_SUCCESS)
+			break;
+		mat.specular.x = tmpColor.r; mat.specular.y = tmpColor.g; mat.specular.z = tmpColor.b; mat.specular.w = tmpColor.a;
+
+		if (scn->mMaterials[i]->Get(AI_MATKEY_SHININESS_STRENGTH, mat.shininess) != aiReturn_SUCCESS)
+			break;
+		// texture not loaded
 		/*
-		float4 ambient = float4(1.0f, 1.0f, 1.0f, 1.0f);
-		float4 diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
-		float4 spectular = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float shiness = 0.0f;
 		unsigned int texture = 0;
 		*/
 		materials.push_back(mat);
