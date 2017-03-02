@@ -76,7 +76,7 @@ public:
 	void LinkNode(Node* node, Node* new_parent);
 
 	Node* LoadNodes(const aiNode* origin);
-//	Mesh* LoadMeshes(aiMesh* mesh);
+	void DrawNode(const Node* origin);
 
 	void CopyAllMeshes(const aiScene* scn);
 	void CopyAllMaterials(const aiScene* scn);	

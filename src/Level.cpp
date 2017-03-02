@@ -51,16 +51,7 @@ void Level::Clear()
 
 void Level::Draw()
 {
-	int i = 0; 
-	for (std::vector<Mesh>::const_iterator it = meshes.begin(); it != meshes.end(); ++it)
-	{
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, vertex_array_ids[i]);
-		glVertexPointer(3, GL_FLOAT, 0, NULL);
-		glDrawArrays(GL_QUADS, 0, (*it).num_vertices*4);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		i++;
-	}
+	DrawNode(root);
 }
 
 
@@ -135,6 +126,9 @@ void Level::CopyAllMeshes(const aiScene* scn)
 		tmp.vertices = new float3[tmp.num_vertices];
 		tmp.tex_coords = new float3[tmp.num_vertices];
 		tmp.normals = new float3[tmp.num_vertices];
+
+		unsigned int a = scn->mMeshes[i]->mPrimitiveTypes;
+
 		for (unsigned int j = 0; j < tmp.num_vertices; j++)
 		{
 			tmp.vertices[j].x = scn->mMeshes[i]->mVertices[j].x;
@@ -182,4 +176,25 @@ void Level::CopyAllMaterials(const aiScene* scn)
 		*/
 		materials.push_back(mat);
 	}
+}
+
+void Level::DrawNode(const Node *origin) 
+{
+	glPushMatrix();
+	glTranslatef(origin->position.x, origin->position.y, origin->position.z);
+	for (std::vector<unsigned>::const_iterator it = origin->meshes.cbegin(); it != origin->meshes.cend(); ++it )
+	{
+		
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, vertex_array_ids[(*it)]);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glDrawArrays(GL_QUADS, 0, meshes.at((*it)).num_vertices* 3);
+		glDisableClientState(GL_VERTEX_ARRAY);
+
+	}
+	for (std::vector<Node*>::const_iterator it2 = origin->children.cbegin(); it2 != origin->children.cend(); ++it2)
+	{
+		DrawNode(*it2);
+	}
+	glPopMatrix();
 }
