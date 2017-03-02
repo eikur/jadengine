@@ -20,6 +20,9 @@
     <Filter Include="Utils\ImGui">
       <UniqueIdentifier>{a5be9ff8-32c0-4def-8822-5c95ecb94fd9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{83c0a443-9a45-40bf-a582-d6bdde664e1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Module.h">
@@ -112,6 +115,12 @@
     <ClInclude Include="src\Level.h">
       <Filter>Models</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameObject.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Component.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -200,6 +209,12 @@
     </ClCompile>
     <ClCompile Include="src\Level.cpp">
       <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Component.cpp">
+      <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

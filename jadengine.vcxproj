@@ -81,6 +81,8 @@
     <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Axis.h" />
+    <ClInclude Include="src\Component.h" />
+    <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\Grid.h" />
     <ClInclude Include="src\Level.h" />
@@ -116,6 +118,8 @@
     <ClCompile Include="3rdparty\parson\parson.c" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Axis.cpp" />
+    <ClCompile Include="src\Component.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\Level.cpp" />
     <ClCompile Include="src\Log.cpp" />
