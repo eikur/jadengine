@@ -10,6 +10,7 @@ struct SDL_Renderer;
 struct SDL_Rect;
 class Model;
 class PrimitiveManager;
+class Level;
 
 class ModuleRender : public Module
 {
@@ -51,7 +52,7 @@ private:
 
 	Model *m_model = nullptr;
 	
-
+	Level *lvl = nullptr;
 };
 
 #endif // __MODULERENDER_H__

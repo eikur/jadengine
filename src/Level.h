@@ -47,6 +47,10 @@ private:
 	std::vector<Mesh> meshes;
 	std::vector<Material> materials;
 
+	unsigned int *vertex_array_ids = nullptr;
+
+
+
 public:
 
 	Level();
@@ -72,7 +76,7 @@ public:
 	void LinkNode(Node* node, Node* new_parent);
 
 	Node* LoadNodes(const aiNode* origin);
-	Mesh* LoadMeshes(aiMesh* mesh);
+//	Mesh* LoadMeshes(aiMesh* mesh);
 
 	void CopyAllMeshes(const aiScene* scn);
 	void CopyAllMaterials(const aiScene* scn);	

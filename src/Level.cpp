@@ -10,11 +10,13 @@
 #include "ModuleTextures.h"
 
 Level::Level() {}
-Level::~Level() {}
+Level::~Level() {
+	// free all memory
+}
 
-bool Level::Load(const char* path, const char* file )
+bool Level::Load(const char* path, const char* file)
 {
-	std::string file_path = path; 
+	std::string file_path = path;
 	file_path.append(file);;
 
 	scene = aiImportFile(file_path.c_str(), aiProcess_Triangulate);
@@ -26,10 +28,20 @@ bool Level::Load(const char* path, const char* file )
 
 	CopyAllMeshes(scene);
 	CopyAllMaterials(scene);
+	LoadNodes(scene->mRootNode);
 
-	LoadNodes(scene->mRootNode);	
-	//LoadMaterialsIndices(scene->mMa);
-	MYLOG("opp");
+	int numMeshes = scene->mNumMeshes;
+	vertex_array_ids = new unsigned int[numMeshes];
+	glGenBuffers(numMeshes, vertex_array_ids);
+
+	int i = 0;
+	for (std::vector<Mesh>::const_iterator it = meshes.begin(); it != meshes.end(); ++it)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vertex_array_ids[i]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*(*it).num_vertices * 3, (*it).vertices, GL_STATIC_DRAW);
+		i++;
+	}
+	
 }
 
 void Level::Clear()
@@ -39,16 +51,16 @@ void Level::Clear()
 
 void Level::Draw()
 {
-// old code
-/*	for (std::vector<Mesh*>::const_iterator it = m_meshes.begin(); it != m_meshes.end(); ++it)
+	int i = 0; 
+	for (std::vector<Mesh>::const_iterator it = meshes.begin(); it != meshes.end(); ++it)
 	{
-		(*it)->Draw();
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, vertex_array_ids[i]);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glDrawArrays(GL_QUADS, 0, (*it).num_vertices*4);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		i++;
 	}
-	*/
-	// para cada nodo
-	// para cada malla
-	// coger cada material y pim
-
 }
 
 
@@ -141,7 +153,6 @@ void Level::CopyAllMeshes(const aiScene* scn)
 			tmp.normals[j].z = scn->mMeshes[i]->mNormals[j].z;
 		}
 
-
 		tmp.num_indices = 1;
 		tmp.index = i;
 		
@@ -154,20 +165,17 @@ void Level::CopyAllMaterials(const aiScene* scn)
 	for (unsigned int i = 0; i < scn->mNumMaterials; i++)
 	{
 		Material mat;
-		// not working yet
-		if (scn->mMaterials[i]->Get(AI_MATKEY_COLOR_AMBIENT, tmpColor) != aiReturn_SUCCESS)
-			break;
-		mat.ambient.x = tmpColor.r; mat.ambient.y = tmpColor.g, mat.ambient.z = tmpColor.b; mat.ambient.w = tmpColor.a;
-		if (scn->mMaterials[i]->Get(AI_MATKEY_COLOR_DIFFUSE, tmpColor) != aiReturn_SUCCESS)
-			break;
-		mat.diffuse.x = tmpColor.r; mat.diffuse.y = tmpColor.g, mat.diffuse.z = tmpColor.b; mat.diffuse.w = tmpColor.a;
 
+		if (scn->mMaterials[i]->Get(AI_MATKEY_COLOR_AMBIENT, tmpColor) == aiReturn_SUCCESS)
+			mat.ambient.x = tmpColor.r; mat.ambient.y = tmpColor.g, mat.ambient.z = tmpColor.b; mat.ambient.w = tmpColor.a;
+		if (scn->mMaterials[i]->Get(AI_MATKEY_COLOR_DIFFUSE, tmpColor) != aiReturn_SUCCESS)	
+			mat.diffuse.x = tmpColor.r; mat.diffuse.y = tmpColor.g, mat.diffuse.z = tmpColor.b; mat.diffuse.w = tmpColor.a;
 		if (scn->mMaterials[i]->Get(AI_MATKEY_COLOR_SPECULAR, tmpColor) != aiReturn_SUCCESS)
-			break;
-		mat.specular.x = tmpColor.r; mat.specular.y = tmpColor.g; mat.specular.z = tmpColor.b; mat.specular.w = tmpColor.a;
+			mat.specular.x = tmpColor.r; mat.specular.y = tmpColor.g; mat.specular.z = tmpColor.b; mat.specular.w = tmpColor.a;
 
 		if (scn->mMaterials[i]->Get(AI_MATKEY_SHININESS_STRENGTH, mat.shininess) != aiReturn_SUCCESS)
 			break;
+
 		// texture not loaded
 		/*
 		unsigned int texture = 0;

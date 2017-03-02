@@ -142,7 +142,7 @@ bool ModuleRender::Init()
 		m_checkers_texture = App->textures->CreateCheckersTexture();
 		m_lenna_texture = App->textures->LoadTexture("graphics/Lenna.png");
 
-		Level *lvl = new Level();
+		lvl = new Level();
 		lvl->Load("assets/street/", "Street.obj");
 	}
 	return ret;
@@ -174,7 +174,8 @@ bool ModuleRender::Start()
 	m_model = new Model();
 	if (m_model->Load("Assets/Batman/Batman.obj") == false)
 		RELEASE(m_model);
-		
+	
+
 	return ret;
 }
 
@@ -197,6 +198,8 @@ update_status ModuleRender::PreUpdate()
 	
 	if (m_model != nullptr)
 		m_model->Draw();
+	lvl->Draw();
+
 	return UPDATE_CONTINUE;
 }
 
