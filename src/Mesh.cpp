@@ -6,9 +6,10 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleTextures.h"
+#include "Material.h"
 
-Mesh::Mesh(aiMesh* mesh, GLuint texture_id)
-	: m_texture_id(texture_id)
+Mesh::Mesh(aiMesh* mesh, Material* material)
+	: m_material(material)
 {
 	m_num_elements = mesh->mNumFaces * 3;
 
@@ -84,8 +85,16 @@ Mesh::~Mesh() {
 }
 
 void Mesh::Draw() {
-	if (m_texture_id != 0)
-		App->textures->UseTexture2D(m_texture_id);
+	if (m_material->GetTexture() != 0)
+		App->textures->UseTexture2D(m_material->GetTexture());
+
+	glColorMaterial(GL_FRONT, GL_AMBIENT);
+	glColor4fv(m_material->GetColorComponent(Material::COLOR_COMPONENT::AMBIENT));
+	glColorMaterial(GL_FRONT, GL_DIFFUSE);
+	glColor4fv(m_material->GetColorComponent(Material::COLOR_COMPONENT::DIFFUSE));
+	glColorMaterial(GL_FRONT, GL_SPECULAR);
+	glColor4fv(m_material->GetColorComponent(Material::COLOR_COMPONENT::SPECULAR));
+	glMaterialf(GL_FRONT, GL_SHININESS, m_material->GetShininess());
 
 	if (m_vbo[VERTEX_BUFFER]) {
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);

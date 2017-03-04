@@ -9,6 +9,7 @@
 #include "Mesh.h"
 #include "Application.h"
 #include "ModuleTextures.h"
+#include "Material.h"
 
 Model::Model() {}
 Model::~Model() {
@@ -44,7 +45,31 @@ bool Model::Load(const char* file)
 					m_textures.push_back(App->textures->LoadTexture(full_path));
 				}
 			}
-			m_meshes.push_back(new Mesh(scene->mMeshes[i], texture_id));
+			Material* my_material = new Material(texture_id);
+			aiColor3D color(0.0f, 0.0f, 0.0f);
+			float shininess = 1.0f;
+			float shine_strength = 1.0f;
+
+			if (material->Get(AI_MATKEY_COLOR_AMBIENT, color) == AI_SUCCESS)
+				my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::AMBIENT);
+			if (material->Get(AI_MATKEY_COLOR_DIFFUSE, color) == AI_SUCCESS)
+				my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::DIFFUSE);
+			if (material->Get(AI_MATKEY_COLOR_EMISSIVE, color) == AI_SUCCESS)
+				my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::EMISSIVE);
+			if (material->Get(AI_MATKEY_COLOR_SPECULAR, color) == AI_SUCCESS)
+				my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::SPECULAR);
+			if (material->Get(AI_MATKEY_COLOR_TRANSPARENT, color) == AI_SUCCESS)
+				my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::TRANSPARENT);
+
+			if (material->Get(AI_MATKEY_SHININESS, shininess) == AI_SUCCESS)
+				my_material->SetShininess(shininess * 128.0f);
+
+			/*if (material->Get(AI_MATKEY_SHININESS_STRENGTH, shine_strength) == AI_SUCCESS)*/
+				
+			/*aiReturn hasShiness = material->Get(AI_MATKEY_SHININESS, color);
+			aiReturn hasStrength = material->Get(AI_MATKEY_SHININESS_STRENGTH, color);*/
+
+			m_meshes.push_back(new Mesh(scene->mMeshes[i], my_material));
 		}
 
 		return true;

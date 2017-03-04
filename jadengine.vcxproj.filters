@@ -121,6 +121,9 @@
     <ClInclude Include="src\Component.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="src\Material.h">
+      <Filter>Models</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -215,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="src\Component.cpp">
       <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Material.cpp">
+      <Filter>Models</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

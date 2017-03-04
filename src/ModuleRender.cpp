@@ -81,12 +81,17 @@ bool ModuleRender::Init()
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
-		GLfloat light_difuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-		GLfloat light_position[] = { 0.25f, 1.0f, 1.0f,1.0f };
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, light_difuse);
+
+		GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+		GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		GLfloat light_position[] = { 0.25f, 1.0f, 1.0f, 1.0f };
+		glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+		glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 		glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-		glEnable(GL_LIGHT0);
 		glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHT0);
 
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
@@ -172,9 +177,9 @@ bool ModuleRender::Start()
 		->ApplyTexture(m_checkers_texture);
 
 	m_model = new Model();
-	if (m_model->Load("Assets/Batman/Batman.obj") == false)
+	//if (m_model->Load("Assets/Batman/Batman.obj") == false)
+	if (m_model->Load("Assets/Magneto/magnetto2.fbx") == false)
 		RELEASE(m_model);
-	
 
 	return ret;
 }

@@ -11,5 +11,7 @@ void GameObject::Update()
 
 Component* GameObject::CreateComponent(componentType type)
 {
-
+	// TODO - To be fixed
+	// Just to be able to compile
+	return nullptr;
 }
