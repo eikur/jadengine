@@ -11,7 +11,7 @@ private:
 	float3 scale = float3::one;
 	Quat rotation = Quat::identity; 
 public: 
-	TransformComponent(GameObject* parent, componentType type, bool active);
+	TransformComponent(GameObject* parent, bool active);
 	~TransformComponent(); 
 
 public: 

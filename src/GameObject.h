@@ -2,9 +2,7 @@
 #define __GAMEOBJECT_H__
 
 #include <vector>
-
-class Component; 
-enum componentType;
+#include "Component.h"
 
 class GameObject
 {
@@ -24,8 +22,10 @@ public:
 	bool Update( float dt);
 	bool CleanUp(); 
 
-	Component* CreateComponent(componentType type);
-	Component* FindComponentByType(componentType type);
+	void OnEditor(); 
+
+	Component* CreateComponent(Component::componentType type);
+	Component* FindComponentByType(Component::componentType type);
 };
 
 #endif

@@ -145,26 +145,8 @@ void ModuleEditorGUI::ShowInspector(bool *enabled) const {
 		ImGui::End();
 		return;
 	}
-	if (ImGui::CollapsingHeader("Properties"))
-	{
-		for (int i = 0; i < 5; i++)
-			ImGui::Text("Some content %d", i);
-	}
-	if (ImGui::CollapsingHeader("Component1"))
-	{
-		for (int i = 0; i < 5; i++)
-			ImGui::Text("Some content %d", i);
-	}
-	if (ImGui::CollapsingHeader("Component2"))
-	{
-		for (int i = 0; i < 5; i++)
-			ImGui::Text("Some content %d", i);
-	}
-	if (ImGui::CollapsingHeader("Component3"))
-	{
-		for (int i = 0; i < 5; i++)
-			ImGui::Text("Some content %d", i);
-	}
+	if (inspector_selected_node != -1)
+		App->scene->game_objects.at(inspector_selected_node)->OnEditor();
 	ImGui::End();
 }
 

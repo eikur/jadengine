@@ -1,7 +1,8 @@
 #include "Globals.h"
 
 #include "GameObject.h"
-#include "Component.h"
+#include "TransformComponent.h"
+#include "ImGui/imgui.h"
 
 GameObject::GameObject(const char* name, bool active) : name(name), active(active)
 {
@@ -18,7 +19,8 @@ bool  GameObject::Update( float dt )
 	bool ret = true; 
 	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
 	{
-		ret = (*it)->Update( dt );
+		if ((*it)->active == true)
+			ret = (*it)->Update( dt );
 	}
 	return ret; 
 }
@@ -35,15 +37,27 @@ bool GameObject::CleanUp()
 	return true; 
 }
 
+void GameObject::OnEditor()
+{
+	ImGui::Checkbox(name.c_str(), &active );
 
-Component* GameObject::CreateComponent(componentType type)
+	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
+	{
+		(*it)->OnEditor();
+	}
+}
+
+
+// --- Component management ---
+
+Component* GameObject::CreateComponent(Component::componentType type)
 {
 	static_assert(Component::componentType::UNKNOWN == 3, "Component class code needs update");
 	Component* ret = nullptr;
 	
 	switch (type)
 	{
-	case Component::componentType::TRANSFORM: /*ret = new TransformComponent();*/ break;
+	case Component::componentType::TRANSFORM: ret = new TransformComponent(this, true); break;
 	case Component::componentType::MESH: /*ret = new CameraComponent(); */break;
 	case Component::componentType::MATERIAL: /*ret = new CameraComponent(); */break;
 	case Component::componentType::UNKNOWN: 
@@ -59,7 +73,7 @@ Component* GameObject::CreateComponent(componentType type)
 	return ret;
 }
 
-Component* GameObject::FindComponentByType(componentType type)
+Component* GameObject::FindComponentByType(Component::componentType type)
 {
 	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
 	{
