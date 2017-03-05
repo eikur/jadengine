@@ -14,7 +14,7 @@ public:
 	Model();
 	~Model();
 
-	bool Load(const char *file);
+	bool Load(const char *path, const char *file);
 	void Clear();
 	void Draw();
 

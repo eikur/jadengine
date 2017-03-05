@@ -18,12 +18,10 @@ Model::~Model() {
 	m_meshes.clear();
 }
 
-bool Model::Load(const char* file)
+bool Model::Load(const char *path, const char* file)
 {
-	std::string file_path(file);
-	
 	//scene = aiImportFile(file, aiProcess_PreTransformVertices | aiProcess_FlipUVs | aiProcess_Triangulate);
-	scene = aiImportFile(file, aiProcess_PreTransformVertices | aiProcess_Triangulate);
+	scene = aiImportFile((std::string(path)+std::string(file)).c_str(), aiProcess_PreTransformVertices | aiProcess_Triangulate);
 	if (scene == nullptr)
 	{
 		MYLOG("Model could not be loaded. Path: %s", file);
@@ -37,12 +35,10 @@ bool Model::Load(const char* file)
 			const aiMaterial* material = scene->mMaterials[scene->mMeshes[i]->mMaterialIndex];
 			GLuint texture_id = 0;
 			if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-				aiString path;
-				if (material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS) {
-					std::string full_path(path.C_Str());
-					full_path = file_path.substr(0, file_path.rfind('/') + 1) + full_path;
-					texture_id = App->textures->LoadTexture(full_path);
-					m_textures.push_back(App->textures->LoadTexture(full_path));
+				aiString texture_file;
+				if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texture_file) == AI_SUCCESS) {
+					texture_id = App->textures->LoadTexture(std::string(path) + texture_file.C_Str());
+					m_textures.push_back(App->textures->LoadTexture(std::string(path) + texture_file.C_Str()));
 				}
 			}
 			Material* my_material = new Material(texture_id);

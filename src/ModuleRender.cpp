@@ -177,8 +177,8 @@ bool ModuleRender::Start()
 		->ApplyTexture(m_checkers_texture);
 
 	m_model = new Model();
-	//if (m_model->Load("Assets/Batman/Batman.obj") == false)
-	if (m_model->Load("Assets/Magneto/magnetto2.fbx") == false)
+	//if (m_model->Load("Assets/Batman/", "Batman.obj") == false)
+	if (m_model->Load("Assets/Magneto/", "magnetto2.fbx") == false)
 		RELEASE(m_model);
 
 	return ret;
