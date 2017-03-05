@@ -3,6 +3,15 @@
 #include "GameObject.h"
 #include "Component.h"
 
+GameObject::GameObject(const char* name, bool active) : name(name), active(active)
+{
+
+}
+GameObject::~GameObject()
+{
+
+}
+
 
 bool  GameObject::Update( float dt )
 {

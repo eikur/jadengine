@@ -19,12 +19,12 @@ public:
 private:
 	bool ShowMainMenu();
 
-	void ShowConsole(bool *p_open);
-	void ShowStats(bool *p_open);
-	void ShowInspector(bool *p_open);
+	void ShowConsole(bool *p_open) const;
+	void ShowStats(bool *p_open) const;
+	void ShowInspector(bool *p_open) const;
 	void ShowHierarchy(bool *p_open);
 	
-	void ShowAbout(bool *p_open);
+	void ShowAbout(bool *p_open) const;
 
 private:
 	bool show_about = false;
@@ -32,6 +32,8 @@ private:
 	bool show_inspector = false;
 	bool show_hierarchy = false;
 	bool show_stats = false;
+
+	int inspector_selected_node = -1;
 };
 
 #endif

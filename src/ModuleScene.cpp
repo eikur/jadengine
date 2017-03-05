@@ -11,6 +11,9 @@ ModuleScene::~ModuleScene() {}
 bool ModuleScene::Init()
 {
 	// test game object creation here
+	game_objects.push_back(new GameObject("First"));
+	game_objects.push_back(new GameObject("Second"));
+	game_objects.push_back(new GameObject("Third"));
 	return true; 
 }
 

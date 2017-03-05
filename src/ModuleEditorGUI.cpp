@@ -3,6 +3,8 @@
 #include "ModuleWindow.h"
 #include <Windows.h>
 #include "ModuleEditorCamera.h"
+#include "ModuleScene.h"
+#include "GameObject.h"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_sdl_gl3.h"
@@ -41,7 +43,7 @@ update_status ModuleEditorGUI::Update(float)
 		return UPDATE_STOP;
 	else
 	{
-		//ImGui::ShowTestWindow();
+		ImGui::ShowTestWindow();
 
 		Draw();
 		return UPDATE_CONTINUE;
@@ -95,7 +97,7 @@ bool ModuleEditorGUI::ShowMainMenu()
 }
 
 //------------------------------ Show Menu Items --------------------------
-void ModuleEditorGUI::ShowAbout(bool *enabled)
+void ModuleEditorGUI::ShowAbout(bool *enabled) const 
 {
 	ImGui::SetNextWindowPos(ImVec2(App->window->m_screen_width / 2 - 150, App->window->m_screen_height/2 - 100));
 	if (ImGui::Begin("About JADEngine", enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize)==false) {
@@ -113,11 +115,11 @@ void ModuleEditorGUI::ShowAbout(bool *enabled)
 	ImGui::End();
 }
 
-void ModuleEditorGUI::ShowConsole(bool *p_open) {
+void ModuleEditorGUI::ShowConsole(bool *p_open) const {
 	// example > log
 }
 
-void ModuleEditorGUI::ShowStats(bool *enabled) {
+void ModuleEditorGUI::ShowStats(bool *enabled) const {
 	// example> overlayLayout
 	ImGui::SetNextWindowPos(ImVec2(App->window->m_screen_width*3/4, 25));
 	ImGui::SetNextWindowSize(ImVec2(App->window->m_screen_width/4 - 5, 80));
@@ -134,10 +136,66 @@ void ModuleEditorGUI::ShowStats(bool *enabled) {
 
 }
 
-void ModuleEditorGUI::ShowInspector(bool *p_open) {
+void ModuleEditorGUI::ShowInspector(bool *enabled) const {
+	// example > Widgets > Collapsing Headers
+	ImGui::SetNextWindowPos(ImVec2(App->window->m_screen_width/4 + 50, 25));
+	ImGui::SetNextWindowSizeConstraints(ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2), ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2));
 
+	if (ImGui::Begin("Inspector", enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize) == false) {
+		ImGui::End();
+		return;
+	}
+	if (ImGui::CollapsingHeader("Properties"))
+	{
+		for (int i = 0; i < 5; i++)
+			ImGui::Text("Some content %d", i);
+	}
+	if (ImGui::CollapsingHeader("Component1"))
+	{
+		for (int i = 0; i < 5; i++)
+			ImGui::Text("Some content %d", i);
+	}
+	if (ImGui::CollapsingHeader("Component2"))
+	{
+		for (int i = 0; i < 5; i++)
+			ImGui::Text("Some content %d", i);
+	}
+	if (ImGui::CollapsingHeader("Component3"))
+	{
+		for (int i = 0; i < 5; i++)
+			ImGui::Text("Some content %d", i);
+	}
+	ImGui::End();
 }
 
-void ModuleEditorGUI::ShowHierarchy(bool *p_open) {
+void ModuleEditorGUI::ShowHierarchy(bool *enabled) {
+	// example > Widgets > Advanced tree node
+	ImGui::SetNextWindowPos(ImVec2(25, 25));
+	ImGui::SetNextWindowSizeConstraints(ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2), ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2));
 
+	if (ImGui::Begin("Scene Hierarchy", enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize) == false) {
+		ImGui::End();
+		return;
+	}
+	if (ImGui::TreeNode("Root"))
+	{
+		int i = 0; 
+		static int selection_mask = 1 << 30;
+		for (std::vector<GameObject*>::const_iterator it = App->scene->game_objects.cbegin(); it != App->scene->game_objects.cend(); ++it)
+		{
+			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
+			ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen, "%s", (*it)->name.c_str());
+			if (ImGui::IsItemClicked())
+				inspector_selected_node = i;
+			++i; 
+		}
+		if (inspector_selected_node != -1)
+		{
+			selection_mask = (1 << inspector_selected_node);
+		}
+		ImGui::TreePop();
+	}
+
+	ImGui::End();
+	
 }

@@ -16,6 +16,9 @@ private:
 	std::vector<Component*> components;
 
 public: 
+	GameObject(const char* name, bool active = true);
+	~GameObject();
+
 	void Enable() { active = true; }
 	void Disable() { active = false; }
 	bool Update( float dt);

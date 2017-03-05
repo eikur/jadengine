@@ -16,7 +16,7 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-private: 
+public:
 	std::vector<GameObject*> game_objects;
 
 };
