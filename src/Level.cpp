@@ -30,7 +30,7 @@ bool Level::Load(const char* path, const char* file)
 	else
 	{
 		LoadNode(path, scene->mRootNode, nullptr, scene);
-		DrawNode(root);
+		Draw();
 	}
 	
 }
@@ -48,6 +48,26 @@ void Level::Draw()
 
 Level::Node* Level::FindNode(const char* name)
 {
+	Node* node = CheckNode(name, root);
+	if (node == nullptr) {
+		// Node not found
+		MYLOG("Node not found. Name: %s", name);
+		MYLOG("Returning nullptr!");
+	}
+	return node;
+}
+
+Level::Node* Level::CheckNode(const char* name, Node* node)
+{
+	if (strcmp(name, node->name.c_str()) == 0)
+		return node;
+	else {
+		for (size_t i = 0; i < node->children.size(); ++i) {
+			Node* my_node = CheckNode(name, node->children[i]);
+			if (my_node != nullptr)
+				return my_node;
+		}
+	}
 	return nullptr;
 }
 
