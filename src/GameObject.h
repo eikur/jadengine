@@ -8,13 +8,21 @@ enum componentType;
 
 class GameObject
 {
-	void Update();
-	Component* CreateComponent(componentType type);
+public:
+	bool active = true;
+	std::string name = "";
 
 private:
-	bool active = true; 
-	std::string name = "";
 	std::vector<Component*> components;
+
+public: 
+	void Enable() { active = true; }
+	void Disable() { active = false; }
+	bool Update();
+	bool CleanUp(); 
+
+	Component* CreateComponent(componentType type);
+	Component* FindComponentByType(componentType type);
 };
 
 #endif

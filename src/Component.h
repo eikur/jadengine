@@ -7,17 +7,22 @@ class Component
 {
 
 public: 
-	enum componentType{ DEFAULT, TRANSFORM, CAMERA };
+	enum componentType{ TRANSFORM, CAMERA, UNKNOWN };
+	bool active = true;
+	componentType type = UNKNOWN;
 
 private: 
-	bool active = true; 
-	componentType type = DEFAULT;
 	GameObject* parent = nullptr;
 
 public: 
-	virtual void Enable() { active = true;  }
-	virtual void Update() {}
-	virtual void Disable() { active = false;  }
+
+	Component(GameObject* parent, componentType type = UNKNOWN, bool active = true);
+	void Enable() { active = true;  }
+	void Disable() { active = false; }
+
+	virtual bool Update() = 0;
+	virtual bool CleanUp() = 0; 
+	
 };
 
 #endif
