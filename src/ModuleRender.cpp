@@ -149,6 +149,8 @@ bool ModuleRender::Init()
 
 		lvl = new Level();
 		lvl->Load("assets/street/", "Street.obj");
+		Level::Node* node = lvl->FindNode("g Line002");
+
 	}
 	return ret;
 }

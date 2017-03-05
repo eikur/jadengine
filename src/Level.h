@@ -14,6 +14,7 @@ class Material;
 
 class Level
 {
+public:
 	struct Node
 	{
 		std::string name;
@@ -52,6 +53,7 @@ public:
 	const Node* GetRootNode() const { return root; }
 
 	Node* FindNode(const char* name);
+	Node* CheckNode(const char* name, Node* node);
 	void LinkNode(Node* node, Node* new_parent);
 
 	void LoadNode(const char* asset_path, const aiNode* node, Node* parent, const aiScene* scene);
