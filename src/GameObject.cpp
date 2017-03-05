@@ -19,7 +19,6 @@ bool GameObject::CleanUp()
 	MYLOG("GameObject %s: Removing components", name);
 	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
 	{
-		(*it)->CleanUp(); 
 		delete *it;
 	}
 	components.clear();
@@ -30,14 +29,18 @@ bool GameObject::CleanUp()
 
 Component* GameObject::CreateComponent(componentType type)
 {
-	static_assert(Component::componentType::UNKNOWN == 2, "Component class code needs update");
+	static_assert(Component::componentType::UNKNOWN == 3, "Component class code needs update");
 	Component* ret = nullptr;
 	
 	switch (type)
 	{
 	case Component::componentType::TRANSFORM: /*ret = new TransformComponent();*/ break;
-	case Component::componentType::CAMERA: /*ret = new CameraComponent(); */break;
-	case Component::componentType::UNKNOWN: ret = nullptr; break;
+	case Component::componentType::MESH: /*ret = new CameraComponent(); */break;
+	case Component::componentType::MATERIAL: /*ret = new CameraComponent(); */break;
+	case Component::componentType::UNKNOWN: 
+	default:
+		ret = nullptr; 
+		break;
 	}
 
 	if (ret != nullptr)

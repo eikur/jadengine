@@ -7,7 +7,7 @@ class Component
 {
 
 public: 
-	enum componentType{ TRANSFORM, CAMERA, UNKNOWN };
+	enum componentType{ TRANSFORM, MESH, MATERIAL, UNKNOWN };
 	bool active = true;
 	componentType type = UNKNOWN;
 
@@ -20,8 +20,8 @@ public:
 	void Enable() { active = true;  }
 	void Disable() { active = false; }
 
-	virtual bool Update( float dt = 0.0f ) = 0;
-	virtual bool CleanUp() = 0; 
+	virtual bool Update( float dt = 0.0f );
+
 	virtual void OnEditor() = 0; 
 	
 };

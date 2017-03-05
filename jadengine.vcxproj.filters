@@ -127,6 +127,9 @@
     <ClInclude Include="src\ModuleScene.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
+    <ClInclude Include="src\TransformComponent.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -227,6 +230,9 @@
     </ClCompile>
     <ClCompile Include="src\ModuleScene.cpp">
       <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TransformComponent.cpp">
+      <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
