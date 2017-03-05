@@ -10,6 +10,8 @@
 #include "ModuleFonts.h"
 #include "ModuleEditorCamera.h"
 #include "ModuleEditorGUI.h"
+#include "ModuleScene.h"
+
 #include "MathGeoLib/include/MathGeoLib.h"
 #include "DevIL/include/IL/il.h"
 #include "glew-2.0.0/include/GL/glew.h"
@@ -54,6 +56,7 @@ Application::Application()
 
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(camera = new ModuleEditorCamera());
+	modules.push_back(scene = new ModuleScene());
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(gui = new ModuleEditorGUI());
 	modules.push_back(audio = new ModuleAudio());

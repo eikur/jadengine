@@ -4,12 +4,12 @@
 #include "Component.h"
 
 
-bool  GameObject::Update()
+bool  GameObject::Update( float dt )
 {
 	bool ret = true; 
 	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
 	{
-		ret = (*it)->Update();
+		ret = (*it)->Update( dt );
 	}
 	return ret; 
 }

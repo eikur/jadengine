@@ -124,6 +124,9 @@
     <ClInclude Include="src\Material.h">
       <Filter>Models</Filter>
     </ClInclude>
+    <ClInclude Include="src\ModuleScene.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -221,6 +224,9 @@
     </ClCompile>
     <ClCompile Include="src\Material.cpp">
       <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleScene.cpp">
+      <Filter>Core Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

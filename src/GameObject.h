@@ -18,7 +18,7 @@ private:
 public: 
 	void Enable() { active = true; }
 	void Disable() { active = false; }
-	bool Update();
+	bool Update( float dt);
 	bool CleanUp(); 
 
 	Component* CreateComponent(componentType type);

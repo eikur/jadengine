@@ -20,8 +20,9 @@ public:
 	void Enable() { active = true;  }
 	void Disable() { active = false; }
 
-	virtual bool Update() = 0;
+	virtual bool Update( float dt = 0.0f ) = 0;
 	virtual bool CleanUp() = 0; 
+	virtual void OnEditor() = 0; 
 	
 };
 
