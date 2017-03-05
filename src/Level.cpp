@@ -8,6 +8,8 @@
 #include "Level.h"
 #include "Application.h"
 #include "ModuleTextures.h"
+#include "Material.h"
+#include "Mesh.h"
 
 Level::Level() {}
 Level::~Level() {
@@ -25,21 +27,10 @@ bool Level::Load(const char* path, const char* file)
 		MYLOG("Level could not be loaded. Path: %s", file);
 		return false;
 	}
-
-	CopyAllMeshes(scene);
-	CopyAllMaterials(scene);
-	LoadNodes(scene->mRootNode);
-
-	int numMeshes = scene->mNumMeshes;
-	vertex_array_ids = new unsigned int[numMeshes];
-	glGenBuffers(numMeshes, vertex_array_ids);
-
-	int i = 0;
-	for (std::vector<Mesh>::const_iterator it = meshes.begin(); it != meshes.end(); ++it)
+	else
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, vertex_array_ids[i]);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*(*it).num_vertices * 3, (*it).vertices, GL_STATIC_DRAW);
-		i++;
+		LoadNode(path, scene->mRootNode, nullptr, scene);
+		DrawNode(root);
 	}
 	
 }
@@ -84,126 +75,91 @@ void Level::LinkNode(Level::Node* node, Level::Node* new_parent) {
 
 }
 
-Level::Node* Level::LoadNodes(const  aiNode* origin)
+void Level::LoadNode(const char* asset_path, const aiNode* node, Node* parent, const aiScene* scene)
 {
-	Node* ret;
-	if (origin->mParent == nullptr)
-	{
-		root = new Node();
-		ret = root; 
-	}
+	// Load node data
+	Node* my_node = new Node();
+	my_node->name = node->mName.C_Str();
+
+	my_node->parent = parent;
+
+	if (parent == nullptr)
+		root = my_node;
 	else
-		ret = new Node();
-	
-	ret->name = origin->mName.C_Str();
-	if (origin->mParent != nullptr)
-		ret->parent = FindNode(origin->mParent->mName.C_Str());
-	else
-		ret->parent = nullptr;
-	// load transformations for each node
+		parent->children.push_back(my_node);
+
+	// Node transformations
 	aiVector3D translation;
 	aiVector3D scaling;
 	aiQuaternion rotation;
-	origin->mTransformation.Decompose(scaling, rotation, translation);
+	node->mTransformation.Decompose(scaling, rotation, translation);
 	float3 pos(translation.x, translation.y, translation.z);
 	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
-	ret->position = pos; 
-	ret->rotation = rot;
+	my_node->position = pos;
+	my_node->rotation = rot;
 
-	// load meshes and materials for each node here
-	for (unsigned int i = 0; i < origin->mNumMeshes; i++)
-	{
-		ret->meshes.push_back(origin->mMeshes[i]);
-	}
-
-	//recursive for children
-	for (int i = 0; i < origin->mNumChildren; i++)
-	{
-		ret->children.push_back(LoadNodes(origin->mChildren[i]));
-	}
-	return ret;
-}
-
-void Level::CopyAllMeshes(const aiScene* scn)
-{
-	for (unsigned int i = 0; i < scn->mNumMeshes; i++)
-	{
-		Mesh tmp;
-		tmp.material = scn->mMeshes[i]->mMaterialIndex;
-		tmp.num_vertices = scn->mMeshes[i]->mNumVertices;
-
-		tmp.vertices = new float3[tmp.num_vertices];
-		tmp.tex_coords = new float3[tmp.num_vertices];
-		tmp.normals = new float3[tmp.num_vertices];
-
-		unsigned int a = scn->mMeshes[i]->mPrimitiveTypes;
-
-		for (unsigned int j = 0; j < tmp.num_vertices; j++)
-		{
-			tmp.vertices[j].x = scn->mMeshes[i]->mVertices[j].x;
-			tmp.vertices[j].y = scn->mMeshes[i]->mVertices[j].y;
-			tmp.vertices[j].z = scn->mMeshes[i]->mVertices[j].z;
-
-			if (scn->mMeshes[i]->mTextureCoords[0] != nullptr)
-			{
-				tmp.tex_coords[j].x = scn->mMeshes[i]->mTextureCoords[0]->x;
-				tmp.tex_coords[j].y = scn->mMeshes[i]->mTextureCoords[0]->y;
-				tmp.tex_coords[j].z = scn->mMeshes[i]->mTextureCoords[0]->z;
+	// Load meshes for this node
+	for (size_t i = 0; i < node->mNumMeshes; ++i) {
+		// Load textures
+		const aiMaterial* material = scene->mMaterials[scene->mMeshes[i]->mMaterialIndex];
+		GLuint texture_id = 0;
+		if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+			aiString texture_file;
+			if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texture_file) == AI_SUCCESS) {
+				texture_id = App->textures->LoadTexture(std::string(asset_path) + texture_file.C_Str());
 			}
-
-			tmp.normals[j].x = scn->mMeshes[i]->mNormals[j].x;
-			tmp.normals[j].y = scn->mMeshes[i]->mNormals[j].y;
-			tmp.normals[j].z = scn->mMeshes[i]->mNormals[j].z;
 		}
+		Material* my_material = new Material(texture_id);
+		aiColor3D color(0.0f, 0.0f, 0.0f);
+		float shininess = 1.0f;
+		float shine_strength = 1.0f;
 
-		tmp.num_indices = 1;
-		tmp.index = i;
-		
-		meshes.push_back(tmp);
+		if (material->Get(AI_MATKEY_COLOR_AMBIENT, color) == AI_SUCCESS)
+			my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::AMBIENT);
+		if (material->Get(AI_MATKEY_COLOR_DIFFUSE, color) == AI_SUCCESS)
+			my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::DIFFUSE);
+		if (material->Get(AI_MATKEY_COLOR_EMISSIVE, color) == AI_SUCCESS)
+			my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::EMISSIVE);
+		if (material->Get(AI_MATKEY_COLOR_SPECULAR, color) == AI_SUCCESS)
+			my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::SPECULAR);
+		if (material->Get(AI_MATKEY_COLOR_TRANSPARENT, color) == AI_SUCCESS)
+			my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::TRANSPARENT);
+
+		if (material->Get(AI_MATKEY_SHININESS, shininess) == AI_SUCCESS)
+			my_material->SetShininess(shininess * 128.0f);
+
+		/*if (material->Get(AI_MATKEY_SHININESS_STRENGTH, shine_strength) == AI_SUCCESS)*/
+
+		/*aiReturn hasShiness = material->Get(AI_MATKEY_SHININESS, color);
+		aiReturn hasStrength = material->Get(AI_MATKEY_SHININESS_STRENGTH, color);*/
+
+		my_node->mesh_ids.push_back(meshes.size());
+		meshes.push_back(new Mesh(scene->mMeshes[node->mMeshes[i]], my_material));
 	}
-}
-void Level::CopyAllMaterials(const aiScene* scn)
-{
-	aiColor4D tmpColor;
-	for (unsigned int i = 0; i < scn->mNumMaterials; i++)
+
+	// Recursively process child nodes
+	for (size_t i = 0; i < node->mNumChildren; ++i)
 	{
-		Material mat;
-
-		if (scn->mMaterials[i]->Get(AI_MATKEY_COLOR_AMBIENT, tmpColor) == aiReturn_SUCCESS)
-			mat.ambient.x = tmpColor.r; mat.ambient.y = tmpColor.g, mat.ambient.z = tmpColor.b; mat.ambient.w = tmpColor.a;
-		if (scn->mMaterials[i]->Get(AI_MATKEY_COLOR_DIFFUSE, tmpColor) != aiReturn_SUCCESS)	
-			mat.diffuse.x = tmpColor.r; mat.diffuse.y = tmpColor.g, mat.diffuse.z = tmpColor.b; mat.diffuse.w = tmpColor.a;
-		if (scn->mMaterials[i]->Get(AI_MATKEY_COLOR_SPECULAR, tmpColor) != aiReturn_SUCCESS)
-			mat.specular.x = tmpColor.r; mat.specular.y = tmpColor.g; mat.specular.z = tmpColor.b; mat.specular.w = tmpColor.a;
-
-		if (scn->mMaterials[i]->Get(AI_MATKEY_SHININESS_STRENGTH, mat.shininess) != aiReturn_SUCCESS)
-			break;
-
-		// texture not loaded
-		/*
-		unsigned int texture = 0;
-		*/
-		materials.push_back(mat);
+		LoadNode(asset_path, node->mChildren[i], my_node, scene);
 	}
 }
 
-void Level::DrawNode(const Node *origin) 
+void Level::DrawNode(const Node *node) 
 {
+	// TODO - Apply parent/child transformations
 	glPushMatrix();
-	glTranslatef(origin->position.x, origin->position.y, origin->position.z);
-	for (std::vector<unsigned>::const_iterator it = origin->meshes.cbegin(); it != origin->meshes.cend(); ++it )
-	{
-		
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, vertex_array_ids[(*it)]);
-		glVertexPointer(3, GL_FLOAT, 0, NULL);
-		glDrawArrays(GL_QUADS, 0, meshes.at((*it)).num_vertices* 3);
-		glDisableClientState(GL_VERTEX_ARRAY);
 
-	}
-	for (std::vector<Node*>::const_iterator it2 = origin->children.cbegin(); it2 != origin->children.cend(); ++it2)
+	for (std::vector<unsigned int>::const_iterator it = node->mesh_ids.begin(); it != node->mesh_ids.end(); ++it)
 	{
-		DrawNode(*it2);
+		meshes.at(*it)->Draw();
 	}
+
+	// Draw child nodes
+	for (size_t i = 0; i < node->children.size(); ++i)
+	{
+		DrawNode(node->children[i]);
+	}
+
 	glPopMatrix();
+
 }

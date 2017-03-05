@@ -9,6 +9,9 @@ struct aiNode;
 struct aiMesh;
 struct aiMaterial;
 
+class Mesh;
+class Material;
+
 class Level
 {
 	struct Node
@@ -16,40 +19,16 @@ class Level
 		std::string name;
 		float3 position = float3(0, 0, 0);
 		Quat rotation = Quat(1, 0, 0, 0);
-		std::vector<unsigned> meshes;
+		std::vector<unsigned> mesh_ids;
 		Node* parent = nullptr;
 		std::vector<Node*> children;
-	};
-
-	struct Mesh
-	{
-		unsigned material = 0;
-		float3* vertices = nullptr;
-		float3* tex_coords = nullptr;
-		float3* normals = nullptr;
-		unsigned int num_vertices = 0;
-		unsigned index;
-		unsigned int num_indices = 0;
-	};
-
-	struct Material
-	{
-		float4 ambient = float4(1.0f, 1.0f, 1.0f, 1.0f);
-		float4 diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
-		float4 specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float shininess = 0.0f;
-		unsigned int texture = 0;
 	};
 
 private:
 	const aiScene *scene = nullptr;
 	Node* root = nullptr;
-	std::vector<Mesh> meshes;
-	std::vector<Material> materials;
-
-	unsigned int *vertex_array_ids = nullptr;
-
-
+	std::vector<Mesh*> meshes;
+	std::vector<Material*> materials;
 
 public:
 
@@ -63,11 +42,11 @@ public:
 	unsigned int GetNumMeshes() const { return meshes.size(); }
 	unsigned int GetNumMaterials() const { return materials.size(); }
 
-	Mesh& GetMesh(unsigned int index) { return meshes[index]; }
-	const Mesh& GetMesh(unsigned int index) const { return meshes[index]; }
+	Mesh& GetMesh(unsigned int index) { return *meshes[index]; }
+	const Mesh& GetMesh(unsigned int index) const { return *meshes[index]; }
 
-	Material& GetMaterial(unsigned index) { return materials[index]; }
-	const Material& GetMaterial(unsigned index) const { return materials[index]; }
+	Material& GetMaterial(unsigned index) { return *materials[index]; }
+	const Material& GetMaterial(unsigned index) const { return *materials[index]; }
 
 	Node* GetRootNode() { return root; }
 	const Node* GetRootNode() const { return root; }
@@ -75,11 +54,8 @@ public:
 	Node* FindNode(const char* name);
 	void LinkNode(Node* node, Node* new_parent);
 
-	Node* LoadNodes(const aiNode* origin);
+	void LoadNode(const char* asset_path, const aiNode* node, Node* parent, const aiScene* scene);
 	void DrawNode(const Node* origin);
-
-	void CopyAllMeshes(const aiScene* scn);
-	void CopyAllMaterials(const aiScene* scn);	
 
 };
 
