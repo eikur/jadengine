@@ -18,6 +18,7 @@ public:
 		NORMAL_BUFFER,
 		INDEX_BUFFER
 	};
+	Mesh();
 	Mesh(aiMesh* mesh, Material* material);
 	~Mesh();
 	void Draw();

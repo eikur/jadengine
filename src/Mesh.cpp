@@ -8,6 +8,9 @@
 #include "ModuleTextures.h"
 #include "Material.h"
 
+Mesh::Mesh()
+{}
+
 Mesh::Mesh(aiMesh* mesh, Material* material)
 	: m_material(material)
 {
