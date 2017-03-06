@@ -127,7 +127,7 @@
     <ClInclude Include="src\ModuleScene.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="src\TransformComponent.h">
+    <ClInclude Include="src\ComponentTransform.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -231,7 +231,7 @@
     <ClCompile Include="src\ModuleScene.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
-    <ClCompile Include="src\TransformComponent.cpp">
+    <ClCompile Include="src\ComponentTransform.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>

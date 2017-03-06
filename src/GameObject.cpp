@@ -1,7 +1,7 @@
 #include "Globals.h"
 
 #include "GameObject.h"
-#include "TransformComponent.h"
+#include "ComponentTransform.h"
 #include "ImGui/imgui.h"
 
 GameObject::GameObject(const char* name, bool active) : name(name), active(active)
@@ -57,7 +57,7 @@ Component* GameObject::CreateComponent(Component::componentType type)
 	
 	switch (type)
 	{
-	case Component::componentType::TRANSFORM: ret = new TransformComponent(this, true); break;
+	case Component::componentType::TRANSFORM: ret = new ComponentTransform(this, true); break;
 	case Component::componentType::MESH: /*ret = new CameraComponent(); */break;
 	case Component::componentType::MATERIAL: /*ret = new CameraComponent(); */break;
 	case Component::componentType::UNKNOWN: 

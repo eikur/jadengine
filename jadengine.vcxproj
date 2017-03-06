@@ -111,7 +111,7 @@
     <ClInclude Include="src\SolidSphere.h" />
     <ClInclude Include="src\TimerMSec.h" />
     <ClInclude Include="src\TimerUSec.h" />
-    <ClInclude Include="src\TransformComponent.h" />
+    <ClInclude Include="src\ComponentTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdparty\ImGui\imgui.cpp" />
@@ -147,7 +147,7 @@
     <ClCompile Include="src\SolidCube.cpp" />
     <ClCompile Include="src\SolidSphere.cpp" />
     <ClCompile Include="src\TimerUSec.cpp" />
-    <ClCompile Include="src\TransformComponent.cpp" />
+    <ClCompile Include="src\ComponentTransform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

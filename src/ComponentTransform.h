@@ -4,15 +4,15 @@
 #include "Component.h"
 #include "MathGeoLib/include/MathGeoLib.h"
 
-class TransformComponent : public Component
+class ComponentTransform : public Component
 {
 private:
 	float3 position = float3::zero;
 	float3 scale = float3::one;
 	Quat rotation = Quat::identity; 
 public: 
-	TransformComponent(GameObject* parent, bool active);
-	~TransformComponent(); 
+	ComponentTransform(GameObject* parent, bool active);
+	~ComponentTransform(); 
 
 public: 
 	void OnEditor();

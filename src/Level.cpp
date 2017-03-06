@@ -166,8 +166,8 @@ void Level::LoadNode(const char* asset_path, const aiNode* node, Node* parent, c
 
 void Level::DrawNode(const Node *node) 
 {
-	// TODO - Apply parent/child transformations
 	glPushMatrix();
+
 
 	for (std::vector<unsigned int>::const_iterator it = node->mesh_ids.begin(); it != node->mesh_ids.end(); ++it)
 	{

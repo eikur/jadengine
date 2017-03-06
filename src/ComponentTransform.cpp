@@ -1,15 +1,15 @@
-#include "TransformComponent.h"
+#include "ComponentTransform.h"
 #include "ImGui/imgui.h"
 
-TransformComponent::TransformComponent(GameObject* parent, bool active) : Component(parent, TRANSFORM, active)
+ComponentTransform::ComponentTransform(GameObject* parent, bool active) : Component(parent, TRANSFORM, active)
 {
 
 }
 
-TransformComponent::~TransformComponent()
+ComponentTransform::~ComponentTransform()
 {}
 
-void TransformComponent::OnEditor()
+void ComponentTransform::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Transform"))
 	{
