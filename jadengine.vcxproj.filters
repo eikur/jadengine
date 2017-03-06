@@ -130,6 +130,12 @@
     <ClInclude Include="src\ComponentTransform.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="src\ComponentMesh.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ComponentMaterial.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -232,6 +238,12 @@
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="src\ComponentTransform.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComponentMesh.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComponentMaterial.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,6 +2,8 @@
 
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 #include "ImGui/imgui.h"
 
 GameObject::GameObject(const char* name, bool active) : name(name), active(active)
@@ -12,7 +14,6 @@ GameObject::~GameObject()
 {
 
 }
-
 
 bool  GameObject::Update( float dt )
 {
@@ -58,8 +59,8 @@ Component* GameObject::CreateComponent(Component::componentType type)
 	switch (type)
 	{
 	case Component::componentType::TRANSFORM: ret = new ComponentTransform(this, true); break;
-	case Component::componentType::MESH: /*ret = new CameraComponent(); */break;
-	case Component::componentType::MATERIAL: /*ret = new CameraComponent(); */break;
+	case Component::componentType::MESH: ret = new ComponentMesh(this, true);  break;
+	case Component::componentType::MATERIAL: ret = new ComponentMaterial(this, true);  break;
 	case Component::componentType::UNKNOWN: 
 	default:
 		ret = nullptr; 

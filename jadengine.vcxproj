@@ -82,6 +82,8 @@
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Axis.h" />
     <ClInclude Include="src\Component.h" />
+    <ClInclude Include="src\ComponentMaterial.h" />
+    <ClInclude Include="src\ComponentMesh.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\Grid.h" />
@@ -122,6 +124,8 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Axis.cpp" />
     <ClCompile Include="src\Component.cpp" />
+    <ClCompile Include="src\ComponentMaterial.cpp" />
+    <ClCompile Include="src\ComponentMesh.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\Level.cpp" />

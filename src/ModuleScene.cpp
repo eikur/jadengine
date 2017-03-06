@@ -14,6 +14,8 @@ bool ModuleScene::Init()
 	// test game object creation here
 	GameObject *tmp = new GameObject("First");
 	tmp->CreateComponent(Component::componentType::TRANSFORM);
+	tmp->CreateComponent(Component::componentType::MESH);
+	tmp->CreateComponent(Component::componentType::MATERIAL);
 	game_objects.push_back(tmp);
 
 	return true; 
