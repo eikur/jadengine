@@ -21,7 +21,8 @@ public:
 	const GLuint GetTexture() const;
 	const GLfloat* GetColorComponent(COLOR_COMPONENT c) const;
 	const float GetShininess() const;
-private:
+
+public:
 	float4 m_color[5] = { float4::zero, float4::zero, float4::zero, 
 		float4::zero, float4::zero };
 	float m_shininess;
