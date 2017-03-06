@@ -15,6 +15,7 @@ public:
 	~ComponentTransform(); 
 
 public: 
+	bool Update(float dt);
 	void OnEditor();
 
 };

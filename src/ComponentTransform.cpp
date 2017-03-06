@@ -1,5 +1,6 @@
 #include "ComponentTransform.h"
 #include "ImGui/imgui.h"
+#include "glew-2.0.0\include\GL\glew.h"
 
 ComponentTransform::ComponentTransform(GameObject* parent, bool active) : Component(parent, TRANSFORM, active)
 {
@@ -8,6 +9,19 @@ ComponentTransform::ComponentTransform(GameObject* parent, bool active) : Compon
 
 ComponentTransform::~ComponentTransform()
 {}
+
+bool ComponentTransform::Update(float)
+{
+	glPushMatrix();
+	glScalef(scale.x, scale.y, scale.z);
+	float3 euler_rot = rotation.ToEulerXYZ() * 180.0f / pi;
+	glRotatef(euler_rot.x, 1, 0, 0);
+	glRotatef(euler_rot.y, 0, 1, 0);
+	glRotatef(euler_rot.z, 0, 0, 1);
+	glTranslatef(position.x, position.y, position.z); 
+	glPopMatrix();
+	return true; 
+}
 
 void ComponentTransform::OnEditor()
 {
@@ -24,6 +38,6 @@ void ComponentTransform::OnEditor()
 		// if changes have been made, we store them
 		position = { pos[0], pos[1], pos[2] };
 		scale = { scl[0], scl[1], scl[2] };
-		rotation = Quat::FromEulerXYX(rot[0]*pi/180.0f, rot[1] * pi / 180.0f, rot[2] * pi / 180.0f);
+		rotation = Quat::FromEulerXYZ(rot[0]*pi/180.0f, rot[1] * pi / 180.0f, rot[2] * pi / 180.0f);
 	}
 }
