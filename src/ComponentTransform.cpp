@@ -39,3 +39,9 @@ void ComponentTransform::OnEditor()
 		rotation = Quat::FromEulerXYZ(rot[0]*pi/180.0f, rot[1] * pi / 180.0f, rot[2] * pi / 180.0f);
 	}
 }
+
+void ComponentTransform::SetTransform(float3 new_pos, Quat new_rot, float3 new_scale)
+{
+	position = new_pos; rotation = new_rot; scale = new_scale;
+
+}

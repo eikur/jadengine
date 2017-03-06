@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Component.h"
+#include "MathGeoLib/include/MathGeoLib.h"
 
 class GameObject
 {
@@ -26,6 +27,8 @@ public:
 
 	Component* CreateComponent(Component::componentType type);
 	Component* FindComponentByType(Component::componentType type);
+
+	void SetTranform(float3 new_pos, Quat new_rot, float3 new_scale);
 };
 
 #endif

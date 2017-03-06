@@ -11,6 +11,7 @@ struct aiMaterial;
 
 class Mesh;
 class Material;
+class GameObject; 
 
 class Level
 {
@@ -58,6 +59,8 @@ public:
 
 	void LoadNode(const char* asset_path, const aiNode* node, Node* parent, const aiScene* scene);
 	void DrawNode(const Node* origin);
+
+	GameObject* CreateGameObject(const Node* origin); 
 
 };
 

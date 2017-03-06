@@ -10,6 +10,8 @@
 #include "ModuleTextures.h"
 #include "Material.h"
 #include "Mesh.h"
+#include "GameObject.h"
+
 
 Level::Level() {}
 Level::~Level() {
@@ -21,7 +23,7 @@ bool Level::Load(const char* path, const char* file)
 	std::string file_path = path;
 	file_path.append(file);;
 
-	scene = aiImportFile(file_path.c_str(), aiProcess_Triangulate);
+	scene = aiImportFile(file_path.c_str(), aiProcess_Triangulate | aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene == nullptr)
 	{
 		MYLOG("Level could not be loaded. Path: %s", file);
@@ -30,7 +32,6 @@ bool Level::Load(const char* path, const char* file)
 	else
 	{
 		LoadNode(path, scene->mRootNode, nullptr, scene);
-		Draw();
 	}
 	
 }
@@ -73,7 +74,6 @@ Level::Node* Level::CheckNode(const char* name, Node* node)
 
 
 void Level::LinkNode(Level::Node* node, Level::Node* new_parent) {
-	// eliminar el nodo actual del vector de su padre
 	Node* old_parent = node->parent;
 	if (old_parent != nullptr)
 	{
@@ -86,10 +86,8 @@ void Level::LinkNode(Level::Node* node, Level::Node* new_parent) {
 			}
 		}
 	}
-	// cambiar el parent del nodo a mover
 	node->parent = new_parent;
 
-	// añadir el nodo al vector de su nuevo padre
 	if (new_parent != nullptr)
 		new_parent->children.push_back(node);
 
@@ -181,5 +179,13 @@ void Level::DrawNode(const Node *node)
 	}
 
 	glPopMatrix();
+
+}
+
+GameObject* Level::CreateGameObject(const Node *node )
+{
+	GameObject *go = new GameObject(node->name.c_str(), true);
+	go->SetTranform(node->position, node->rotation, float3(1, 1, 1));
+	return go; 
 
 }

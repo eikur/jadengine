@@ -83,3 +83,13 @@ Component* GameObject::FindComponentByType(Component::componentType type)
 	}
 	return nullptr; 
 }
+
+void GameObject::SetTranform( float3 new_pos, Quat new_rot, float3 new_scale)
+{
+	ComponentTransform *transform = (ComponentTransform*) FindComponentByType(Component::componentType::TRANSFORM);
+	if (transform == nullptr)
+	{
+		transform = (ComponentTransform*) CreateComponent(Component::componentType::TRANSFORM);
+	}
+	transform->SetTransform(new_pos, new_rot, new_scale);
+}

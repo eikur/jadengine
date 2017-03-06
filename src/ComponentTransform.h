@@ -18,6 +18,8 @@ public:
 	bool Update(float dt);
 	void OnEditor();
 
+	void SetTransform(float3 new_pos, Quat new_rot, float3 new_scale);
+
 };
 
 #endif

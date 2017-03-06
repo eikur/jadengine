@@ -1,9 +1,12 @@
 #include "Globals.h"
 #include "Application.h"
 
+#include "Level.h"
 #include "GameObject.h"
 #include "Component.h"
+
 #include "ModuleScene.h"
+
 
 ModuleScene::ModuleScene(bool active) : Module(active){}
 
@@ -16,6 +19,10 @@ bool ModuleScene::Init()
 	tmp->CreateComponent(Component::componentType::TRANSFORM);
 	tmp->CreateComponent(Component::componentType::MESH);
 	tmp->CreateComponent(Component::componentType::MATERIAL);
+	game_objects.push_back(tmp);
+	lvl = new Level(); 
+	lvl->Load("assets/street/", "Street.obj");
+	tmp = lvl->CreateGameObject(lvl->GetRootNode());
 	game_objects.push_back(tmp);
 
 	return true; 

@@ -3,7 +3,9 @@
 
 #include "Module.h"
 #include <vector>
+
 class GameObject;
+class Level;
 
 class ModuleScene : public Module
 {
@@ -18,6 +20,8 @@ public:
 
 public:
 	std::vector<GameObject*> game_objects;
+private:
+	Level *lvl = nullptr;
 
 };
 
