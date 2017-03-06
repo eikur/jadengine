@@ -77,8 +77,28 @@ GLuint ModuleTextures::LoadTexture(std::string texture_path)
 		else
 		{
 			// bind to OpenGL
-			texture_id = ilutGLBindTexImage();
+			glGenTextures(1, &texture_id);
 			textures[texture_path] = texture_id;
+
+			glBindTexture(GL_TEXTURE_2D, texture_id);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+			ILinfo ImageInfo;
+			iluGetImageInfo(&ImageInfo);
+			if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
+			{
+				iluFlipImage();
+			}
+
+			ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+
+			ILubyte* data = ilGetData();
+			int width = ilGetInteger(IL_IMAGE_WIDTH);
+			int height = ilGetInteger(IL_IMAGE_HEIGHT);
+
+			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), width,
+				height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, data);
 
 			ilDeleteImages(1, &image_id);
 			return texture_id;
