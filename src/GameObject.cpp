@@ -4,9 +4,8 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
-#include "ImGui/imgui.h"
 
-GameObject::GameObject(const char* name, bool active) : name(name), active(active)
+GameObject::GameObject(const char* name, GameObject* parent, bool active) : name(name), parent(parent), active(active)
 {
 
 }
@@ -23,11 +22,22 @@ bool  GameObject::Update( float dt )
 		if ((*it)->active == true)
 			ret = (*it)->Update( dt );
 	}
+	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+	{
+		if ((*it)->active == true)
+			ret = (*it)->Update(dt); 
+	}
+
 	return ret; 
 }
 
 bool GameObject::CleanUp()
 {
+	MYLOG("GameObject %s: Removing children GameObjects", name);
+	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+	{
+		(*it)->CleanUp(); 
+	}
 	MYLOG("GameObject %s: Removing components", name);
 	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
 	{
@@ -48,6 +58,50 @@ void GameObject::OnEditor()
 	}
 }
 
+void GameObject::OnHierarchy( int *ptr_id, ImGuiTreeNodeFlags node_flags, long int &selection_mask, int *selected_node, GameObject *& selected_gameobject)
+{
+	ImGuiTreeNodeFlags flags = node_flags | ((selection_mask & (1 << *ptr_id)) ? ImGuiTreeNodeFlags_Selected : 0);
+	if (children.empty() == true)
+	{
+		ImGui::TreeNodeEx(ptr_id, flags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen, "%s", name.c_str());
+		if (ImGui::IsItemClicked())
+		{
+			*selected_node = *ptr_id;
+			selected_gameobject = this; 
+		}
+		(*ptr_id)++;
+	}
+	else
+	{
+		bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)ptr_id, flags , "%s", name.c_str());
+		if (ImGui::IsItemClicked())
+		{
+			*selected_node = *ptr_id;
+			selected_gameobject = this; 
+		}
+		(*ptr_id)++;
+		if (node_open)
+		{
+			for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+			{
+				(*it)->OnHierarchy(ptr_id, flags, selection_mask, selected_node, selected_gameobject);
+			}
+			ImGui::TreePop();
+		}
+	}
+	
+}
+
+// --- GameObject management ---
+void GameObject::AddGameObjectToChildren(GameObject* game_object)
+{
+	children.push_back(game_object); 
+}
+
+bool GameObject::HasChildren()
+{
+	return !children.empty(); 
+}
 
 // --- Component management ---
 
@@ -84,7 +138,7 @@ Component* GameObject::FindComponentByType(Component::componentType type)
 	return nullptr; 
 }
 
-void GameObject::SetTranform( float3 new_pos, Quat new_rot, float3 new_scale)
+void GameObject::SetTransform( float3 new_pos, Quat new_rot, float3 new_scale)
 {
 	ComponentTransform *transform = (ComponentTransform*) FindComponentByType(Component::componentType::TRANSFORM);
 	if (transform == nullptr)

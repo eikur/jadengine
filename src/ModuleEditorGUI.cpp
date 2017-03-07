@@ -28,7 +28,6 @@ bool ModuleEditorGUI::Init()
 
 update_status ModuleEditorGUI::Update(float)
 {
-	bool t = true;
 	ImVec4 clear_color = ImColor(0, 0, 0);
 
 	ImGui_ImplSdlGL3_NewFrame(App->window->m_window);
@@ -145,8 +144,10 @@ void ModuleEditorGUI::ShowInspector(bool *enabled) const {
 		ImGui::End();
 		return;
 	}
-	if (inspector_selected_node != -1)
-		App->scene->game_objects.at(inspector_selected_node)->OnEditor();
+	if (inspector_selected_gameobject != nullptr)
+	{
+		inspector_selected_gameobject->OnEditor(); 
+	}
 	ImGui::End();
 }
 
@@ -162,20 +163,23 @@ void ModuleEditorGUI::ShowHierarchy(bool *enabled) {
 	if (ImGui::TreeNode("Root"))
 	{
 		int i = 0; 
-		static int selection_mask = 1 << 30;
+		static long int selection_mask = 1 << 50;
+		GameObject *go = nullptr; 
 		for (std::vector<GameObject*>::const_iterator it = App->scene->game_objects.cbegin(); it != App->scene->game_objects.cend(); ++it)
 		{
-			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
-			ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen, "%s", (*it)->name.c_str());
-			if (ImGui::IsItemClicked())
-				inspector_selected_node = i;
-			++i; 
+			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+			(*it)->OnHierarchy(&i, node_flags, selection_mask, &inspector_selected_node, go); 
 		}
 		if (inspector_selected_node != -1)
 		{
 			selection_mask = (1 << inspector_selected_node);
 		}
+		if (go != nullptr)
+		{
+			inspector_selected_gameobject = go; 
+		}
 		ImGui::TreePop();
+		
 	}
 
 	ImGui::End();

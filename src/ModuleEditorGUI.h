@@ -2,6 +2,7 @@
 #define __MODULEEDITORGUI_H__
 
 #include "Module.h"
+class GameObject;
 
 
 class ModuleEditorGUI : public Module
@@ -34,6 +35,7 @@ private:
 	bool show_stats = false;
 
 	int inspector_selected_node = -1;
+	GameObject *inspector_selected_gameobject = nullptr;
 };
 
 #endif

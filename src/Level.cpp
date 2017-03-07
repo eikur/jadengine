@@ -18,7 +18,7 @@ Level::~Level() {
 	// free all memory
 }
 
-bool Level::Load(const char* path, const char* file)
+GameObject* Level::Load(const char* path, const char* file)
 {
 	std::string file_path = path;
 	file_path.append(file);;
@@ -31,7 +31,8 @@ bool Level::Load(const char* path, const char* file)
 	}
 	else
 	{
-		LoadNode(path, scene->mRootNode, nullptr, scene);
+		LoadNode(path, scene->mRootNode, nullptr);
+		return CreateGameObject(path, scene->mRootNode, nullptr);
 	}
 	
 }
@@ -93,7 +94,7 @@ void Level::LinkNode(Level::Node* node, Level::Node* new_parent) {
 
 }
 
-void Level::LoadNode(const char* asset_path, const aiNode* node, Node* parent, const aiScene* scene)
+void Level::LoadNode(const char* asset_path, const aiNode* node, Node* parent)
 {
 	// Load node data
 	Node* my_node = new Node();
@@ -130,7 +131,7 @@ void Level::LoadNode(const char* asset_path, const aiNode* node, Node* parent, c
 		Material* my_material = new Material(texture_id);
 		aiColor3D color(0.0f, 0.0f, 0.0f);
 		float shininess = 1.0f;
-		float shine_strength = 1.0f;
+		//float shine_strength = 1.0f;
 
 		if (material->Get(AI_MATKEY_COLOR_AMBIENT, color) == AI_SUCCESS)
 			my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::AMBIENT);
@@ -146,19 +147,14 @@ void Level::LoadNode(const char* asset_path, const aiNode* node, Node* parent, c
 		if (material->Get(AI_MATKEY_SHININESS, shininess) == AI_SUCCESS)
 			my_material->SetShininess(shininess * 128.0f);
 
-		/*if (material->Get(AI_MATKEY_SHININESS_STRENGTH, shine_strength) == AI_SUCCESS)*/
-
-		/*aiReturn hasShiness = material->Get(AI_MATKEY_SHININESS, color);
-		aiReturn hasStrength = material->Get(AI_MATKEY_SHININESS_STRENGTH, color);*/
-
 		my_node->mesh_ids.push_back(meshes.size());
 		meshes.push_back(new Mesh(scene->mMeshes[node->mMeshes[i]], my_material));
 	}
 
-	// Recursively process child nodes
+	// Recursively process children nodes
 	for (size_t i = 0; i < node->mNumChildren; ++i)
 	{
-		LoadNode(asset_path, node->mChildren[i], my_node, scene);
+		LoadNode(asset_path, node->mChildren[i], my_node);
 	}
 }
 
@@ -182,33 +178,39 @@ void Level::DrawNode(const Node *node)
 
 }
 
-GameObject* Level::CreateGameObject(const Node *node )
+GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, GameObject* parent)
 {
-	GameObject *go = new GameObject(node->name.c_str(), true);
-	go->SetTranform(node->position, node->rotation, float3(1, 1, 1));
-	
-	return go;
-	/*
-	// Load node data
-	Node* my_node = new Node();
-	my_node->name = node->mName.C_Str();
+	GameObject *game_object = new GameObject(origin->mName.C_Str(), parent, true); 
 
-	my_node->parent = parent;
-
-	if (parent == nullptr)
-		root = my_node;
-	else
-		parent->children.push_back(my_node);
-
-	// Node transformations
 	aiVector3D translation;
 	aiVector3D scaling;
 	aiQuaternion rotation;
-	node->mTransformation.Decompose(scaling, rotation, translation);
+
+	origin->mTransformation.Decompose(scaling, rotation, translation);
+	
 	float3 pos(translation.x, translation.y, translation.z);
+	float3 scl(scaling.x, scaling.y, scaling.z); 
 	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
-	my_node->position = pos;
-	my_node->rotation = rot;
+	
+	game_object->SetTransform(pos, rot, scl);
+
+	// Load meshes
+	for (size_t i = 0; i < origin->mNumMeshes; ++i)
+	{
+
+	}
+
+
+
+	// Recursively process children 
+	for (size_t i = 0; i < origin->mNumChildren; ++i)
+	{
+		game_object->AddGameObjectToChildren(CreateGameObject(path, origin->mChildren[i], game_object));
+	}
+	
+	return game_object;
+
+	/*
 
 	// Load meshes for this node
 	for (size_t i = 0; i < node->mNumMeshes; ++i) {
@@ -243,12 +245,6 @@ GameObject* Level::CreateGameObject(const Node *node )
 
 		my_node->mesh_ids.push_back(meshes.size());
 		meshes.push_back(new Mesh(scene->mMeshes[node->mMeshes[i]], my_material));
-	}
-
-	// Recursively process child nodes
-	for (size_t i = 0; i < node->mNumChildren; ++i)
-	{
-		LoadNode(asset_path, node->mChildren[i], my_node, scene);
 	}
 	*/
 

@@ -37,7 +37,7 @@ public:
 	Level();
 	~Level();
 
-	bool Load(const char *path, const char* file);
+	GameObject* Load(const char *path, const char* file);
 	void Clear();
 	void Draw();
 
@@ -57,10 +57,10 @@ public:
 	Node* CheckNode(const char* name, Node* node);
 	void LinkNode(Node* node, Node* new_parent);
 
-	void LoadNode(const char* asset_path, const aiNode* node, Node* parent, const aiScene* scene);
+	void LoadNode(const char* asset_path, const aiNode* node, Node* parent);
 	void DrawNode(const Node* origin);
 
-	GameObject* CreateGameObject(const Node* origin); 
+	GameObject* CreateGameObject(const char* path, const aiNode* origin, GameObject* parent);
 
 };
 
