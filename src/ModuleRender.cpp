@@ -137,9 +137,9 @@ bool ModuleRender::Init()
 		m_checkers_texture = App->textures->CreateCheckersTexture();
 		m_lenna_texture = App->textures->LoadTexture("graphics/Lenna.png");
 
-		lvl = new Level();
-		lvl->Load("assets/street/", "Street.obj");
-		Level::Node* node = lvl->FindNode("g Line002");
+		//lvl = new Level();
+		//lvl->Load("assets/street/", "Street.obj");
+		//Level::Node* node = lvl->FindNode("g Line002");
 
 	}
 	return ret;

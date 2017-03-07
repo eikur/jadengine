@@ -29,11 +29,11 @@ GameObject* Level::Load(const char* path, const char* file)
 	if (scene == nullptr)
 	{
 		MYLOG("Level could not be loaded. Path: %s", file);
-		return false;
+		return nullptr;
 	}
 	else
 	{
-		LoadNode(path, scene->mRootNode, nullptr);
+		//LoadNode(path, scene->mRootNode, nullptr);
 		return CreateGameObject(path, scene->mRootNode, nullptr);
 	}
 	
@@ -46,7 +46,7 @@ void Level::Clear()
 
 void Level::Draw()
 {
-	DrawNode(root);
+//	DrawNode(root);
 }
 
 

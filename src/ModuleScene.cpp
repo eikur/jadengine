@@ -17,7 +17,11 @@ bool ModuleScene::Init()
 	// test game object creation here
 	lvl = new Level();
 	GameObject *tmp = lvl->Load("assets/street/", "Street.obj");
-	game_objects.push_back(tmp);
+	if (tmp != nullptr)
+		game_objects.push_back(tmp);
+	tmp = lvl->Load("assets/Batman/", "Batman.obj");
+	if (tmp != nullptr)
+		game_objects.push_back(tmp);
 	return true; 
 }
 
