@@ -3,7 +3,9 @@
 
 #include "Component.h"
 #include "Material.h"
+
 class GameObject;
+struct aiMaterial;
 
 class ComponentMaterial : public Component
 {
@@ -17,6 +19,8 @@ public:
 public:
 	bool Update(float dt);
 	void OnEditor();
+
+	void LoadMaterial(aiMaterial *ai_mat, const char* path);
 };
 
 #endif
