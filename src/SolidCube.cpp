@@ -90,8 +90,9 @@ void SolidCube::Draw()
 	glPushMatrix();
 
 	glTranslatef(m_pos.x, m_pos.y, m_pos.z);
-	glScalef(m_scale.x, m_scale.y, m_scale.z);
 	glRotatef(m_rotate_angle, m_rotate_vector.x, m_rotate_vector.y, m_rotate_vector.z);
+	glScalef(m_scale.x, m_scale.y, m_scale.z);
+	
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);

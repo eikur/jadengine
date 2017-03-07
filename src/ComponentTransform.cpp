@@ -10,13 +10,12 @@ ComponentTransform::~ComponentTransform()
 
 bool ComponentTransform::Update(float)
 {
-	glPushMatrix();
-	glScalef(scale.x, scale.y, scale.z);
+	glTranslatef(position.x, position.y, position.z);
 	float3 euler_rot = rotation.ToEulerXYZ() * 180.0f / pi;
 	glRotatef(euler_rot.x, 1, 0, 0);
 	glRotatef(euler_rot.y, 0, 1, 0);
 	glRotatef(euler_rot.z, 0, 0, 1);
-	glTranslatef(position.x, position.y, position.z); 
+	glScalef(scale.x, scale.y, scale.z);
 	return true; 
 }
 

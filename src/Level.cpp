@@ -188,7 +188,13 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	aiVector3D scaling;
 	aiQuaternion rotation;
 
-	origin->mTransformation.Decompose(scaling, rotation, translation);
+	if (origin->mParent == nullptr)
+		origin->mTransformation.Decompose(scaling, rotation, translation);
+	else
+	{
+		aiMatrix4x4 fullTransform = origin->mTransformation * origin->mParent->mTransformation;
+		fullTransform.Decompose(scaling, rotation, translation); 
+	}
 	
 	float3 pos(translation.x, translation.y, translation.z);
 	float3 scl(scaling.x, scaling.y, scaling.z); 

@@ -17,18 +17,19 @@ GameObject::~GameObject()
 bool  GameObject::Update( float dt )
 {
 	bool ret = true; 
+	glPushMatrix(); 
 	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
 	{
 		if ((*it)->active == true)
-			ret = (*it)->Update( dt );
+			ret = (*it)->Update(dt);
 	}
+	
 	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
 	{
 		if ((*it)->active == true)
-			ret = (*it)->Update(dt); 
+			ret = (*it)->Update(dt);
 	}
-	glPopMatrix(); 
-
+	glPopMatrix();
 	return ret; 
 }
 
