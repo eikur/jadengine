@@ -22,7 +22,7 @@ public:
 	std::vector<GameObject*> game_objects;
 private:
 	Level *lvl = nullptr;
-
+	GameObject *go = nullptr;
 };
 
 #endif

@@ -54,6 +54,9 @@ void Level::DrawHierarchy()
 	glColor3f(0.0f, 1.0f, 0.0f);
 	glLineWidth(5.0f);
 	DrawNodeHierarchy(root);
+
+	glLineWidth(1.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);
 }
 
 
@@ -231,13 +234,13 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	aiVector3D scaling;
 	aiQuaternion rotation;
 
-	if (origin->mParent == nullptr)
-		origin->mTransformation.Decompose(scaling, rotation, translation);
-	else
+//	if (origin->mParent == nullptr)
+	origin->mTransformation.Decompose(scaling, rotation, translation);
+/*	else
 	{
-		aiMatrix4x4 fullTransform = origin->mTransformation * origin->mParent->mTransformation;
+		aiMatrix4x4 fullTransform = origin->mTransformation * origin->mParent->mTransformation;	
 		fullTransform.Decompose(scaling, rotation, translation); 
-	}
+	}*/
 	
 	float3 pos(translation.x, translation.y, translation.z);
 	float3 scl(scaling.x, scaling.y, scaling.z); 

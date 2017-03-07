@@ -6,10 +6,11 @@
 
 class ComponentTransform : public Component
 {
-private:
+public:
 	float3 position = float3::zero;
 	float3 scale = float3::one;
 	Quat rotation = Quat::identity; 
+
 public: 
 	ComponentTransform(GameObject* parent, bool active);
 	~ComponentTransform(); 

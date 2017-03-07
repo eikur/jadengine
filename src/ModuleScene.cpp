@@ -16,18 +16,12 @@ bool ModuleScene::Init()
 {
 	// test game object creation here
 	lvl = new Level();
-	GameObject *tmp = nullptr;
-/*
-	GameObject *tmp = lvl->Load("assets/street/", "Street.obj");
-	if (tmp != nullptr)
-		game_objects.push_back(tmp);
-		*/
-//	tmp = lvl->Load("assets/Batman/", "Batman.obj");
-	//if (tmp != nullptr)
-		//game_objects.push_back(tmp);
-	tmp = lvl->Load("assets/ArmyPilot/", "ArmyPilot.dae");
-	if (tmp != nullptr)
-		game_objects.push_back(tmp);
+
+//  go = lvl->Load("assets/street/", "Street.obj");
+//	go = lvl->Load("assets/Batman/", "Batman.obj");
+	go = lvl->Load("assets/ArmyPilot/", "ArmyPilot.dae");
+	//if (go != nullptr)
+	//	game_objects.push_back(go);
 	return true; 
 }
 
@@ -38,7 +32,7 @@ update_status ModuleScene::Update(float dt)
 		if ((*it)->active == true)
 			(*it)->Update(dt);
 	}
-	lvl->DrawHierarchy();
+	go->DrawSkeleton();
 	return UPDATE_CONTINUE;
 }
 bool ModuleScene::CleanUp()

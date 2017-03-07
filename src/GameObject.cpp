@@ -50,6 +50,31 @@ bool GameObject::CleanUp()
 	return true; 
 }
 
+void GameObject::DrawSkeleton(float3 color)
+{
+	glColor3f(color.x, color.y, color.z);
+	glPushMatrix();
+	FindComponentByType(Component::componentType::TRANSFORM)->Update();
+//	MYLOG("drawing lines with origin %s", name.c_str());
+	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+	{
+		float3 line_end = (*it)->GetTransformPosition();
+		glBegin(GL_LINES);
+		glVertex3f(0, 0, 0);
+		glVertex3f(line_end.x, line_end.y, line_end.z);
+		glEnd();
+	/*	MYLOG("glBegin(GL_LINES);");
+		MYLOG("glVertex3f(0, 0, 0);");
+		MYLOG("glVertex3f( %.2f, %.2f, %.2f);", line_end.x, line_end.y, line_end.z);
+		MYLOG("glEnd()");
+		*/
+		(*it)->DrawSkeleton();
+	}
+	glPopMatrix();
+}
+
+//-- GUI interface
+
 void GameObject::OnEditor()
 {
 	ImGui::Checkbox(name.c_str(), &active );
@@ -100,11 +125,6 @@ void GameObject::AddGameObjectToChildren(GameObject* game_object)
 	children.push_back(game_object); 
 }
 
-bool GameObject::HasChildren()
-{
-	return !children.empty(); 
-}
-
 // --- Component management ---
 
 Component* GameObject::CreateComponent(Component::componentType type)
@@ -148,4 +168,14 @@ void GameObject::SetTransform( float3 new_pos, Quat new_rot, float3 new_scale)
 		transform = (ComponentTransform*) CreateComponent(Component::componentType::TRANSFORM);
 	}
 	transform->SetTransform(new_pos, new_rot, new_scale);
+}
+
+float3 GameObject::GetTransformPosition()
+{
+	ComponentTransform *transform = (ComponentTransform*)FindComponentByType(Component::componentType::TRANSFORM);
+	if (transform == nullptr)
+	{
+		return float3::zero;
+	}
+	return transform->position;
 }
