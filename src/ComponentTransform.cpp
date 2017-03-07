@@ -17,7 +17,6 @@ bool ComponentTransform::Update(float)
 	glRotatef(euler_rot.y, 0, 1, 0);
 	glRotatef(euler_rot.z, 0, 0, 1);
 	glTranslatef(position.x, position.y, position.z); 
-	glPopMatrix();
 	return true; 
 }
 
@@ -32,7 +31,7 @@ void ComponentTransform::OnEditor()
 
 		ImGui::InputFloat3("Position", pos);
 		ImGui::InputFloat3("Rotation", rot);
-		ImGui::InputFloat3("Scale", scl); 
+		ImGui::InputFloat3("Scale", scl);
 
 		position = { pos[0], pos[1], pos[2] };
 		scale = { scl[0], scl[1], scl[2] };

@@ -11,6 +11,7 @@ ComponentMesh::~ComponentMesh()
 
 bool ComponentMesh::Update(float)
 {
+	mesh->Draw(); 
 	return true;
 }
 
@@ -18,7 +19,7 @@ void ComponentMesh::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Mesh"))
 	{
-		ImGui::Text("Mesh properties");
+		ImGui::Checkbox("Enabled", &active);
 	}
 }
 
@@ -26,6 +27,5 @@ void ComponentMesh::OnEditor()
 void ComponentMesh::LoadMesh(aiMesh *ai_mesh, Material *material)
 {
 	if (mesh != nullptr)
-		delete mesh; 
-	mesh = new Mesh(ai_mesh, material); 
+		mesh = new Mesh(ai_mesh, material); 
 }

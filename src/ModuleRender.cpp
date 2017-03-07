@@ -126,16 +126,6 @@ bool ModuleRender::Init()
 			}
 		}
 
-		//Setup the viewport
-		//double ratio = (double)m_screen_width / (double)m_screen_height;
-
-		//Orthographic projection
-		/*glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(-2.0 * ratio, 2.0 * ratio, -2.0, 2.0, -4.0, 4.0);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();*/
-
 		//Perspective projection
 		glMatrixMode(GL_PROJECTION);
 		glLoadMatrixf(App->camera->GetProjectionMatrix().ptr());
@@ -205,7 +195,7 @@ update_status ModuleRender::PreUpdate()
 	
 	if (m_model != nullptr)
 		m_model->Draw();
-	lvl->Draw();
+	//lvl->Draw();
 
 	return UPDATE_CONTINUE;
 }

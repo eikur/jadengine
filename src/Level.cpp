@@ -11,6 +11,7 @@
 #include "Material.h"
 #include "Mesh.h"
 #include "GameObject.h"
+#include "ComponentMesh.h"
 
 
 Level::Level() {}
@@ -194,9 +195,12 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	
 	game_object->SetTransform(pos, rot, scl);
 
-	// Load meshes
+	// Load meshes: only tested for 1 mesh per gameObject
 	for (size_t i = 0; i < origin->mNumMeshes; ++i)
 	{
+		//
+		ComponentMesh *component_mesh = (ComponentMesh*) game_object->CreateComponent(Component::Component::MESH);
+		component_mesh->LoadMesh(scene->mMeshes[origin->mMeshes[i]], nullptr);
 
 	}
 

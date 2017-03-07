@@ -27,6 +27,7 @@ bool  GameObject::Update( float dt )
 		if ((*it)->active == true)
 			ret = (*it)->Update(dt); 
 	}
+	glPopMatrix(); 
 
 	return ret; 
 }

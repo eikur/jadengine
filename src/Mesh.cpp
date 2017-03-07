@@ -88,16 +88,21 @@ Mesh::~Mesh() {
 }
 
 void Mesh::Draw() {
-	if (m_material->GetTexture() != 0)
+	if (m_material != nullptr)
+		if (m_material->GetTexture() != 0)
 		App->textures->UseTexture2D(m_material->GetTexture());
 
 	glColorMaterial(GL_FRONT, GL_AMBIENT);
-	glColor4fv(m_material->GetColorComponent(Material::COLOR_COMPONENT::AMBIENT));
+	if (m_material != nullptr)
+		glColor4fv(m_material->GetColorComponent(Material::COLOR_COMPONENT::AMBIENT));
 	glColorMaterial(GL_FRONT, GL_DIFFUSE);
-	glColor4fv(m_material->GetColorComponent(Material::COLOR_COMPONENT::DIFFUSE));
+	if (m_material != nullptr)
+		glColor4fv(m_material->GetColorComponent(Material::COLOR_COMPONENT::DIFFUSE));
 	glColorMaterial(GL_FRONT, GL_SPECULAR);
-	glColor4fv(m_material->GetColorComponent(Material::COLOR_COMPONENT::SPECULAR));
-	glMaterialf(GL_FRONT, GL_SHININESS, m_material->GetShininess());
+	if (m_material != nullptr)
+		glColor4fv(m_material->GetColorComponent(Material::COLOR_COMPONENT::SPECULAR));
+	if (m_material != nullptr)
+		glMaterialf(GL_FRONT, GL_SHININESS, m_material->GetShininess());
 
 	if (m_vbo[VERTEX_BUFFER]) {
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);
