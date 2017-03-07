@@ -191,10 +191,10 @@ update_status ModuleRender::PreUpdate()
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	
-	m_primitives->DrawAllPrimitives();
+//	m_primitives->DrawAllPrimitives();
 	
-	if (m_model != nullptr)
-		m_model->Draw();
+//	if (m_model != nullptr)
+//		m_model->Draw();
 	//lvl->Draw();
 
 	return UPDATE_CONTINUE;

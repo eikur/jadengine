@@ -23,7 +23,7 @@ Level::~Level() {
 GameObject* Level::Load(const char* path, const char* file)
 {
 	std::string file_path = path;
-	file_path.append(file);;
+	file_path.append(file);
 
 	scene = aiImportFile(file_path.c_str(), aiProcess_Triangulate | aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene == nullptr)
@@ -33,7 +33,7 @@ GameObject* Level::Load(const char* path, const char* file)
 	}
 	else
 	{
-		//LoadNode(path, scene->mRootNode, nullptr);
+		LoadNode(path, scene->mRootNode, nullptr);
 		return CreateGameObject(path, scene->mRootNode, nullptr);
 	}
 	
@@ -46,7 +46,14 @@ void Level::Clear()
 
 void Level::Draw()
 {
-//	DrawNode(root);
+	DrawNode(root);
+}
+
+void Level::DrawHierarchy()
+{
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glLineWidth(5.0f);
+	DrawNodeHierarchy(root);
 }
 
 
@@ -113,11 +120,19 @@ void Level::LoadNode(const char* asset_path, const aiNode* node, Node* parent)
 	aiVector3D translation;
 	aiVector3D scaling;
 	aiQuaternion rotation;
-	node->mTransformation.Decompose(scaling, rotation, translation);
+	if (parent == nullptr )
+		node->mTransformation.Decompose(scaling, rotation, translation);
+	else
+	{
+		aiMatrix4x4 fullTransform = node->mTransformation * node->mParent->mTransformation;
+		fullTransform.Decompose(scaling, rotation, translation);
+	}
 	float3 pos(translation.x, translation.y, translation.z);
 	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+	float3 scale(scaling.x, scaling.y, scaling.z);
 	my_node->position = pos;
 	my_node->rotation = rot;
+	my_node->scale = scale;
 
 	// Load meshes for this node
 	for (size_t i = 0; i < node->mNumMeshes; ++i) {
@@ -178,6 +193,34 @@ void Level::DrawNode(const Node *node)
 
 	glPopMatrix();
 
+}
+
+void Level::DrawNodeHierarchy(const Node* node)
+{
+	glPushMatrix();
+	glTranslatef(node->position.x, node->position.y, node->position.z);
+	float3 euler_rot = node->rotation.ToEulerXYZ() * 180.0f / pi;
+	glRotatef(euler_rot.x, 1, 0, 0);
+	glRotatef(euler_rot.y, 0, 1, 0);
+	glRotatef(euler_rot.z, 0, 0, 1);
+
+	glScalef(node->scale.x, node->scale.y, node->scale.z);
+
+	// Draw lines to child nodes
+	for (size_t i = 0; i < node->children.size(); ++i)
+	{
+		glBegin(GL_LINES);
+		glVertex3f(0, 0, 0);
+		glVertex3f(node->children[i]->position.x, node->children[i]->position.y, node->children[i]->position.z);
+		glEnd();
+	}
+
+	for (size_t i = 0; i < node->children.size(); ++i)
+	{
+		DrawNodeHierarchy(node->children[i]);
+	}
+
+	glPopMatrix();
 }
 
 GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, GameObject* parent)

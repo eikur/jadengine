@@ -21,6 +21,7 @@ public:
 		std::string name;
 		float3 position = float3(0, 0, 0);
 		Quat rotation = Quat(1, 0, 0, 0);
+		float3 scale = float3(0, 0, 0);
 		std::vector<unsigned> mesh_ids;
 		Node* parent = nullptr;
 		std::vector<Node*> children;
@@ -40,6 +41,8 @@ public:
 	GameObject* Load(const char *path, const char* file);
 	void Clear();
 	void Draw();
+	void DrawHierarchy(); 
+	void DrawNodeHierarchy(const Node* origin);
 
 	unsigned int GetNumMeshes() const { return meshes.size(); }
 	unsigned int GetNumMaterials() const { return materials.size(); }
