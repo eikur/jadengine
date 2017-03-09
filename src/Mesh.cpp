@@ -85,6 +85,8 @@ Mesh::~Mesh() {
 	glDeleteBuffers(1, &m_vbo[TEXCOORD_BUFFER]);
 	glDeleteBuffers(1, &m_vbo[NORMAL_BUFFER]);
 	glDeleteBuffers(1, &m_vbo[INDEX_BUFFER]);
+
+	RELEASE(m_material);
 }
 
 void Mesh::Draw() {

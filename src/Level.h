@@ -40,6 +40,7 @@ public:
 
 	GameObject* Load(const char *path, const char* file);
 	void Clear();
+	void ReleaseNode(Node* node);
 	void Draw();
 	void DrawHierarchy(); 
 	void DrawNodeHierarchy(const Node* origin);

@@ -17,7 +17,13 @@
 
 Level::Level() {}
 Level::~Level() {
-	// free all memory
+	// Release Nodes recursively
+	ReleaseNode(root);
+	// Release meshes
+	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it)
+	{
+		RELEASE(*it);
+	}
 }
 
 GameObject* Level::Load(const char* path, const char* file)
@@ -42,6 +48,15 @@ GameObject* Level::Load(const char* path, const char* file)
 void Level::Clear()
 {
 
+}
+
+void Level::ReleaseNode(Node* node)
+{
+	for (std::vector<Node*>::iterator it = node->children.begin(); it != node->children.end(); ++it)
+	{
+		ReleaseNode(*it);
+	}
+	RELEASE(node);
 }
 
 void Level::Draw()
