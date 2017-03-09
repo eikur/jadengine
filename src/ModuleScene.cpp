@@ -18,10 +18,10 @@ bool ModuleScene::Init()
 	lvl = new Level();
 
 //  go = lvl->Load("assets/street/", "Street.obj");
-//	go = lvl->Load("assets/Batman/", "Batman.obj");
-	go = lvl->Load("assets/ArmyPilot/", "ArmyPilot.dae");
-	//if (go != nullptr)
-	//	game_objects.push_back(go);
+	go = lvl->Load("assets/Batman/", "Batman.obj");
+//	go = lvl->Load("assets/ArmyPilot/", "ArmyPilot.dae");
+	if (go != nullptr)
+		game_objects.push_back(go);
 	return true; 
 }
 
@@ -32,7 +32,7 @@ update_status ModuleScene::Update(float dt)
 		if ((*it)->active == true)
 			(*it)->Update(dt);
 	}
-	go->DrawSkeleton();
+//	go->DrawSkeleton();
 	return UPDATE_CONTINUE;
 }
 bool ModuleScene::CleanUp()

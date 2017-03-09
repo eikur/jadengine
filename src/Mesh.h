@@ -18,15 +18,22 @@ public:
 		NORMAL_BUFFER,
 		INDEX_BUFFER
 	};
+
+public:
 	Mesh();
 	Mesh(aiMesh* mesh, Material* material);
 	~Mesh();
 	void Draw();
+
+public:
+	float3 *vertices = nullptr;
+	int num_vertices = 0;
+
 private:
-	GLuint m_num_elements;
+	GLuint m_num_elements = 0;
 	GLuint m_vbo[4] = { 0 };
 	//GLuint m_texture_id = 0;
-	Material* m_material;
+	Material* m_material = nullptr;
 };
 
 #endif // __MESH_H__

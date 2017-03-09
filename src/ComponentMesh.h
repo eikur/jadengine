@@ -9,7 +9,9 @@ class ComponentMesh : public Component
 {
 
 private: 
-	Mesh *mesh; 
+	AABB bounding_box;
+	bool show_bounding_box = false;
+	Mesh *mesh = nullptr;
 
 public:
 	ComponentMesh(GameObject* parent, bool active = true);
@@ -20,6 +22,8 @@ public:
 	void OnEditor();
 
 	void LoadMesh(aiMesh *ai_mesh, Material *material); 
+
+	void ShowBoundingBox();
 };
 
 #endif

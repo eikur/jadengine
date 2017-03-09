@@ -17,17 +17,20 @@ Mesh::Mesh(aiMesh* mesh, Material* material)
 	m_num_elements = mesh->mNumFaces * 3;
 
 	if (mesh->HasPositions()) {
-		std::vector<float3> vertices;
-		vertices.reserve(mesh->mNumVertices);
+		std::vector<float3> vert;
+		vert.reserve(mesh->mNumVertices);
+		num_vertices = mesh->mNumVertices;
+		vertices = new float3[num_vertices];
 		for (size_t i = 0; i < mesh->mNumVertices; ++i) {
-			vertices.push_back(float3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z));
+			vertices[i] = float3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
+			vert.push_back(float3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z));
 		}
 
 		glGenBuffers(1, &m_vbo[VERTEX_BUFFER]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);
-		glBufferData(GL_ARRAY_BUFFER, size(vertices) * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
-		
-		vertices.clear();
+		glBufferData(GL_ARRAY_BUFFER, size(vert) * sizeof(vert[0]), &vert[0], GL_STATIC_DRAW);
+
+		vert.clear();
 	}
 
 	if (mesh->HasTextureCoords(0)) {
@@ -87,6 +90,7 @@ Mesh::~Mesh() {
 	glDeleteBuffers(1, &m_vbo[INDEX_BUFFER]);
 
 	RELEASE(m_material);
+	RELEASE(vertices);
 }
 
 void Mesh::Draw() {
