@@ -29,10 +29,25 @@ void ComponentMaterial::OnEditor()
 	{
 		ImGui::Checkbox("Enabled", &this->active);
 		float ambient[4] = { material->m_color[Material::AMBIENT].x, material->m_color[Material::AMBIENT].y, material->m_color[Material::AMBIENT].z, material->m_color[Material::AMBIENT].w };
-		ImGui::DragFloat4("Ambient", ambient, 0.005f, 0.0f, 1.0f);
-		material->m_color[Material::AMBIENT] = { ambient[0], ambient[1], ambient[2], ambient[3] };
+		float diffuse[4] = { material->m_color[Material::DIFFUSE].x, material->m_color[Material::DIFFUSE].y, material->m_color[Material::DIFFUSE].z, material->m_color[Material::DIFFUSE].w };
+		float emissive[4] = { material->m_color[Material::EMISSIVE].x, material->m_color[Material::EMISSIVE].y, material->m_color[Material::EMISSIVE].z, material->m_color[Material::EMISSIVE].w };
+		float specular[4] = { material->m_color[Material::SPECULAR].x, material->m_color[Material::SPECULAR].y, material->m_color[Material::SPECULAR].z, material->m_color[Material::SPECULAR].w };
+		float transparent[4] = { material->m_color[Material::TRANSPARENT].x, material->m_color[Material::TRANSPARENT].y, material->m_color[Material::TRANSPARENT].z, material->m_color[Material::TRANSPARENT].w };
+		float shininess = material->m_shininess;
 
-		ImGui::Text("More variables coming soon");
+		ImGui::DragFloat4("Ambient", ambient, 0.005f, 0.0f, 1.0f);
+		ImGui::DragFloat4("Diffuse", diffuse, 0.005f, 0.0f, 1.0f);
+		ImGui::DragFloat4("Emissive", emissive, 0.005f, 0.0f, 1.0f);
+		ImGui::DragFloat4("Specular", specular, 0.005f, 0.0f, 1.0f);
+		ImGui::DragFloat4("Transparent", transparent, 0.005f, 0.0f, 1.0f);		
+		ImGui::DragFloat("Shininess", &shininess);
+		
+		material->m_color[Material::AMBIENT] = { ambient[0], ambient[1], ambient[2], ambient[3] };
+		material->m_color[Material::DIFFUSE] = { diffuse[0], diffuse[1], diffuse[2], diffuse[3] };
+		material->m_color[Material::EMISSIVE] = { emissive[0], emissive[1], emissive[2], emissive[3] };
+		material->m_color[Material::SPECULAR] = { specular[0], specular[1], specular[2], specular[3] };
+		material->m_color[Material::TRANSPARENT] = { transparent[0], transparent[1], transparent[2], transparent[3] };
+		material->m_shininess = shininess;
 	}
 }
 
