@@ -253,13 +253,16 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	game_object->SetTransform(pos, rot, scl);
 
 	// Load meshes: only tested for 1 mesh per gameObject
+	ComponentMaterial *component_material = nullptr;
+	ComponentMesh *component_mesh = nullptr;
+
 	for (size_t i = 0; i < origin->mNumMeshes; ++i)
 	{
-		ComponentMaterial *component_material = (ComponentMaterial*)game_object->CreateComponent(Component::componentType::MATERIAL);
+		component_material = (ComponentMaterial*)game_object->CreateComponent(Component::componentType::MATERIAL);
 		if (component_material != nullptr)
-			component_material->LoadMaterial(scene->mMaterials[scene->mMeshes[i]->mMaterialIndex], path);
+			component_material->LoadMaterial(scene->mMaterials[scene->mMeshes[origin->mMeshes[i]]->mMaterialIndex], path);
 
-		ComponentMesh *component_mesh = (ComponentMesh*)game_object->CreateComponent(Component::Component::MESH);
+		component_mesh = (ComponentMesh*)game_object->CreateComponent(Component::Component::MESH);
 		if (component_mesh != nullptr)
 		{
 			if (component_material == nullptr)
@@ -277,43 +280,5 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	}
 	
 	return game_object;
-
-	/*
-
-	// Load meshes for this node
-	for (size_t i = 0; i < node->mNumMeshes; ++i) {
-		// Load textures
-		const aiMaterial* material = scene->mMaterials[scene->mMeshes[i]->mMaterialIndex];
-		GLuint texture_id = 0;
-		if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-			aiString texture_file;
-			if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texture_file) == AI_SUCCESS) {
-				texture_id = App->textures->LoadTexture(std::string(asset_path) + texture_file.C_Str());
-			}
-		}
-		Material* my_material = new Material(texture_id);
-		aiColor3D color(0.0f, 0.0f, 0.0f);
-		float shininess = 1.0f;
-		float shine_strength = 1.0f;
-
-		if (material->Get(AI_MATKEY_COLOR_AMBIENT, color) == AI_SUCCESS)
-			my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::AMBIENT);
-		if (material->Get(AI_MATKEY_COLOR_DIFFUSE, color) == AI_SUCCESS)
-			my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::DIFFUSE);
-		if (material->Get(AI_MATKEY_COLOR_EMISSIVE, color) == AI_SUCCESS)
-			my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::EMISSIVE);
-		if (material->Get(AI_MATKEY_COLOR_SPECULAR, color) == AI_SUCCESS)
-			my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::SPECULAR);
-		if (material->Get(AI_MATKEY_COLOR_TRANSPARENT, color) == AI_SUCCESS)
-			my_material->SetColor({ color.r, color.g, color.b, 1.0f }, Material::COLOR_COMPONENT::TRANSPARENT);
-
-		if (material->Get(AI_MATKEY_SHININESS, shininess) == AI_SUCCESS)
-			my_material->SetShininess(shininess * 128.0f);
-
-
-		my_node->mesh_ids.push_back(meshes.size());
-		meshes.push_back(new Mesh(scene->mMeshes[node->mMeshes[i]], my_material));
-	}
-	*/
 
 }

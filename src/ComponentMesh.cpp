@@ -14,8 +14,6 @@ ComponentMesh::~ComponentMesh()
 bool ComponentMesh::Update(float)
 {
 	mesh->Draw(); 
-//	bounding_box.SetNegativeInfinity();
-//	bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
 	if (show_bounding_box)
 		ShowBoundingBox();
 	return true;

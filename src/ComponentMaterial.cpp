@@ -45,6 +45,7 @@ void ComponentMaterial::LoadMaterial(aiMaterial *ai_mat, const char* asset_path)
 		aiString texture_file;
 		if (ai_mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_file) == AI_SUCCESS) {
 			path.Append(texture_file.C_Str()); 
+			MYLOG("findme: texture path: %s", path.C_Str());
 			texture_id = App->textures->LoadTexture(path.C_Str());
 		}
 	}
