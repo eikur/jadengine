@@ -138,13 +138,8 @@ void Level::LoadNode(const char* asset_path, const aiNode* node, Node* parent)
 	aiVector3D translation;
 	aiVector3D scaling;
 	aiQuaternion rotation;
-	if (parent == nullptr )
-		node->mTransformation.Decompose(scaling, rotation, translation);
-	else
-	{
-		aiMatrix4x4 fullTransform = node->mTransformation * node->mParent->mTransformation;
-		fullTransform.Decompose(scaling, rotation, translation);
-	}
+
+	node->mTransformation.Decompose(scaling, rotation, translation);
 	float3 pos(translation.x, translation.y, translation.z);
 	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 	float3 scale(scaling.x, scaling.y, scaling.z);
@@ -249,13 +244,7 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	aiVector3D scaling;
 	aiQuaternion rotation;
 
-//	if (origin->mParent == nullptr)
 	origin->mTransformation.Decompose(scaling, rotation, translation);
-/*	else
-	{
-		aiMatrix4x4 fullTransform = origin->mTransformation * origin->mParent->mTransformation;	
-		fullTransform.Decompose(scaling, rotation, translation); 
-	}*/
 	
 	float3 pos(translation.x, translation.y, translation.z);
 	float3 scl(scaling.x, scaling.y, scaling.z); 
@@ -266,15 +255,20 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	// Load meshes: only tested for 1 mesh per gameObject
 	for (size_t i = 0; i < origin->mNumMeshes; ++i)
 	{
-		ComponentMesh *component_mesh = (ComponentMesh*) game_object->CreateComponent(Component::Component::MESH);
-		component_mesh->LoadMesh(scene->mMeshes[origin->mMeshes[i]], nullptr);
-
 		ComponentMaterial *component_material = (ComponentMaterial*)game_object->CreateComponent(Component::componentType::MATERIAL);
-		component_material->LoadMaterial(scene->mMaterials[scene->mMeshes[i]->mMaterialIndex],path);
+		if (component_material != nullptr)
+			component_material->LoadMaterial(scene->mMaterials[scene->mMeshes[i]->mMaterialIndex], path);
 
+		ComponentMesh *component_mesh = (ComponentMesh*)game_object->CreateComponent(Component::Component::MESH);
+		if (component_mesh != nullptr)
+		{
+			if (component_material == nullptr)
+				component_mesh->LoadMesh(scene->mMeshes[origin->mMeshes[i]], nullptr);
+			else
+				component_mesh->LoadMesh(scene->mMeshes[origin->mMeshes[i]], component_material->GetMaterial());
+		}
+		
 	}
-
-
 
 	// Recursively process children 
 	for (size_t i = 0; i < origin->mNumChildren; ++i)

@@ -18,7 +18,7 @@ ComponentMaterial::ComponentMaterial(GameObject* parent, GLuint texture_id, bool
 ComponentMaterial::~ComponentMaterial()
 {}
 
-bool ComponentMaterial::Update(float)
+bool ComponentMaterial::Update(float)	
 {
 	return true;
 }
@@ -27,13 +27,12 @@ void ComponentMaterial::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Material"))
 	{
-		ImGui::Checkbox("Enabled", &active);
-
+		ImGui::Checkbox("Enabled", &this->active);
 		float ambient[4] = { material->m_color[Material::AMBIENT].x, material->m_color[Material::AMBIENT].y, material->m_color[Material::AMBIENT].z, material->m_color[Material::AMBIENT].w };
 		ImGui::DragFloat4("Ambient", ambient, 0.005f, 0.0f, 1.0f);
 		material->m_color[Material::AMBIENT] = { ambient[0], ambient[1], ambient[2], ambient[3] };
 
-		ImGui::Text("More material variables coming soon");
+		ImGui::Text("More variables coming soon");
 	}
 }
 
@@ -68,4 +67,9 @@ void ComponentMaterial::LoadMaterial(aiMaterial *ai_mat, const char* asset_path)
 	if (ai_mat->Get(AI_MATKEY_SHININESS, shininess) == AI_SUCCESS)
 		material->SetShininess(shininess * 128.0f);
 
+}
+
+Material* ComponentMaterial::GetMaterial()
+{
+	return material;
 }

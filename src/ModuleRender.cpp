@@ -81,7 +81,7 @@ bool ModuleRender::Init()
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
-/*
+
 		GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
 		GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -92,7 +92,7 @@ bool ModuleRender::Init()
 		glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_LIGHT0);
-*/
+
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
@@ -191,7 +191,7 @@ update_status ModuleRender::PreUpdate()
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	
-//	m_primitives->DrawAllPrimitives();
+	m_primitives->DrawAllPrimitives();
 	
 //	if (m_model != nullptr)
 //		m_model->Draw();

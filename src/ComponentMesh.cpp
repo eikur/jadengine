@@ -25,7 +25,7 @@ void ComponentMesh::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Mesh"))
 	{
-		ImGui::Checkbox("Enabled", &active);
+		ImGui::Checkbox("Enabled", &this->active);
 		ImGui::SameLine();
 		ImGui::Checkbox("Debug", &show_bounding_box);
 		float bx[2] = { (float)bounding_box.MinX(), (float)bounding_box.MaxX() };

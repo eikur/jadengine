@@ -21,6 +21,8 @@ public:
 	void OnEditor();
 
 	void LoadMaterial(aiMaterial *ai_mat, const char* path);
+
+	Material* GetMaterial();
 };
 
 #endif
