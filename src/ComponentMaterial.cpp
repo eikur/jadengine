@@ -72,5 +72,5 @@ void ComponentMaterial::LoadMaterial(aiMaterial *ai_mat, const char* asset_path)
 
 Material* ComponentMaterial::GetMaterial()
 {
-	return material;
+	return active ? material : nullptr;
 }

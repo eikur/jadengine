@@ -25,6 +25,9 @@ public:
 	~Mesh();
 	void Draw();
 
+	void SetMaterial(Material* new_mat);
+
+
 public:
 	float3 *vertices = nullptr;
 	int num_vertices = 0;

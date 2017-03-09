@@ -1,4 +1,5 @@
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 #include "ImGui/imgui.h"
 #include "glew-2.0.0\include\GL\glew.h"
 
@@ -13,6 +14,10 @@ ComponentMesh::~ComponentMesh()
 
 bool ComponentMesh::Update(float)
 {
+	if (component_material != nullptr)
+	{
+		mesh->SetMaterial(component_material->GetMaterial());
+	}
 	mesh->Draw(); 
 	if (show_bounding_box)
 		ShowBoundingBox();
@@ -36,6 +41,11 @@ void ComponentMesh::OnEditor()
 }
 
 //----- 
+
+void ComponentMesh::SetComponentMaterial(ComponentMaterial *comp_mat)
+{
+	component_material = comp_mat;
+}
 void ComponentMesh::LoadMesh(aiMesh *ai_mesh, Material *material)
 {
 	if (mesh == nullptr)

@@ -141,3 +141,7 @@ void Mesh::Draw() {
 	App->textures->DontUseTexture2D();
 }
 
+void Mesh::SetMaterial(Material* new_mat)
+{
+	m_material = new_mat;
+}

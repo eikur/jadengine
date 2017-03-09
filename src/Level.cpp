@@ -268,7 +268,10 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 			if (component_material == nullptr)
 				component_mesh->LoadMesh(scene->mMeshes[origin->mMeshes[i]], nullptr);
 			else
+			{
+				component_mesh->SetComponentMaterial(component_material);
 				component_mesh->LoadMesh(scene->mMeshes[origin->mMeshes[i]], component_material->GetMaterial());
+			}
 		}
 		
 	}
