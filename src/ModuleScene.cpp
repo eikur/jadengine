@@ -37,6 +37,8 @@ update_status ModuleScene::Update(float dt)
 }
 bool ModuleScene::CleanUp()
 {
+	RELEASE(lvl);
+
 	for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
 	{
 		(*it)->CleanUp(); 
