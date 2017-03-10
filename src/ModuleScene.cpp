@@ -20,8 +20,8 @@ bool ModuleScene::Init()
   go = lvl->Load("assets/street/", "Street.obj");
   if (go != nullptr)
 	  game_objects.push_back(go);
-	go = lvl->Load("assets/Batman/", "Batman.obj");
-//	go = lvl->Load("assets/ArmyPilot/", "ArmyPilot.dae");
+//	go = lvl->Load("assets/Batman/", "Batman.obj");
+	go = lvl->Load("assets/ArmyPilot/", "ArmyPilot.dae");
 	if (go != nullptr)
 		game_objects.push_back(go);
 	return true; 

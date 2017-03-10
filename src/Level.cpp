@@ -252,17 +252,30 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	
 	game_object->SetTransform(pos, rot, scl);
 
-	// Load meshes: only tested for 1 mesh per gameObject
+	
 	ComponentMaterial *component_material = nullptr;
 	ComponentMesh *component_mesh = nullptr;
+	GameObject *aux_game_object = nullptr; 
 
 	for (size_t i = 0; i < origin->mNumMeshes; ++i)
 	{
-		component_material = (ComponentMaterial*)game_object->CreateComponent(Component::componentType::MATERIAL);
+		if (i == 0)
+			aux_game_object = game_object;
+		else
+		{
+			std::string aux_game_object_name = origin->mName.C_Str();
+			aux_game_object_name.append(" (");
+			aux_game_object_name.append(std::to_string(i));
+			aux_game_object_name.append(")");
+			aux_game_object = new GameObject(aux_game_object_name.c_str(), game_object, true);
+			aux_game_object->SetTransform(float3::zero, Quat::identity, { 1,1,1 });	
+		}
+
+		component_material = (ComponentMaterial*)aux_game_object->CreateComponent(Component::componentType::MATERIAL);
 		if (component_material != nullptr)
 			component_material->LoadMaterial(scene->mMaterials[scene->mMeshes[origin->mMeshes[i]]->mMaterialIndex], path);
 
-		component_mesh = (ComponentMesh*)game_object->CreateComponent(Component::Component::MESH);
+		component_mesh = (ComponentMesh*)aux_game_object->CreateComponent(Component::Component::MESH);
 		if (component_mesh != nullptr)
 		{
 			if (component_material == nullptr)
@@ -273,7 +286,9 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 				component_mesh->LoadMesh(scene->mMeshes[origin->mMeshes[i]], component_material->GetMaterial());
 			}
 		}
-		
+
+		if (i > 0)
+			game_object->AddGameObjectToChildren(aux_game_object);
 	}
 
 	// Recursively process children 
