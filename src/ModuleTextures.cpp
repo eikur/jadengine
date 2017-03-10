@@ -159,14 +159,3 @@ void ModuleTextures::UnloadTexture(GLuint *texture_id)
 	}
 	
 }
-/*
-ModuleTextures* ModuleTextures::GetInstance()
-{
-	if (!instance.get())
-		instance.reset(new ModuleTextures());
-
-	return instance.get();
-}
-
-std::auto_ptr<ModuleTextures> ModuleTextures::instance;
-*/

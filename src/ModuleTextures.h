@@ -37,8 +37,6 @@ public:
 	void UseTexture2D(GLuint texture);
 	void DontUseTexture2D();
 
-private:
-//	static ModuleTextures* GetInstance();
 };
 
 #endif // __MODULETEXTURES_H__

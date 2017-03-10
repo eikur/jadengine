@@ -71,8 +71,8 @@ private:
 	bool		windowEvents[WE_COUNT];
 	KeyState*	keyboard;
 	KeyState	mouse_buttons[NUM_MOUSE_BUTTONS];
-	iPoint mouse_motion;
-	iPoint mouse;
+	iPoint mouse_motion = { 0,0 };
+	iPoint mouse = { 0,0 };
 	int mouse_wheel = 0;
 };
 

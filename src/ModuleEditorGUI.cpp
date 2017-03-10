@@ -12,7 +12,7 @@
 
 #include "ModuleEditorGUI.h"
 
-ModuleEditorGUI::ModuleEditorGUI(bool active) : Module(active)
+ModuleEditorGUI::ModuleEditorGUI(bool active) : Module(active), show_hierarchy(true), show_inspector(true)
 {
 }
 
@@ -137,8 +137,8 @@ void ModuleEditorGUI::ShowStats(bool *enabled) const {
 
 void ModuleEditorGUI::ShowInspector(bool *enabled) const {
 	// example > Widgets > Collapsing Headers
-	ImGui::SetNextWindowPos(ImVec2(App->window->m_screen_width/4 + 50, 25));
-	ImGui::SetNextWindowSizeConstraints(ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2), ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2));
+	ImGui::SetNextWindowPos(ImVec2(25, App->window->m_screen_height / 2 + 25));
+	ImGui::SetNextWindowSizeConstraints(ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2 -25), ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2));
 
 	if (ImGui::Begin("Inspector", enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize) == false) {
 		ImGui::End();
@@ -154,7 +154,7 @@ void ModuleEditorGUI::ShowInspector(bool *enabled) const {
 void ModuleEditorGUI::ShowHierarchy(bool *enabled) {
 	// example > Widgets > Advanced tree node
 	ImGui::SetNextWindowPos(ImVec2(25, 25));
-	ImGui::SetNextWindowSizeConstraints(ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2), ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2));
+	ImGui::SetNextWindowSizeConstraints(ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2-25), ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2));
 
 	if (ImGui::Begin("Scene Hierarchy", enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize) == false) {
 		ImGui::End();

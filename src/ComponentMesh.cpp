@@ -30,7 +30,7 @@ void ComponentMesh::OnEditor()
 	{
 		ImGui::Checkbox("Enabled", &this->active);
 		ImGui::SameLine();
-		ImGui::Checkbox("Debug", &show_bounding_box);
+		ImGui::Checkbox("Draw AABB", &show_bounding_box);
 		float bx[2] = { (float)bounding_box.MinX(), (float)bounding_box.MaxX() };
 		float by[2] = { bounding_box.MinY(), bounding_box.MaxY() };
 		float bz[2] = { bounding_box.MinZ(), bounding_box.MaxZ() };

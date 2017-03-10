@@ -32,8 +32,8 @@ private:
 
 public:
 	SDL_Renderer* renderer = nullptr;
-	SDL_GLContext m_glcontext;
-	SDL_Rect camera;
+	SDL_GLContext m_glcontext = NULL;
+	SDL_Rect camera = { 0,0,0,0 };
 	bool m_projection_changed = false;
 
 private:
@@ -45,13 +45,12 @@ private:
 	int m_screen_width = 0;
 	bool m_vsync = true;
 
-	PrimitiveManager *m_primitives;
+	PrimitiveManager *m_primitives = nullptr;
 	
 	GLuint m_checkers_texture = 0;
 	GLuint m_lenna_texture = 0;
 
 	Model *m_model = nullptr;
-	
 	Level *lvl = nullptr;
 };
 
