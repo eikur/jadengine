@@ -29,7 +29,6 @@ ModuleTextures::~ModuleTextures()
 bool ModuleTextures::Init()
 {
 	MYLOG("Init Image library");
-	bool ret = true;
 
 	ilInit();
 	iluInit();
@@ -61,7 +60,7 @@ GLuint ModuleTextures::LoadTexture(const std::string& texture_path)
 	it = textures.find(texture_path);
 	if (it != textures.end())
 	{
-		return textures[texture_path];
+		return (*it).second; 
 	}
 	else
 	{

@@ -12,12 +12,13 @@ struct aiScene;
 
 class ModuleAnimation : public Module
 {
+	// -- structs and typedefs
 private:
 	struct NodeAnimation
 	{
 		std::string name;
-		std::vector<float3> positions;
-		std::vector<Quat> rotations; 
+		float3* positions = nullptr; 
+		Quat* rotations = nullptr; 
 
 		unsigned int num_positions = 0;
 		unsigned int num_rotations = 0;
@@ -27,7 +28,7 @@ private:
 	{
 		unsigned int duration = 0; 
 		unsigned int num_channels = 0; 
-		std::vector<NodeAnimation*> channels;
+		NodeAnimation* channels = nullptr;
 	};
 
 	struct AnimationInstance
@@ -52,8 +53,10 @@ private:
 	typedef std::map<std::string, Animation*, LessString> AnimationMap; 
 	typedef std::vector<AnimationInstance*> InstanceList; 
 
+	// -- variables
+private: 
 	const aiScene *scene = nullptr;
-//	InstanceList instance_list; 
+	InstanceList instance_list; 
 
 public: 
 	ModuleAnimation( bool active = true); 
