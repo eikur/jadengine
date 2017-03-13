@@ -1,14 +1,19 @@
 #ifndef __MODULE_ANIMATION_H__
 #define __MODULE_ANIMATION_H__
 
-#include "Module.h"
 #include <vector>
 #include <map>
+
 #include "MathGeoLib/include/MathGeoLib.h"
+
+#include "Module.h"
+
+struct aiScene;
 
 class ModuleAnimation : public Module
 {
-	struct AnimationChannel
+private:
+	struct NodeAnimation
 	{
 		std::string name;
 		std::vector<float3> positions;
@@ -22,7 +27,7 @@ class ModuleAnimation : public Module
 	{
 		unsigned int duration = 0; 
 		unsigned int num_channels = 0; 
-		std::vector<AnimationChannel*> channels;
+		std::vector<NodeAnimation*> channels;
 	};
 
 	struct AnimationInstance
@@ -47,6 +52,8 @@ class ModuleAnimation : public Module
 	typedef std::map<std::string, Animation*, LessString> AnimationMap; 
 	typedef std::vector<AnimationInstance*> InstanceList; 
 
+	const aiScene *scene = nullptr;
+//	InstanceList instance_list; 
 
 public: 
 	ModuleAnimation( bool active = true); 

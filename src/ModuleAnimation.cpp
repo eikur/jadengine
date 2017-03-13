@@ -23,21 +23,29 @@ update_status ModuleAnimation::Update(float)
 }
 bool ModuleAnimation::CleanUp()
 {
+	MYLOG("ModuleAnimation: Freeing animations"); 
+/*	for (InstanceList::iterator it = instance_list.begin(); it != instance_list.end();)
+	{
+		// remove animations
+	}
+	*/
+//	instance_list.clear(); 
 	return true; 
 }
 
 void ModuleAnimation::Load(const char* name, const char* file_path)
 {
-	const aiScene *scene; 
 	scene = aiImportFile(file_path, aiProcess_Triangulate | aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene == nullptr)
 	{
-//		MYLOG("Level could not be loaded. Path: %s", file_path);
-
+		MYLOG("ModuleAnimation: Could not load animation located at: %s", file_path);
 	}
 	else
 	{
-//		LoadNode(path, scene->mRootNode, nullptr);
+		if (scene->HasAnimations() == false)
+			return; 
+		
+
 
 	}
 

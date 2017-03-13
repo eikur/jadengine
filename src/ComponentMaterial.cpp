@@ -12,7 +12,7 @@
 
 ComponentMaterial::ComponentMaterial(GameObject* parent, GLuint texture_id, bool active) : Component(parent, MATERIAL, active)
 {
-	material = new Material(texture_id);
+//	material = new Material(texture_id);
 }
 
 ComponentMaterial::~ComponentMaterial()
@@ -72,7 +72,7 @@ void ComponentMaterial::LoadMaterial(aiMaterial *ai_mat, const char* asset_path)
 			texture_id = App->textures->LoadTexture(path.C_Str());
 		}
 	}
-//	material = new Material(texture_id);
+	material = new Material(texture_id);
 	aiColor3D color(0.0f, 0.0f, 0.0f);
 	float shininess = 1.0f;
 	float shine_strength = 1.0f;
