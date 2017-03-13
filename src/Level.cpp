@@ -299,5 +299,4 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	}
 	
 	return game_object;
-
 }

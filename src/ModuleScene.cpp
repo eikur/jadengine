@@ -10,7 +10,12 @@
 
 ModuleScene::ModuleScene(bool active) : Module(active){}
 
-ModuleScene::~ModuleScene() {}
+ModuleScene::~ModuleScene() {
+
+	for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
+		RELEASE(*it);
+	game_objects.clear();
+}
 
 bool ModuleScene::Init()
 {
@@ -19,7 +24,7 @@ bool ModuleScene::Init()
 
 //  go = lvl->Load("assets/street/", "Street.obj");
 
-go = lvl->Load("assets/Batman/", "Batman.obj");
+	go = lvl->Load("assets/Batman/", "Batman.obj");
 	//go = lvl->Load("assets/ArmyPilot/", "ArmyPilot.dae");
 	if (go != nullptr)
 		game_objects.push_back(go);
@@ -44,6 +49,7 @@ bool ModuleScene::CleanUp()
 	{
 		(*it)->CleanUp(); 
 	}
-	game_objects.clear(); 
+
+//	game_objects.clear(); 
 	return true;
 }
