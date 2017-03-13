@@ -76,7 +76,7 @@ public:
 	AnimationInstanceID Play(const char* animation_name); 
 	void Stop(AnimationInstanceID instance_id); 
 
-	bool GetTransform(AnimationInstanceID instance_id, const char* channel, float3& position, Quat& rotation) const;
+	bool GetTransform(AnimationInstanceID instance_id, const char* channel_name, float3& position, Quat& rotation) const;
 };
 
 #endif

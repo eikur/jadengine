@@ -150,8 +150,28 @@ void ModuleAnimation::Stop(AnimationInstanceID instance_id)
 
 }
 
-bool ModuleAnimation::GetTransform(AnimationInstanceID instance_id, const char* channel, float3& position, Quat& rotation) const
+bool ModuleAnimation::GetTransform(AnimationInstanceID instance_id, const char* channel_name, float3& position, Quat& rotation) const
 {
+	// get the animation
+	AnimationInstance *instance = instances.at(instance_id); 
+	if (instance == nullptr) { return false;  }
+	
+	// get the channel
+	unsigned int i;
+	for (i = 0; i < instance->animation->num_channels; i++)
+		if (strcmp(instance->animation->channels[i].name.c_str(), channel_name) == 0)
+			break;
 
+	if (i == instance->animation->num_channels)
+		return false;
 
+	// get the keyframes tp retrieve	// todo: change to float when interpolating
+	int position_key = int(instance->time_ms / instance->animation->duration) * instance->animation->channels[i].num_positions;
+	int rotation_key = int (instance->time_ms / instance->animation->duration) * instance->animation->channels[i].num_rotations;
+
+	// retrieve the keyframes
+	position = instance->animation->channels[i].positions[position_key]; 
+	rotation = instance->animation->channels[i].rotations[rotation_key];
+
+	return true;
 }
