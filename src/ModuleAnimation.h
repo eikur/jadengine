@@ -56,6 +56,8 @@ private:
 	// -- variables
 private: 
 	const aiScene *scene = nullptr;
+
+	AnimationMap animations; 
 	InstanceList instance_list; 
 
 public: 

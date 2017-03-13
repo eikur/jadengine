@@ -35,7 +35,7 @@ bool  GameObject::Update( float dt )
 
 bool GameObject::CleanUp()
 {
-	MYLOG("GameObject %s: Removing children GameObjects", name);
+	MYLOG("GameObject %s: Removing children GameObjects", name.c_str());
 	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
 	{
 		(*it)->CleanUp();
@@ -43,7 +43,7 @@ bool GameObject::CleanUp()
 	}
 	children.clear(); 
 
-	MYLOG("GameObject %s: Removing components", name);
+	MYLOG("GameObject %s: Removing components", name.c_str());
 	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
 	{
 		(*it)->CleanUp(); 
