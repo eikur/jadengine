@@ -26,7 +26,7 @@ private:
 
 	struct Animation
 	{
-		unsigned int duration = 0; 
+		double duration = 0; 
 		unsigned int num_channels = 0; 
 		NodeAnimation* channels = nullptr;
 	};
@@ -34,7 +34,7 @@ private:
 	struct AnimationInstance
 	{
 		Animation* animation = nullptr; 
-		unsigned int time_ms = 0; 
+		double time_ms = 0; 
 		bool loop = true; 
 
 		AnimationInstance* next = nullptr;
@@ -50,25 +50,33 @@ private:
 		}
 	};
 
+	typedef unsigned int AnimationInstanceID;
 	typedef std::map<std::string, Animation*, LessString> AnimationMap; 
 	typedef std::vector<AnimationInstance*> InstanceList; 
+	typedef std::vector<AnimationInstanceID> HoleList;
 
 	// -- variables
 private: 
 	const aiScene *scene = nullptr;
 
 	AnimationMap animations; 
-	InstanceList instance_list; 
+	InstanceList instances; 
+	HoleList holes;
 
 public: 
 	ModuleAnimation( bool active = true); 
 	~ModuleAnimation(); 
+
 	bool Init();
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void Load(const char* name, const char *file_path); 
+	void LoadAnimation(const char* name, const char *file_path); 
 
+	AnimationInstanceID Play(const char* animation_name); 
+	void Stop(AnimationInstanceID instance_id); 
+
+	bool GetTransform(AnimationInstanceID instance_id, const char* channel, float3& position, Quat& rotation) const;
 };
 
 #endif
