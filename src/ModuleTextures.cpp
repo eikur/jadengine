@@ -52,7 +52,7 @@ bool ModuleTextures::CleanUp()
 	return true;
 }
 
-GLuint ModuleTextures::LoadTexture(std::string texture_path)
+GLuint ModuleTextures::LoadTexture(const std::string& texture_path)
 {
 	ILuint image_id;
 	GLuint texture_id;

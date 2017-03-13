@@ -23,6 +23,7 @@ public:
 
 public:
 	bool Update(float dt);
+	bool CleanUp(); 
 	void OnEditor();
 
 	void SetComponentMaterial(ComponentMaterial* comp_mat);

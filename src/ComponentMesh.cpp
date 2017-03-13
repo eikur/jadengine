@@ -1,7 +1,10 @@
-#include "ComponentMesh.h"
+#include "Globals.h"
 #include "ComponentMaterial.h"
+
 #include "ImGui/imgui.h"
 #include "glew-2.0.0\include\GL\glew.h"
+
+#include "ComponentMesh.h"
 
 ComponentMesh::ComponentMesh(GameObject* parent, bool active) : Component(parent, MESH, active)
 {
@@ -22,6 +25,12 @@ bool ComponentMesh::Update(float)
 	if (show_bounding_box)
 		ShowBoundingBox();
 	return true;
+}
+
+bool ComponentMesh::CleanUp()
+{
+	RELEASE(mesh); 
+	return true; 
 }
 
 void ComponentMesh::OnEditor()

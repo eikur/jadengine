@@ -19,6 +19,11 @@ bool ComponentTransform::Update(float)
 	return true; 
 }
 
+bool ComponentTransform::CleanUp()
+{
+	return true; 
+}
+
 void ComponentTransform::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Transform"))

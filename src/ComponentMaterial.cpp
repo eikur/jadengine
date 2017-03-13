@@ -1,5 +1,5 @@
 #include <assimp/include/scene.h>
-
+#include "Globals.h"
 #include "Application.h"
 #include "ModuleTextures.h"
 
@@ -21,6 +21,12 @@ ComponentMaterial::~ComponentMaterial()
 bool ComponentMaterial::Update(float)	
 {
 	return true;
+}
+
+bool ComponentMaterial::CleanUp()
+{
+	RELEASE(material); 
+	return true; 
 }
 
 void ComponentMaterial::OnEditor()
@@ -89,3 +95,4 @@ Material* ComponentMaterial::GetMaterial()
 {
 	return active ? material : nullptr;
 }
+

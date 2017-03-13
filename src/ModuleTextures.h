@@ -20,7 +20,6 @@ class ModuleTextures : public Module
 	typedef std::map<std::string, unsigned, LessString> TextureList;
 
 	TextureList textures;
-//	static std::auto_ptr<ModuleTextures> instance;
 
 public:
 	ModuleTextures();
@@ -29,7 +28,7 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	GLuint LoadTexture(std::string texture_path);
+	GLuint LoadTexture(const std::string& texture_path);
 	void UnloadTexture(GLuint* texture_id);
 	
 	GLuint CreateCheckersTexture();

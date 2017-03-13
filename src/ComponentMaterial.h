@@ -18,6 +18,7 @@ public:
 
 public:
 	bool Update(float dt);
+	bool CleanUp(); 
 	void OnEditor();
 
 	void LoadMaterial(aiMaterial *ai_mat, const char* path);

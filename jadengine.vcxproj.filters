@@ -136,6 +136,9 @@
     <ClInclude Include="src\ComponentMaterial.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="src\ModuleAnimation.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -245,6 +248,9 @@
     </ClCompile>
     <ClCompile Include="src\ComponentMaterial.cpp">
       <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleAnimation.cpp">
+      <Filter>Core Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

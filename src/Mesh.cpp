@@ -84,13 +84,15 @@ Mesh::Mesh(aiMesh* mesh, Material* material)
 }
 
 Mesh::~Mesh() {
+	RELEASE(vertices);
+
 	glDeleteBuffers(1, &m_vbo[VERTEX_BUFFER]);
 	glDeleteBuffers(1, &m_vbo[TEXCOORD_BUFFER]);
 	glDeleteBuffers(1, &m_vbo[NORMAL_BUFFER]);
 	glDeleteBuffers(1, &m_vbo[INDEX_BUFFER]);
 
-	RELEASE(m_material);
-	RELEASE(vertices);
+	//if (m_material != nullptr)
+//		RELEASE(m_material);
 }
 
 void Mesh::Draw() {

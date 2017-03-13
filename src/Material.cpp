@@ -1,3 +1,4 @@
+
 #include "Material.h"
 
 Material::Material(GLuint text_id)
@@ -7,6 +8,7 @@ Material::Material(GLuint text_id)
 
 Material::~Material()
 {
+
 }
 
 void Material::SetColor(float4 color, COLOR_COMPONENT component)

@@ -6,3 +6,5 @@ Component::Component(GameObject* parent, componentType type, bool active) : pare
 }
 
 bool Component::Update(float dt) { return true; }
+
+bool Component::CleanUp() { return true; }

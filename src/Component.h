@@ -21,6 +21,7 @@ public:
 	void Disable() { active = false; }
 
 	virtual bool Update( float dt = 0.0f );
+	virtual bool CleanUp();
 
 	virtual void OnEditor() = 0; 
 	

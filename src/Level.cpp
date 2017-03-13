@@ -18,12 +18,13 @@
 Level::Level() {}
 Level::~Level() {
 	// Release Nodes recursively
-	ReleaseNode(root);
+//	ReleaseNode(root);
 	// Release meshes
-	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it)
+/*	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it)
 	{
 		RELEASE(*it);
 	}
+	*/
 }
 
 GameObject* Level::Load(const char* path, const char* file)
@@ -39,7 +40,7 @@ GameObject* Level::Load(const char* path, const char* file)
 	}
 	else
 	{
-		LoadNode(path, scene->mRootNode, nullptr);
+	//	LoadNode(path, scene->mRootNode, nullptr);
 		return CreateGameObject(path, scene->mRootNode, nullptr);
 	}
 	
@@ -52,6 +53,7 @@ void Level::Clear()
 
 void Level::ReleaseNode(Node* node)
 {
+
 	for (std::vector<Node*>::iterator it = node->children.begin(); it != node->children.end(); ++it)
 	{
 		ReleaseNode(*it);
@@ -252,7 +254,6 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	
 	game_object->SetTransform(pos, rot, scl);
 
-	
 	ComponentMaterial *component_material = nullptr;
 	ComponentMesh *component_mesh = nullptr;
 	GameObject *aux_game_object = nullptr; 
