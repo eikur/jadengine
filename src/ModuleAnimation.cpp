@@ -23,7 +23,14 @@ update_status ModuleAnimation::Update(float dt)
 	for (InstanceList::iterator it = instances.begin(); it != instances.end(); ++it)
 	{
 		if ((*it) != nullptr)
+		{
 			(*it)->time_ms += dt;
+			while ((*it)->time_ms >= (*it)->animation->duration)
+			{
+				(*it)->time_ms -= (*it)->animation->duration;
+			}
+		}
+		
 	}
 	return UPDATE_CONTINUE;
 }
@@ -193,13 +200,19 @@ bool ModuleAnimation::GetTransform(AnimationInstanceID instance_id, const char* 
 	if (i == instance->animation->num_channels)
 		return false;
 
+	NodeAnimation channel = instance->animation->channels[i];
+
 	// get the keyframes tp retrieve	// todo: change to float when interpolating
-//	int position_key = int(instance->time_ms / instance->animation->duration) * instance->animation->channels[i].num_positions;
-//	int rotation_key = int (instance->time_ms / instance->animation->duration) * instance->animation->channels[i].num_rotations;
+	int position_key = (instance->time_ms / instance->animation->duration )* instance->animation->channels[i].num_positions;
+	int rotation_key = (instance->time_ms / instance->animation->duration) * instance->animation->channels[i].num_rotations;
 
+
+	position = channel.positions[position_key];
+	rotation = channel.rotations[rotation_key];
+	/*
 	// retrieve the keyframes
-//	position = instance->animation->channels[i].positions[position_key]; 
-//	rotation = instance->animation->channels[i].rotations[rotation_key];
-
+	position = instance->animation->channels[i].positions[position_key]; 
+	rotation = instance->animation->channels[i].rotations[rotation_key];
+	*/
 	return true;
 }
