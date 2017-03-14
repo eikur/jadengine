@@ -26,7 +26,7 @@ private:
 
 	struct Animation
 	{
-		double duration = 0; 
+		float duration = 0; 
 		unsigned int num_channels = 0; 
 		NodeAnimation* channels = nullptr;
 	};
@@ -34,12 +34,12 @@ private:
 	struct AnimationInstance
 	{
 		Animation* animation = nullptr; 
-		double time_ms = 0; 
+		float time_ms = 0; 
 		bool loop = true; 
 
 		AnimationInstance* next = nullptr;
-		unsigned int blend_duration = 0; 
-		unsigned int blend_time = 0; 
+		float blend_duration = 0; 
+		float blend_time = 0; 
 	};
 
 	struct LessString

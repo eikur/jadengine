@@ -15,7 +15,7 @@ ModuleAnimation::~ModuleAnimation() {}
 bool ModuleAnimation::Init()
 {
 	LoadAnimation("assets/ArmyPilot/Animations/", "ArmyPilot_Idle.fbx");
-//	LoadAnimation("assets/ArmyPilot/Animations/", "ArmyPilot_Run_Forwards.fbx");
+	LoadAnimation("assets/ArmyPilot/Animations/", "ArmyPilot_Run_Forwards.fbx");
 	return true; 
 }
 
@@ -103,7 +103,7 @@ void ModuleAnimation::LoadAnimation(const char* path, const char* file)
 				animations[anim_name] = anim; 
 
 				anim->num_channels = scene->mAnimations[i]->mNumChannels;
-				anim->duration = scene->mAnimations[i]->mDuration;
+				anim->duration = (float) scene->mAnimations[i]->mDuration;
 				anim->channels = new NodeAnimation[anim->num_channels];
 				for (unsigned int j = 0; j < anim->num_channels; j++)
 				{
@@ -144,6 +144,21 @@ ModuleAnimation::AnimationInstanceID ModuleAnimation::Play(const char* animation
 	instance->animation = (*it).second;
 	instance->time_ms = 0; 
 	instance->loop = true; 
+
+	// preparation for blending
+	if (strcmp(animation_name, "Idle") == 0)
+	{
+		instance->blend_duration = 0.0f;
+		instance->blend_time = 0.0f;
+
+		instance->next = new AnimationInstance();
+		it = animations.find("Run_Forwards");
+		instance->next->animation = (*it).second;
+		instance->next->time_ms = 0;
+		instance->next->loop = true;
+	}
+	// end of preparation
+
 	if (holes.size() > 0)
 	{
 		instances.at(*holes.begin()) = instance;
@@ -155,6 +170,18 @@ ModuleAnimation::AnimationInstanceID ModuleAnimation::Play(const char* animation
 		instances.push_back(instance);
 		ret = instances.size() - 1;
 	}
+	// insert next instance
+	if (holes.size() > 0)
+	{
+		instances.at(*holes.begin()) = instance->next;
+		holes.erase(holes.begin());
+	}
+	else
+	{
+		instances.push_back(instance->next);
+	}
+	// end insert next instance
+
 	return ret; 
 }
 
