@@ -8,6 +8,7 @@
 #include "Level.h"
 #include "Application.h"
 #include "ModuleTextures.h"
+#include "ModuleAnimation.h"
 #include "Material.h"
 #include "Mesh.h"
 #include "GameObject.h"
@@ -291,6 +292,20 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 		if (i > 0)
 			game_object->AddGameObjectToChildren(aux_game_object);
 	}
+
+
+	// add animation component to the first gameobject
+	int animation_instance_id = App->animations->Play("Idle"); 
+	if (App->animations->IsChannelInAnimation(animation_instance_id, game_object->name.c_str()) == true)
+	{
+		MYLOG("Has animation channel: %s", game_object->name.c_str());
+	}
+	else
+	{
+		App->animations->Stop(animation_instance_id);
+		MYLOG("Has NO animation channel: %s", game_object->name.c_str());
+	}
+
 
 	// Recursively process children 
 	for (size_t i = 0; i < origin->mNumChildren; ++i)

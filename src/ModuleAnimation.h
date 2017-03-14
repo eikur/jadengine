@@ -50,7 +50,7 @@ private:
 		}
 	};
 
-	typedef unsigned int AnimationInstanceID;
+	typedef int AnimationInstanceID;
 	typedef std::map<std::string, Animation*, LessString> AnimationMap; 
 	typedef std::vector<AnimationInstance*> InstanceList; 
 	typedef std::vector<AnimationInstanceID> HoleList;
@@ -75,6 +75,8 @@ public:
 
 	AnimationInstanceID Play(const char* animation_name); 
 	void Stop(AnimationInstanceID instance_id); 
+
+	bool IsChannelInAnimation(AnimationInstanceID instance_id, const char* channel_name);
 
 	bool GetTransform(AnimationInstanceID instance_id, const char* channel_name, float3& position, Quat& rotation) const;
 };

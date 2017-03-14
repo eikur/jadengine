@@ -14,7 +14,7 @@ ModuleAnimation::~ModuleAnimation() {}
 
 bool ModuleAnimation::Init()
 {
-	LoadAnimation("", "assets/ArmyPilot/Animations/ArmyPilot_Idle.fbx"); 
+	LoadAnimation("assets/ArmyPilot/Animations/","ArmyPilot_Idle.fbx"); 
 	return true; 
 }
 
@@ -22,7 +22,8 @@ update_status ModuleAnimation::Update(float dt)
 {
 	for (InstanceList::iterator it = instances.begin(); it != instances.end(); ++it)
 	{
-		(*it)->time_ms += dt;
+		if ((*it) != nullptr)
+			(*it)->time_ms += dt;
 	}
 	return UPDATE_CONTINUE;
 }
@@ -31,14 +32,19 @@ bool ModuleAnimation::CleanUp()
 	MYLOG("ModuleAnimation: Freeing Instances"); 
 	for (InstanceList::iterator it = instances.begin(); it != instances.end(); )
 	{
-		RELEASE(*it); 
+		if ((*it) != nullptr)
+			RELEASE(*it); 
+		instances.erase(it);
 		it = instances.begin(); 
 	}
 	instances.clear(); 
 
 	MYLOG("Freeing holes");
-	for (HoleList::iterator it = holes.begin(); it != holes.end(); ++it)
-		holes.erase(it); 
+	for (HoleList::iterator it = holes.begin(); it != holes.end(); )
+	{
+		holes.erase(it);
+		it = holes.begin();
+	}
 	holes.clear(); 
 	
 	MYLOG("ModuleAnimation: Freeing animations"); 
@@ -61,12 +67,15 @@ bool ModuleAnimation::CleanUp()
 	return true; 
 }
 
-void ModuleAnimation::LoadAnimation(const char* name, const char* file_path)
+void ModuleAnimation::LoadAnimation(const char* path, const char* file)
 {
-	scene = aiImportFile(file_path, aiProcess_Triangulate | aiProcessPreset_TargetRealtime_MaxQuality);
+	std::string file_path = path;
+	file_path.append(file);
+
+	scene = aiImportFile(file_path.c_str(), aiProcess_Triangulate | aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene == nullptr)
 	{
-		MYLOG("ModuleAnimation: Could not load animation located at: %s", file_path);
+		MYLOG("ModuleAnimation: Could not load animation located at: %s", file_path.c_str());
 	}
 	else
 	{
@@ -117,10 +126,12 @@ void ModuleAnimation::LoadAnimation(const char* name, const char* file_path)
 
 ModuleAnimation::AnimationInstanceID ModuleAnimation::Play(const char* animation_name) 
 {
-	AnimationInstanceID ret = 0; 
+	AnimationInstanceID ret = -1; 
+
 	AnimationMap::iterator it = animations.find(animation_name);
 	if (it == animations.end())
 		return ret; // to be improved
+
 	AnimationInstance *instance = new AnimationInstance();
 	instance->animation = (*it).second;
 	instance->time_ms = 0; 
@@ -148,6 +159,23 @@ void ModuleAnimation::Stop(AnimationInstanceID instance_id)
 	holes.push_back(instance_id); 
 	std::sort(holes.begin(), holes.end());
 
+}
+
+bool ModuleAnimation::IsChannelInAnimation(AnimationInstanceID instance_id, const char* channel_name)
+{
+	AnimationInstance *instance = instances.at(instance_id);
+	if (instance == nullptr) { return false; }
+
+	// get the channel
+	unsigned int i;
+	for (i = 0; i < instance->animation->num_channels; i++)
+		if (strcmp(instance->animation->channels[i].name.c_str(), channel_name) == 0)
+			break;
+
+	if (i == instance->animation->num_channels)
+		return false;
+	else
+		return true;
 }
 
 bool ModuleAnimation::GetTransform(AnimationInstanceID instance_id, const char* channel_name, float3& position, Quat& rotation) const
