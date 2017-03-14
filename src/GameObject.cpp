@@ -4,6 +4,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentAnimation.h"
 
 GameObject::GameObject(const char* name, GameObject* parent, bool active) : name(name), parent(parent), active(active)
 {
@@ -14,9 +15,19 @@ GameObject::~GameObject()
 
 }
 
-bool  GameObject::Update( float dt )
+bool GameObject::Update( float dt )
 {
 	bool ret = true; 
+	// get  the animation component, update the rest 
+	ComponentAnimation *component_animation = (ComponentAnimation*) FindComponentByType(Component::componentType::ANIMATION); 
+	ComponentTransform * component_transform = nullptr;
+	// anim oneself
+	if (component_animation != nullptr)
+	{
+		component_transform = (ComponentTransform*)FindComponentByType(Component::componentType::TRANSFORM);
+		component_animation->GetTransform(name.c_str(), component_transform->position, component_transform->rotation);
+	}
+	
 	glPushMatrix(); 
 	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
 	{
@@ -129,7 +140,7 @@ void GameObject::AddGameObjectToChildren(GameObject* game_object)
 
 Component* GameObject::CreateComponent(Component::componentType type)
 {
-	static_assert(Component::componentType::UNKNOWN == 3, "Component class code needs update");
+	static_assert(Component::componentType::UNKNOWN == 4, "Component class code needs update");
 	Component* ret = nullptr;
 	
 	switch (type)
@@ -137,6 +148,7 @@ Component* GameObject::CreateComponent(Component::componentType type)
 	case Component::componentType::TRANSFORM: ret = new ComponentTransform(this, true); break;
 	case Component::componentType::MESH: ret = new ComponentMesh(this, true);  break;
 	case Component::componentType::MATERIAL: ret = new ComponentMaterial(this, true);  break;
+	case Component::componentType::ANIMATION: ret = new ComponentAnimation(this, true); break;
 	case Component::componentType::UNKNOWN: 
 	default:
 		ret = nullptr; 
@@ -150,9 +162,9 @@ Component* GameObject::CreateComponent(Component::componentType type)
 	return ret;
 }
 
-Component* GameObject::FindComponentByType(Component::componentType type)
+Component* GameObject::FindComponentByType(Component::componentType type) const
 {
-	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
+	for (std::vector<Component*>::const_iterator it = components.cbegin(); it != components.cend(); ++it)
 	{
 		if ((*it)->type == type)
 			return *it;
@@ -170,7 +182,7 @@ void GameObject::SetTransform( float3 new_pos, Quat new_rot, float3 new_scale)
 	transform->SetTransform(new_pos, new_rot, new_scale);
 }
 
-float3 GameObject::GetTransformPosition()
+float3 GameObject::GetTransformPosition() const
 {
 	ComponentTransform *transform = (ComponentTransform*)FindComponentByType(Component::componentType::TRANSFORM);
 	if (transform == nullptr)
@@ -178,4 +190,8 @@ float3 GameObject::GetTransformPosition()
 		return float3::zero;
 	}
 	return transform->position;
+}
+const std::string& GameObject::GetName() const
+{
+	return name;
 }

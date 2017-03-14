@@ -14,6 +14,7 @@
 #include "GameObject.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentAnimation.h"
 
 
 Level::Level() {}
@@ -243,6 +244,7 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 {
 	GameObject *game_object = new GameObject(origin->mName.C_Str(), parent, true); 
 
+	// Transform component
 	aiVector3D translation;
 	aiVector3D scaling;
 	aiQuaternion rotation;
@@ -255,6 +257,7 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	
 	game_object->SetTransform(pos, rot, scl);
 
+	// Material and mesh component
 	ComponentMaterial *component_material = nullptr;
 	ComponentMesh *component_mesh = nullptr;
 	GameObject *aux_game_object = nullptr; 
@@ -294,24 +297,29 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	}
 
 
-	// add animation component to the first gameobject
-	int animation_instance_id = App->animations->Play("Idle"); 
-	if (App->animations->IsChannelInAnimation(animation_instance_id, game_object->name.c_str()) == true)
-	{
-		MYLOG("Has animation channel: %s", game_object->name.c_str());
-	}
-	else
-	{
-		App->animations->Stop(animation_instance_id);
-		MYLOG("Has NO animation channel: %s", game_object->name.c_str());
-	}
+	// Animation component
+	static int animation_instance_id = -1;
+	static bool used_animation = false;
 
+	if (parent == nullptr)
+		animation_instance_id = App->animations->Play("Idle");
 
+	if (animation_instance_id != -1 && App->animations->IsChannelInAnimation(animation_instance_id, game_object->name.c_str()) == true)
+	{
+		ComponentAnimation *component_animation = (ComponentAnimation*)game_object->CreateComponent(Component::componentType::ANIMATION);
+		component_animation->SetAnimationInstanceID(animation_instance_id);
+		used_animation = true;
+	}
+	
 	// Recursively process children 
 	for (size_t i = 0; i < origin->mNumChildren; ++i)
 	{
 		game_object->AddGameObjectToChildren(CreateGameObject(path, origin->mChildren[i], game_object));
 	}
 	
+	// stop & delete animation if no go used it!
+	if ( parent == nullptr && used_animation == false)
+		App->animations->Stop(animation_instance_id);
+
 	return game_object;
 }

@@ -31,13 +31,17 @@ public:
 	void OnEditor(); 
 	void OnHierarchy(int *ptr_id, ImGuiTreeNodeFlags node_flags,long int &selection_mask, int *selected_node, GameObject *& selected_gameobject);
 	
+	const std::string& GetName() const;
+
 	void AddGameObjectToChildren(GameObject* game_object);
 
 	Component* CreateComponent(Component::componentType type);
-	Component* FindComponentByType(Component::componentType type);
 
 	void SetTransform(float3 new_pos, Quat new_rot, float3 new_scale);
-	float3 GetTransformPosition();
+	float3 GetTransformPosition() const;
+
+private:
+	Component* FindComponentByType(Component::componentType type) const;
 };
 
 #endif

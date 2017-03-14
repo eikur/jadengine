@@ -194,12 +194,12 @@ bool ModuleAnimation::GetTransform(AnimationInstanceID instance_id, const char* 
 		return false;
 
 	// get the keyframes tp retrieve	// todo: change to float when interpolating
-	int position_key = int(instance->time_ms / instance->animation->duration) * instance->animation->channels[i].num_positions;
-	int rotation_key = int (instance->time_ms / instance->animation->duration) * instance->animation->channels[i].num_rotations;
+//	int position_key = int(instance->time_ms / instance->animation->duration) * instance->animation->channels[i].num_positions;
+//	int rotation_key = int (instance->time_ms / instance->animation->duration) * instance->animation->channels[i].num_rotations;
 
 	// retrieve the keyframes
-	position = instance->animation->channels[i].positions[position_key]; 
-	rotation = instance->animation->channels[i].rotations[rotation_key];
+//	position = instance->animation->channels[i].positions[position_key]; 
+//	rotation = instance->animation->channels[i].rotations[rotation_key];
 
 	return true;
 }

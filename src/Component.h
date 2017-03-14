@@ -7,11 +7,11 @@ class Component
 {
 
 public: 
-	enum componentType{ TRANSFORM, MESH, MATERIAL, UNKNOWN };
+	enum componentType{ TRANSFORM, MESH, MATERIAL, ANIMATION, UNKNOWN };
 	bool active = true;
 	componentType type = UNKNOWN;
 
-private: 
+protected: 
 	GameObject* parent = nullptr;
 
 public: 
