@@ -18,16 +18,7 @@ GameObject::~GameObject()
 bool GameObject::Update( float dt )
 {
 	bool ret = true; 
-	// get  the animation component, update the rest 
-	ComponentAnimation *component_animation = (ComponentAnimation*) FindComponentByType(Component::componentType::ANIMATION); 
-	ComponentTransform * component_transform = nullptr;
-	// anim oneself
-	if (component_animation != nullptr)
-	{
-		component_transform = (ComponentTransform*)FindComponentByType(Component::componentType::TRANSFORM);
-		component_animation->GetTransform(name.c_str(), component_transform->position, component_transform->rotation);
-	}
-	
+
 	glPushMatrix(); 
 	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
 	{
@@ -145,14 +136,14 @@ Component* GameObject::CreateComponent(Component::componentType type)
 	
 	switch (type)
 	{
-	case Component::componentType::TRANSFORM: ret = new ComponentTransform(this, true); break;
+	case Component::componentType::TRANSFORM: ret = new ComponentTransform(this, true); 
+		transform = (ComponentTransform*) ret; 
+		break;
 	case Component::componentType::MESH: ret = new ComponentMesh(this, true);  break;
 	case Component::componentType::MATERIAL: ret = new ComponentMaterial(this, true);  break;
 	case Component::componentType::ANIMATION: ret = new ComponentAnimation(this, true); break;
 	case Component::componentType::UNKNOWN: 
-	default:
-		ret = nullptr; 
-		break;
+	default:ret = nullptr;  break;
 	}
 
 	if (ret != nullptr)

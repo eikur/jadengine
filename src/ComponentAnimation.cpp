@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "GameObject.h"
+#include "ComponentTransform.h"
 #include "ModuleAnimation.h"
 
 #include "ImGui/imgui.h"
@@ -15,6 +16,10 @@ ComponentAnimation::~ComponentAnimation()
 
 bool ComponentAnimation::Update(float)
 {	
+	if (valid_animation_instance_id)
+	{
+		App->animations->GetTransform(animation_instance_id, parent->GetName().c_str(), parent->transform->position, parent->transform->rotation);
+	}
  return true;
 }
 

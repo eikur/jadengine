@@ -302,7 +302,10 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	static bool used_animation = false;
 
 	if (parent == nullptr)
+	{
 		animation_instance_id = App->animations->Play("Idle");
+		//animation_instance_id = App->animations->Play("Run_Forwards");
+	}
 
 	if (animation_instance_id != -1 && App->animations->IsChannelInAnimation(animation_instance_id, game_object->name.c_str()) == true)
 	{
@@ -318,7 +321,7 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	}
 	
 	// stop & delete animation if no go used it!
-	if ( parent == nullptr && used_animation == false)
+	if ( parent == nullptr && animation_instance_id != -1 && used_animation == false)
 		App->animations->Stop(animation_instance_id);
 
 	return game_object;

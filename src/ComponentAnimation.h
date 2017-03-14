@@ -23,7 +23,6 @@ public:
 
 	void GetTransform(const char* go_name, float3& position, Quat& rotation) const;
 
-
 };
 
 #endif

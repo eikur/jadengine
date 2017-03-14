@@ -6,11 +6,14 @@
 #include "MathGeoLib/include/MathGeoLib.h"
 #include "ImGui/imgui.h"
 
+class ComponentTransform;
+
 class GameObject
 {
 public:
 	bool active = true;
 	std::string name = "";
+	ComponentTransform *transform = nullptr;
 
 private:
 	GameObject* parent = nullptr; 
