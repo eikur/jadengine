@@ -163,16 +163,11 @@ void ModuleEditorGUI::ShowHierarchy(bool *enabled) {
 	if (ImGui::TreeNode("Root"))
 	{
 		int i = 0; 
-		static long int selection_mask = 1 << 50;
 		GameObject *go = nullptr; 
 		for (std::vector<GameObject*>::const_iterator it = App->scene->game_objects.cbegin(); it != App->scene->game_objects.cend(); ++it)
 		{
 			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
-			(*it)->OnHierarchy(&i, node_flags, selection_mask, &inspector_selected_node, go); 
-		}
-		if (inspector_selected_node != -1)
-		{
-			selection_mask = (1 << inspector_selected_node);
+			(*it)->OnHierarchy(&i, node_flags, &inspector_selected_node, go); 
 		}
 		if (go != nullptr)
 		{

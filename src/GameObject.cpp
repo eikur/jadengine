@@ -87,9 +87,10 @@ void GameObject::OnEditor()
 	}
 }
 
-void GameObject::OnHierarchy( int *ptr_id, ImGuiTreeNodeFlags node_flags, long int &selection_mask, int *selected_node, GameObject *& selected_gameobject)
+void GameObject::OnHierarchy( int *ptr_id, ImGuiTreeNodeFlags node_flags, int *selected_node, GameObject *& selected_gameobject)
 {
-	ImGuiTreeNodeFlags flags = node_flags | ((selection_mask & (1 << *ptr_id)) ? ImGuiTreeNodeFlags_Selected : 0);
+	//ImGuiTreeNodeFlags flags = node_flags | ((selection_mask & (1 << *ptr_id)) ? ImGuiTreeNodeFlags_Selected : 0);
+	ImGuiTreeNodeFlags flags = node_flags;
 	if (children.empty() == true)
 	{
 		ImGui::TreeNodeEx(ptr_id, flags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen, "%s", name.c_str());
@@ -113,7 +114,7 @@ void GameObject::OnHierarchy( int *ptr_id, ImGuiTreeNodeFlags node_flags, long i
 		{
 			for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
 			{
-				(*it)->OnHierarchy(ptr_id, flags, selection_mask, selected_node, selected_gameobject);
+				(*it)->OnHierarchy(ptr_id, flags, selected_node, selected_gameobject);
 			}
 			ImGui::TreePop();
 		}
@@ -165,23 +166,23 @@ Component* GameObject::FindComponentByType(Component::componentType type) const
 
 void GameObject::SetTransform( float3 new_pos, Quat new_rot, float3 new_scale)
 {
-	ComponentTransform *transform = (ComponentTransform*) FindComponentByType(Component::componentType::TRANSFORM);
 	if (transform == nullptr)
 	{
 		transform = (ComponentTransform*) CreateComponent(Component::componentType::TRANSFORM);
 	}
+
 	transform->SetTransform(new_pos, new_rot, new_scale);
 }
 
 float3 GameObject::GetTransformPosition() const
 {
-	ComponentTransform *transform = (ComponentTransform*)FindComponentByType(Component::componentType::TRANSFORM);
 	if (transform == nullptr)
 	{
 		return float3::zero;
 	}
 	return transform->position;
 }
+
 const std::string& GameObject::GetName() const
 {
 	return name;

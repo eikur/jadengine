@@ -32,7 +32,7 @@ public:
 	void DrawSkeleton(float3 color = { 0.0f, 0.0f, 1.0f });
 
 	void OnEditor(); 
-	void OnHierarchy(int *ptr_id, ImGuiTreeNodeFlags node_flags,long int &selection_mask, int *selected_node, GameObject *& selected_gameobject);
+	void OnHierarchy(int *ptr_id, ImGuiTreeNodeFlags node_flags, int *selected_node, GameObject *& selected_gameobject);
 	
 	const std::string& GetName() const;
 
