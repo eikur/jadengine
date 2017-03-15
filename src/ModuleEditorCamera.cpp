@@ -102,23 +102,17 @@ bool ModuleEditorCamera::CleanUp()
 
 float4x4 ModuleEditorCamera::GetViewMatrix() const
 {
-	float3x4 fvm = frustum.ViewMatrix();
-	float4x4 tmp = float4x4::identity;
-
-	for (int i = 0; i < 3; i++)
-		for (int j = 0; j < 4; j++)
-			tmp[i][j] = fvm[i][j];
-	
+	float4x4 fvm = frustum.ViewMatrix();
 	// change from row-major to column major
-	return tmp.Transposed();
+	fvm.Transpose();
+	return fvm;
 }
 
 float4x4 ModuleEditorCamera::GetProjectionMatrix() const
 {
-	float4x4 matrix;
-	matrix = frustum.ProjectionMatrix();
-	matrix.Transpose();
-	return matrix;
+	float4x4 pvm = frustum.ProjectionMatrix();
+	pvm.Transpose();
+	return pvm;
 }
 
 void ModuleEditorCamera::SetFOV(float vertical_fov)
@@ -145,10 +139,6 @@ void ModuleEditorCamera::Position(float3 pos)
 
 void ModuleEditorCamera::Orientation(float3 front, float3 up)
 {
-	/*
-	frustum.SetFront(front);
-	frustum.SetUp(up);
-	*/
 	frustum.SetFrame(frustum.Pos(), front, up);
 	//Calling this function recomputes the cached world matrix of this Frustum. As a micro-optimization, prefer this function 
 	//over the individual SetPos/SetFront/SetUp functions if you need to do a batch of two or more changes, to avoid redundant recomputation of the world matrix.
