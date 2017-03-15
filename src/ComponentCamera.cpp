@@ -7,6 +7,24 @@
 
 ComponentCamera::ComponentCamera(GameObject* parent, bool active) : Component(parent, CAMERA, active)
 {
+}
+
+ComponentCamera::~ComponentCamera()
+{
+}
+
+bool ComponentCamera::CleanUp()
+{
+	RELEASE(parent);
+	return true;
+}
+
+void ComponentCamera::OnEditor()
+{
+}
+
+void ComponentCamera::Init()
+{
 	float near_plane_distance = 0.1f;
 	float far_plane_distance = 100.0f;
 
@@ -16,19 +34,6 @@ ComponentCamera::ComponentCamera(GameObject* parent, bool active) : Component(pa
 
 	frustum.SetFrame(float3::zero, -float3::unitZ, float3::unitY);
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-}
-
-ComponentCamera::~ComponentCamera()
-{
-}
-
-bool ComponentCamera::CleanUp()
-{
-	return true;
-}
-
-void ComponentCamera::OnEditor()
-{
 }
 
 float4x4 ComponentCamera::GetViewMatrix() const

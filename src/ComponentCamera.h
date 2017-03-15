@@ -13,6 +13,7 @@ public:
 
 	bool CleanUp();
 	void OnEditor();
+	void Init();
 
 	float4x4 GetProjectionMatrix() const;
 	float4x4 GetViewMatrix() const;
@@ -23,7 +24,7 @@ public:
 	void Orientation(float3 front, float3 up);
 	void LookAt(float3 look_at);
 
-private:
+public:
 	Frustum frustum;
 };
 

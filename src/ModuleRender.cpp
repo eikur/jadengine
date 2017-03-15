@@ -6,6 +6,7 @@
 #include "ModuleTextures.h"
 #include "SDL/include/SDL.h"
 #include "ModuleEditorCamera.h"
+#include "ComponentCamera.h"
 #include "Model.h"
 #include "PrimitiveManager.h"
 #include "Primitive.h"
@@ -128,10 +129,10 @@ bool ModuleRender::Init()
 
 		//Perspective projection
 		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixf(App->camera->GetProjectionMatrix().ptr());
+		glLoadMatrixf(App->camera->GetCameraComponent()->GetProjectionMatrix().ptr());
 
 		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf(App->camera->GetViewMatrix().ptr());
+		glLoadMatrixf(App->camera->GetCameraComponent()->GetViewMatrix().ptr());
 
 		// Texture load
 		m_checkers_texture = App->textures->CreateCheckersTexture();
@@ -184,7 +185,7 @@ update_status ModuleRender::PreUpdate()
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glLoadMatrixf(App->camera->GetViewMatrix().ptr());
+	glLoadMatrixf(App->camera->GetCameraComponent()->GetViewMatrix().ptr());
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -240,7 +241,7 @@ void ModuleRender::LoadProjection()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	glLoadMatrixf(App->camera->GetProjectionMatrix().ptr());
+	glLoadMatrixf(App->camera->GetCameraComponent()->GetProjectionMatrix().ptr());
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

@@ -5,6 +5,7 @@
 #include "ModuleWindow.h"
 #include "ModuleEditorCamera.h"
 #include "ModuleRender.h"
+#include "ComponentCamera.h"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_sdl_gl3.h"
@@ -99,7 +100,7 @@ update_status ModuleInput::PreUpdate()
 					case SDL_WINDOWEVENT_SIZE_CHANGED:
 					App->window->m_screen_width	= event.window.data1;
 					App->window->m_screen_height = event.window.data2;
-					App->camera->SetAspectRatio((float)App->window->m_screen_width / (float)App->window->m_screen_height);
+					App->camera->GetCameraComponent()->SetAspectRatio((float)App->window->m_screen_width / (float)App->window->m_screen_height);
 					App->renderer->m_projection_changed = true;
 					break;
 					
