@@ -34,7 +34,6 @@ private:
 	bool show_hierarchy = false;
 	bool show_stats = false;
 
-	int inspector_selected_node = -1;
 	GameObject *inspector_selected_gameobject = nullptr;
 };
 

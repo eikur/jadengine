@@ -42,7 +42,7 @@ update_status ModuleEditorGUI::Update(float)
 		return UPDATE_STOP;
 	else
 	{
-		//ImGui::ShowTestWindow();
+	//	ImGui::ShowTestWindow();
 
 		Draw();
 		return UPDATE_CONTINUE;
@@ -152,6 +152,7 @@ void ModuleEditorGUI::ShowInspector(bool *enabled) const {
 }
 
 void ModuleEditorGUI::ShowHierarchy(bool *enabled) {
+	static int shown = 0; 
 	// example > Widgets > Advanced tree node
 	ImGui::SetNextWindowPos(ImVec2(25, 25));
 	ImGui::SetNextWindowSizeConstraints(ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2-25), ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2));
@@ -160,23 +161,22 @@ void ModuleEditorGUI::ShowHierarchy(bool *enabled) {
 		ImGui::End();
 		return;
 	}
+	ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+
 	if (ImGui::TreeNode("Root"))
 	{
 		int i = 0; 
-		GameObject *go = nullptr; 
 		for (std::vector<GameObject*>::const_iterator it = App->scene->game_objects.cbegin(); it != App->scene->game_objects.cend(); ++it)
 		{
-			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
-			(*it)->OnHierarchy(&i, node_flags, &inspector_selected_node, go); 
+			if (shown == 0)
+				MYLOG("my i=%d", i);
+			i = (*it)->OnHierarchy(i, node_flags, inspector_selected_gameobject); // generate trees for each game object
+			i++;
 		}
-		if (go != nullptr)
-		{
-			inspector_selected_gameobject = go; 
-		}
+		if (shown == 0)
+			shown++;
 		ImGui::TreePop();
-		
 	}
-
 	ImGui::End();
 	
 }
