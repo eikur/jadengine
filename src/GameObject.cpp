@@ -5,6 +5,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentAnimation.h"
+#include "ComponentCamera.h"
 
 GameObject::GameObject(const char* name, GameObject* parent, bool active) : name(name), parent(parent), active(active)
 {
@@ -123,7 +124,7 @@ void GameObject::AddGameObjectToChildren(GameObject* game_object)
 
 Component* GameObject::CreateComponent(Component::componentType type)
 {
-	static_assert(Component::componentType::UNKNOWN == 4, "Component class code needs update");
+	static_assert(Component::componentType::UNKNOWN == 5, "Component class code needs update");
 	Component* ret = nullptr;
 	
 	switch (type)
@@ -134,6 +135,7 @@ Component* GameObject::CreateComponent(Component::componentType type)
 	case Component::componentType::MESH: ret = new ComponentMesh(this, true);  break;
 	case Component::componentType::MATERIAL: ret = new ComponentMaterial(this, true);  break;
 	case Component::componentType::ANIMATION: ret = new ComponentAnimation(this, true); break;
+	case Component::componentType::CAMERA: ret = new ComponentCamera(this, true); break;
 	case Component::componentType::UNKNOWN: 
 	default:ret = nullptr;  break;
 	}
