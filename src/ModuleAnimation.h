@@ -75,10 +75,15 @@ public:
 
 	AnimationInstanceID Play(const char* animation_name); 
 	void Stop(AnimationInstanceID instance_id); 
+	void BlendTo(AnimationInstanceID id, const char* new_animation_name, float blend_duration); 
 
 	bool IsChannelInAnimation(AnimationInstanceID instance_id, const char* channel_name);
 
 	bool GetTransform(AnimationInstanceID instance_id, const char* channel_name, float3& position, Quat& rotation) const;
+
+private:
+	float3 InterpolateFloat3(const float3& first, const float3& second, float lambda) const; 
+	Quat InterpolateQuat(const Quat& first, const Quat& second, float lambda) const;
 };
 
 #endif

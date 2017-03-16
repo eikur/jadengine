@@ -145,20 +145,6 @@ ModuleAnimation::AnimationInstanceID ModuleAnimation::Play(const char* animation
 	instance->time_ms = 0; 
 	instance->loop = true; 
 
-	// preparation for blending
-	if (strcmp(animation_name, "Idle") == 0)
-	{
-		instance->blend_duration = 0.0f;
-		instance->blend_time = 0.0f;
-
-		instance->next = new AnimationInstance();
-		it = animations.find("Run_Forwards");
-		instance->next->animation = (*it).second;
-		instance->next->time_ms = 0;
-		instance->next->loop = true;
-	}
-	// end of preparation
-
 	if (holes.size() > 0)
 	{
 		instances.at(*holes.begin()) = instance;
@@ -170,17 +156,6 @@ ModuleAnimation::AnimationInstanceID ModuleAnimation::Play(const char* animation
 		instances.push_back(instance);
 		ret = instances.size() - 1;
 	}
-	// insert next instance
-	if (holes.size() > 0)
-	{
-		instances.at(*holes.begin()) = instance->next;
-		holes.erase(holes.begin());
-	}
-	else
-	{
-		instances.push_back(instance->next);
-	}
-	// end insert next instance
 
 	return ret; 
 }
@@ -239,4 +214,22 @@ bool ModuleAnimation::GetTransform(AnimationInstanceID instance_id, const char* 
 	rotation = channel.rotations[rotation_key];
 
 	return true;
+}
+
+void ModuleAnimation::BlendTo(AnimationInstanceID id, const char* next_animation_name, float blend_duration)
+{
+	AnimationInstanceID next_id = Play(next_animation_name); 
+	instances.at(id)->next = instances.at(next_id);
+	instances.at(id)->blend_duration = blend_duration;
+	instances.at(id)->blend_time = 0.0f;
+}
+
+
+float3 ModuleAnimation::InterpolateFloat3(const float3& first, const float3& second, float lambda) const
+{
+	return float3::zero;
+}
+Quat ModuleAnimation::InterpolateQuat(const Quat& first, const Quat& second, float lambda) const
+{
+	return Quat::identity;
 }
