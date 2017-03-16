@@ -30,6 +30,10 @@ update_status ModuleAnimation::Update(float dt)
 			{
 				(*it)->time_ms -= (*it)->animation->duration;
 			}
+			if ((*it)->next != nullptr)
+			{
+				(*it)->blend_time += dt * 100; // dt should be in seconds, check method parameter source
+			}
 		}
 		
 	}
@@ -205,31 +209,69 @@ bool ModuleAnimation::GetTransform(AnimationInstanceID instance_id, const char* 
 
 	NodeAnimation channel = instance->animation->channels[i];
 
-	// get the keyframes tp retrieve	// todo: change to float when interpolating
-	int position_key = FloorInt((instance->time_ms / instance->animation->duration )* instance->animation->channels[i].num_positions);
-	int rotation_key = FloorInt((instance->time_ms / instance->animation->duration) * instance->animation->channels[i].num_rotations);
+	// no animation blending
+	if (instance->next == nullptr)
+	{
+		int position_key = FloorInt((instance->time_ms / instance->animation->duration)* (channel.num_positions - 1));
+		int rotation_key = FloorInt((instance->time_ms / instance->animation->duration) * (channel.num_rotations - 1));
 
+		position = channel.positions[position_key];
+		rotation = channel.rotations[rotation_key];
+	}
+	else // animation blending
+	{
+		NodeAnimation destination_channel = instances.at(instance_id)->next->animation->channels[i];
 
-	position = channel.positions[position_key];
-	rotation = channel.rotations[rotation_key];
+		float position_key = float(instance->time_ms * (channel.num_positions - 1)) / instance->animation->duration;
+		float rotation_key = float(instance->time_ms * (channel.num_rotations - 1)) / instance->animation->duration;
+		
+		unsigned pos_index = unsigned(position_key);	
+		unsigned rot_index = unsigned(rotation_key);
 
+		float pos_lambda = position_key - float(pos_index);
+		float rot_lambda = rotation_key - float(rot_index);
+
+		position = InterpolateFloat3(channel.positions[pos_index], destination_channel.positions[pos_index], pos_lambda);
+		rotation = InterpolateQuat(channel.rotations[rot_index], destination_channel.rotations[rot_index], rot_lambda);
+
+	}
 	return true;
 }
 
-void ModuleAnimation::BlendTo(AnimationInstanceID id, const char* next_animation_name, float blend_duration)
+ModuleAnimation::AnimationInstanceID ModuleAnimation::BlendTo(AnimationInstanceID id, const char* next_animation_name, float blend_duration)
 {
 	AnimationInstanceID next_id = Play(next_animation_name); 
 	instances.at(id)->next = instances.at(next_id);
 	instances.at(id)->blend_duration = blend_duration;
 	instances.at(id)->blend_time = 0.0f;
+	return next_id; 
 }
 
 
 float3 ModuleAnimation::InterpolateFloat3(const float3& first, const float3& second, float lambda) const
 {
-	return float3::zero;
+	return first*(1.0f - lambda) + second*lambda;
 }
+
 Quat ModuleAnimation::InterpolateQuat(const Quat& first, const Quat& second, float lambda) const
 {
-	return Quat::identity;
+	Quat result;
+	
+	float dot = first.x*second.x + first.y*second.y + first.z*second.z + first.w*second.w;
+
+	if (dot >= 0.0f)
+	{
+		result.x = first.x*(1.0f - lambda) + second.x*lambda;
+		result.y = first.y*(1.0f - lambda) + second.y*lambda;
+		result.z = first.z*(1.0f - lambda) + second.z*lambda;
+		result.w = first.w*(1.0f - lambda) + second.w*lambda;
+	}
+	else
+	{
+		result.x = first.x*(1.0f - lambda) - second.x*lambda;
+		result.y = first.y*(1.0f - lambda) - second.y*lambda;
+		result.z = first.z*(1.0f - lambda) - second.z*lambda;
+		result.w = first.w*(1.0f - lambda) - second.w*lambda;
+	}
+	return result;
 }

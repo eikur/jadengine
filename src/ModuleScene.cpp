@@ -4,6 +4,7 @@
 #include "Level.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "ModuleInput.h"
 
 #include "ModuleScene.h"
 
@@ -40,6 +41,10 @@ update_status ModuleScene::Update(float dt)
 			(*it)->Update(dt);
 	}
 	go->DrawSkeleton();
+	if (blend_animation == false && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		// change blend animation
+	}
 	return UPDATE_CONTINUE;
 }
 bool ModuleScene::CleanUp()

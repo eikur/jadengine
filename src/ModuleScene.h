@@ -23,6 +23,8 @@ public:
 private:
 	Level *lvl = nullptr;
 	GameObject *go = nullptr;
+
+	bool blend_animation = false; 
 };
 
 #endif
