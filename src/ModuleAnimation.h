@@ -75,9 +75,9 @@ public:
 
 	AnimationInstanceID Play(const char* animation_name); 
 	void Stop(AnimationInstanceID instance_id); 
-	void BlendTo(AnimationInstanceID id, const char* new_animation_name, float blend_duration); 
+	AnimationInstanceID BlendTo(AnimationInstanceID id, const char* new_animation_name, float blend_duration); 
 
-	bool IsChannelInAnimation(AnimationInstanceID instance_id, const char* channel_name);
+	bool IsChannelInAnimation(AnimationInstanceID instance_id, const char* channel_name) const;
 
 	bool GetTransform(AnimationInstanceID instance_id, const char* channel_name, float3& position, Quat& rotation) const;
 

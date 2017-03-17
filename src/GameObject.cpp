@@ -57,13 +57,13 @@ bool GameObject::CleanUp()
 	return true; 
 }
 
-void GameObject::DrawSkeleton(float3 color)
+void GameObject::DrawSkeleton(float3 color) const
 {
 	glColor3f(color.x, color.y, color.z);
 	glPushMatrix();
 	FindComponentByType(Component::componentType::TRANSFORM)->Update();
 
-	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+	for (std::vector<GameObject*>::const_iterator it = children.cbegin(); it != children.cend(); ++it)
 	{
 		float3 line_end = (*it)->GetTransformPosition();
 		glBegin(GL_LINES);
@@ -179,4 +179,15 @@ float3 GameObject::GetTransformPosition() const
 const std::string& GameObject::GetName() const
 {
 	return name;
+}
+
+void GameObject::SetNextAnimationID( int next_id) 
+{
+	ComponentAnimation *anim = (ComponentAnimation*) FindComponentByType(Component::componentType::ANIMATION); 
+	if (anim != nullptr)
+		anim->SetNextAnimationInstanceID(next_id); 
+
+	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+		(*it)->SetNextAnimationID(next_id);
+
 }

@@ -7,6 +7,7 @@
 #include "ImGui/imgui.h"
 
 class ComponentTransform;
+class ComponentAnimation;
 
 class GameObject
 {
@@ -29,7 +30,7 @@ public:
 	bool Update( float dt);
 	bool CleanUp(); 
 
-	void DrawSkeleton(float3 color = { 0.0f, 0.0f, 1.0f });
+	void DrawSkeleton(float3 color = { 0.0f, 0.0f, 1.0f }) const;
 
 	void OnEditor(); 
 	int OnHierarchy(int id, ImGuiTreeNodeFlags node_flags, GameObject *& selected_gameobject);
@@ -42,6 +43,8 @@ public:
 
 	void SetTransform(float3 new_pos, Quat new_rot, float3 new_scale);
 	float3 GetTransformPosition() const;
+
+	void SetNextAnimationID(int next_id);
 
 private:
 	Component* FindComponentByType(Component::componentType type) const;

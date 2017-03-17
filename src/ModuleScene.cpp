@@ -4,7 +4,8 @@
 #include "Level.h"
 #include "GameObject.h"
 #include "Component.h"
-#include "ModuleInput.h"
+#include "ModuleInput.h"	// for anim blending
+#include "ModuleAnimation.h" // for anim blending
 
 #include "ModuleScene.h"
 
@@ -43,7 +44,12 @@ update_status ModuleScene::Update(float dt)
 	go->DrawSkeleton();
 	if (blend_animation == false && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
-		// change blend animation
+		int new_anim = App->animations->BlendTo(0, "Run_Forwards", 5000);	// very improvable code
+		for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
+		{
+			if ((*it)->active == true)
+				(*it)->SetNextAnimationID(new_anim);
+		}
 	}
 	return UPDATE_CONTINUE;
 }

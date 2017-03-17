@@ -32,7 +32,7 @@ update_status ModuleAnimation::Update(float dt)
 			}
 			if ((*it)->next != nullptr)
 			{
-				(*it)->blend_time += dt * 1000; 
+				(*it)->blend_time += dt*1000; 
 			}
 		}
 		
@@ -175,7 +175,7 @@ void ModuleAnimation::Stop(AnimationInstanceID instance_id)
 
 }
 
-bool ModuleAnimation::IsChannelInAnimation(AnimationInstanceID instance_id, const char* channel_name)
+bool ModuleAnimation::IsChannelInAnimation(AnimationInstanceID instance_id, const char* channel_name) const
 {
 	AnimationInstance *instance = instances.at(instance_id);
 	if (instance == nullptr) { return false; }
@@ -197,57 +197,86 @@ bool ModuleAnimation::GetTransform(AnimationInstanceID instance_id, const char* 
 	// get the animation
 	AnimationInstance *instance = instances.at(instance_id); 
 	if (instance == nullptr) { return false;  }
-	
+
 	// get the channel
 	unsigned int i;
 	for (i = 0; i < instance->animation->num_channels; i++)
 		if (strcmp(instance->animation->channels[i].name.c_str(), channel_name) == 0)
 			break;
 
+	// if not found
 	if (i == instance->animation->num_channels)
 		return false;
+
+	if (instance->next != nullptr && instance->blend_time > instance->blend_duration)
+		return false; // blending is over
 
 	NodeAnimation channel = instance->animation->channels[i];
 
 	float position_key = float(instance->time_ms * (channel.num_positions)) / instance->animation->duration;
 	float rotation_key = float(instance->time_ms * (channel.num_rotations)) / instance->animation->duration;
-	
+
 	unsigned pos_index = unsigned(position_key);
 	unsigned rot_index = unsigned(rotation_key);
 
 	float pos_lambda = position_key - float(pos_index);
 	float rot_lambda = rotation_key - float(rot_index);
 
+	float3 ret_position;
+	Quat ret_rotation;
 
 	if (pos_index == (channel.num_positions - 1))
 		if (channel.num_positions == 1)
-			position = channel.positions[pos_index];
+			ret_position = channel.positions[pos_index];
 		else
-			position = InterpolateFloat3(channel.positions[pos_index], channel.positions[0], pos_lambda);
+			ret_position = InterpolateFloat3(channel.positions[pos_index], channel.positions[0], pos_lambda);
 	else
-		position = InterpolateFloat3(channel.positions[pos_index], channel.positions[pos_index + 1], pos_lambda);
+		ret_position = InterpolateFloat3(channel.positions[pos_index], channel.positions[pos_index + 1], pos_lambda);
 
 	if (rot_index == (channel.num_rotations - 1))
 		if (channel.num_rotations == 1)
-			rotation = channel.rotations[rot_index];
+			ret_rotation = channel.rotations[rot_index];
 		else
-			rotation = InterpolateQuat(channel.rotations[rot_index], channel.rotations[0], rot_lambda);
+			ret_rotation = InterpolateQuat(channel.rotations[rot_index], channel.rotations[0], rot_lambda);
 	else
-		rotation = InterpolateQuat(channel.rotations[rot_index], channel.rotations[rot_index + 1], rot_lambda);
+		ret_rotation = InterpolateQuat(channel.rotations[rot_index], channel.rotations[rot_index + 1], rot_lambda);
 
+	if (instance->next == nullptr)
+	{
+		position = ret_position; 
+		rotation = ret_rotation;
+	}
+	else // animation blending
+	{
+		AnimationInstance *next = instance->next;
+
+		NodeAnimation next_channel = next->animation->channels[i];
+		float interpolation = instance->blend_time / instance->blend_duration;
+
+		pos_index = unsigned(float(instance->time_ms * (next_channel.num_positions)) / instance->animation->duration);
+		rot_index = unsigned(float(instance->time_ms * (next_channel.num_rotations)) / instance->animation->duration);
+
+		position = InterpolateFloat3(ret_position, next_channel.positions[pos_index], interpolation);
+		rotation = InterpolateQuat(ret_rotation, next_channel.rotations[rot_index], interpolation);
+	}
 
 	return true;
 }
 
-void ModuleAnimation::BlendTo(AnimationInstanceID id, const char* next_animation_name, float blend_duration)
+ModuleAnimation::AnimationInstanceID ModuleAnimation::BlendTo(AnimationInstanceID id, const char* next_animation_name, float blend_duration)
 {
 	AnimationMap::iterator it = animations.find(next_animation_name);
 	if (it == animations.end())
-		return;
+		return -1;
 
-//	instances.at(id)->next = (*it).second;
+	AnimationInstanceID next_id = Play(next_animation_name);
+	if (next_id == -1) return -1; 
+	
+	instances.at(id)->next = instances.at(next_id);
 	instances.at(id)->blend_duration = blend_duration;
 	instances.at(id)->blend_time = 0.0f;
+
+	return next_id;
 
 }
 
