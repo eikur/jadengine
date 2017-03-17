@@ -75,7 +75,7 @@ public:
 
 	AnimationInstanceID Play(const char* animation_name); 
 	void Stop(AnimationInstanceID instance_id); 
-	AnimationInstanceID BlendTo(AnimationInstanceID id, const char* new_animation_name, float blend_duration); 
+	void BlendTo(AnimationInstanceID id, const char* new_animation_name, float blend_duration); 
 
 	bool IsChannelInAnimation(AnimationInstanceID instance_id, const char* channel_name);
 

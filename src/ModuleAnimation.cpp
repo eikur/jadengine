@@ -25,14 +25,14 @@ update_status ModuleAnimation::Update(float dt)
 	{
 		if ((*it) != nullptr)
 		{
-			(*it)->time_ms += dt*100;	// dt should be in seconds, check method parameter source
+			(*it)->time_ms += dt*1000;
 			while ((*it)->time_ms > (*it)->animation->duration)
 			{
 				(*it)->time_ms -= (*it)->animation->duration;
 			}
 			if ((*it)->next != nullptr)
 			{
-				(*it)->blend_time += dt * 100; // dt should be in seconds, check method parameter source
+				(*it)->blend_time += dt * 1000; 
 			}
 		}
 		
@@ -107,7 +107,7 @@ void ModuleAnimation::LoadAnimation(const char* path, const char* file)
 				animations[anim_name] = anim; 
 
 				anim->num_channels = scene->mAnimations[i]->mNumChannels;
-				anim->duration = (float) scene->mAnimations[i]->mDuration;
+				anim->duration = (float) scene->mAnimations[i]->mDuration * 16.6f;	// conversion from ticks to msec!
 				anim->channels = new NodeAnimation[anim->num_channels];
 				for (unsigned int j = 0; j < anim->num_channels; j++)
 				{
@@ -209,42 +209,46 @@ bool ModuleAnimation::GetTransform(AnimationInstanceID instance_id, const char* 
 
 	NodeAnimation channel = instance->animation->channels[i];
 
-	// no animation blending
-	if (instance->next == nullptr)
-	{
-		int position_key = FloorInt((instance->time_ms / instance->animation->duration)* (channel.num_positions - 1));
-		int rotation_key = FloorInt((instance->time_ms / instance->animation->duration) * (channel.num_rotations - 1));
+	float position_key = float(instance->time_ms * (channel.num_positions)) / instance->animation->duration;
+	float rotation_key = float(instance->time_ms * (channel.num_rotations)) / instance->animation->duration;
+	
+	unsigned pos_index = unsigned(position_key);
+	unsigned rot_index = unsigned(rotation_key);
 
-		position = channel.positions[position_key];
-		rotation = channel.rotations[rotation_key];
-	}
-	else // animation blending
-	{
-		NodeAnimation destination_channel = instances.at(instance_id)->next->animation->channels[i];
+	float pos_lambda = position_key - float(pos_index);
+	float rot_lambda = rotation_key - float(rot_index);
 
-		float position_key = float(instance->time_ms * (channel.num_positions - 1)) / instance->animation->duration;
-		float rotation_key = float(instance->time_ms * (channel.num_rotations - 1)) / instance->animation->duration;
-		
-		unsigned pos_index = unsigned(position_key);	
-		unsigned rot_index = unsigned(rotation_key);
 
-		float pos_lambda = position_key - float(pos_index);
-		float rot_lambda = rotation_key - float(rot_index);
+	if (pos_index == (channel.num_positions - 1))
+		if (channel.num_positions == 1)
+			position = channel.positions[pos_index];
+		else
+			position = InterpolateFloat3(channel.positions[pos_index], channel.positions[0], pos_lambda);
+	else
+		position = InterpolateFloat3(channel.positions[pos_index], channel.positions[pos_index + 1], pos_lambda);
 
-		position = InterpolateFloat3(channel.positions[pos_index], destination_channel.positions[pos_index], pos_lambda);
-		rotation = InterpolateQuat(channel.rotations[rot_index], destination_channel.rotations[rot_index], rot_lambda);
+	if (rot_index == (channel.num_rotations - 1))
+		if (channel.num_rotations == 1)
+			rotation = channel.rotations[rot_index];
+		else
+			rotation = InterpolateQuat(channel.rotations[rot_index], channel.rotations[0], rot_lambda);
+	else
+		rotation = InterpolateQuat(channel.rotations[rot_index], channel.rotations[rot_index + 1], rot_lambda);
 
-	}
+
 	return true;
 }
 
-ModuleAnimation::AnimationInstanceID ModuleAnimation::BlendTo(AnimationInstanceID id, const char* next_animation_name, float blend_duration)
+void ModuleAnimation::BlendTo(AnimationInstanceID id, const char* next_animation_name, float blend_duration)
 {
-	AnimationInstanceID next_id = Play(next_animation_name); 
-	instances.at(id)->next = instances.at(next_id);
+	AnimationMap::iterator it = animations.find(next_animation_name);
+	if (it == animations.end())
+		return;
+
+//	instances.at(id)->next = (*it).second;
 	instances.at(id)->blend_duration = blend_duration;
 	instances.at(id)->blend_time = 0.0f;
-	return next_id; 
+
 }
 
 
