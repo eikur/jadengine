@@ -44,7 +44,7 @@ update_status ModuleScene::Update(float dt)
 	go->DrawSkeleton();
 	if (blend_animation == false && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
-		int new_anim = App->animations->BlendTo(0, "Run_Forwards", 1000);	// very improvable code
+		int new_anim = App->animations->BlendTo(0, "Run_Forwards", 600);	// very improvable code
 		for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
 		{
 			if ((*it)->active == true)

@@ -253,8 +253,8 @@ bool ModuleAnimation::GetTransform(AnimationInstanceID instance_id, const char* 
 		NodeAnimation next_channel = next->animation->channels[i];
 		float interpolation = instance->blend_time / instance->blend_duration;
 
-		pos_index = unsigned(float(instance->time_ms * (next_channel.num_positions)) / instance->animation->duration);
-		rot_index = unsigned(float(instance->time_ms * (next_channel.num_rotations)) / instance->animation->duration);
+		pos_index = unsigned(float(next->time_ms * (next_channel.num_positions)) / next->animation->duration);
+		rot_index = unsigned(float(next->time_ms * (next_channel.num_rotations)) / next->animation->duration);
 
 		position = InterpolateFloat3(ret_position, next_channel.positions[pos_index], interpolation);
 		rotation = InterpolateQuat(ret_rotation, next_channel.rotations[rot_index], interpolation);
