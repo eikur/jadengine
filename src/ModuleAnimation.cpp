@@ -289,7 +289,7 @@ float3 ModuleAnimation::InterpolateFloat3(const float3& first, const float3& sec
 
 Quat ModuleAnimation::InterpolateQuat(const Quat& first, const Quat& second, float lambda) const
 {
-	/*Quat result;
+	Quat result;
 	
 	float dot = first.x*second.x + first.y*second.y + first.z*second.z + first.w*second.w;
 
@@ -307,6 +307,8 @@ Quat ModuleAnimation::InterpolateQuat(const Quat& first, const Quat& second, flo
 		result.z = first.z*(1.0f - lambda) - second.z*lambda;
 		result.w = first.w*(1.0f - lambda) - second.w*lambda;
 	}
-	return result;*/
-	return first.Lerp(second, lambda);
+
+	result.Normalize();
+
+	return result;
 }

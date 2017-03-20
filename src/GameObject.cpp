@@ -59,21 +59,25 @@ bool GameObject::CleanUp()
 
 void GameObject::DrawSkeleton(float3 color) const
 {
+
 	glColor3f(color.x, color.y, color.z);
 	glPushMatrix();
 	FindComponentByType(Component::componentType::TRANSFORM)->Update();
 
 	for (std::vector<GameObject*>::const_iterator it = children.cbegin(); it != children.cend(); ++it)
 	{
+		glDisable(GL_LIGHTING);
 		float3 line_end = (*it)->GetTransformPosition();
 		glBegin(GL_LINES);
 		glVertex3f(0, 0, 0);
 		glVertex3f(line_end.x, line_end.y, line_end.z);
 		glEnd();
+		glEnable(GL_LIGHTING);
 		(*it)->DrawSkeleton();
 	}
 
 	glPopMatrix();
+
 }
 
 //-- GUI interface
