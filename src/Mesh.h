@@ -9,6 +9,20 @@
 struct aiMesh;
 class Material;
 
+struct Weight
+{
+	unsigned vertex = 0;
+	float weight = 0.0f;
+};
+
+struct Bone
+{
+	std::string name;
+	Weight* weights = nullptr;
+	unsigned num_weights = 0;
+	float4x4 bind;
+};
+
 class Mesh
 {
 public:
@@ -37,6 +51,7 @@ private:
 	GLuint m_vbo[4] = { 0 };
 	//GLuint m_texture_id = 0;
 	Material* m_material = nullptr;
+	Bone* m_bones = nullptr;
 };
 
 #endif // __MESH_H__
