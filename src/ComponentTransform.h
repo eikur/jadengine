@@ -11,6 +11,10 @@ public:
 	float3 scale = float3::one;
 	Quat rotation = Quat::identity; 
 
+private: 
+	float3 last_scale = float3::one;
+	Quat last_rotation = Quat::identity;
+
 public: 
 	ComponentTransform(GameObject* parent, bool active);
 	~ComponentTransform(); 

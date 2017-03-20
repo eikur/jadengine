@@ -41,9 +41,14 @@ public:
 
 	Component* CreateComponent(Component::componentType type);
 
+
+	// transform component handling methods
 	void SetTransform(float3 new_pos, Quat new_rot, float3 new_scale);
 	float3 GetTransformPosition() const;
 
+	//mesh component handling methods
+	void UpdateBoundingBoxes();
+	//animation component handling methods
 	void SetNextAnimationID(int next_id);
 
 private:

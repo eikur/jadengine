@@ -68,6 +68,7 @@ void ComponentMesh::LoadMesh(aiMesh *ai_mesh, Material *material)
 void ComponentMesh::ShowBoundingBox()
 {
 	glColor3f(0.0f, 1.0f, 0.0f); 
+	glDisable(GL_LIGHTING);
 	glBegin(GL_LINES);
 	for (int i = 0; i < 8; i++)
 		glVertex3f(bounding_box.CornerPoint(i).x, bounding_box.CornerPoint(i).y, bounding_box.CornerPoint(i).z);
@@ -88,5 +89,13 @@ void ComponentMesh::ShowBoundingBox()
 	}
 
 	glEnd();
+	glEnable(GL_LIGHTING); 
 	glColor3f(1.0f, 1.0f, 1.0f);
+}
+
+void ComponentMesh::UpdateBoundingBox()
+{
+	bounding_box.SetNegativeInfinity();
+	bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
+
 }

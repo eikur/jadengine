@@ -195,3 +195,10 @@ void GameObject::SetNextAnimationID( int next_id)
 		(*it)->SetNextAnimationID(next_id);
 
 }
+
+void GameObject::UpdateBoundingBoxes()
+{
+	ComponentMesh *mesh = (ComponentMesh*) FindComponentByType(Component::componentType::MESH);
+	if (mesh != nullptr)
+		mesh->UpdateBoundingBox(); 
+}

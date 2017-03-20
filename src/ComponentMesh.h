@@ -30,6 +30,7 @@ public:
 	void LoadMesh(aiMesh *ai_mesh, Material *material); 
 
 	void ShowBoundingBox();
+	void UpdateBoundingBox(); 
 };
 
 #endif

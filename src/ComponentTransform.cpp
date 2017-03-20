@@ -1,6 +1,9 @@
-#include "ComponentTransform.h"
 #include "ImGui/imgui.h"
 #include "glew-2.0.0\include\GL\glew.h"
+#include "GameObject.h"
+
+#include "ComponentTransform.h"
+
 
 ComponentTransform::ComponentTransform(GameObject* parent, bool active) : Component(parent, TRANSFORM, active)
 {}
@@ -10,6 +13,13 @@ ComponentTransform::~ComponentTransform()
 
 bool ComponentTransform::Update(float)
 {
+	if ( scale.Equals(last_scale) == false || rotation.Equals(last_rotation) == false)
+	{
+		parent->UpdateBoundingBoxes();
+		last_scale = scale;
+		last_rotation = rotation;
+	}
+
 	glTranslatef(position.x, position.y, position.z);
 	float3 euler_rot = rotation.ToEulerXYZ() * 180.0f / pi;
 	glRotatef(euler_rot.x, 1, 0, 0);
