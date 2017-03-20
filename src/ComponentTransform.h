@@ -25,6 +25,7 @@ public:
 	void OnEditor();
 
 	void SetTransform(float3 new_pos, Quat new_rot, float3 new_scale);
+	float4x4 GetTransform(); 
 
 };
 

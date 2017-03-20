@@ -152,7 +152,7 @@ void ModuleEditorGUI::ShowInspector(bool *enabled) const {
 }
 
 void ModuleEditorGUI::ShowHierarchy(bool *enabled) {
-	static int shown = 0; 
+
 	// example > Widgets > Advanced tree node
 	ImGui::SetNextWindowPos(ImVec2(25, 25));
 	ImGui::SetNextWindowSizeConstraints(ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2-25), ImVec2(App->window->m_screen_width / 4, App->window->m_screen_height / 2));
@@ -168,13 +168,9 @@ void ModuleEditorGUI::ShowHierarchy(bool *enabled) {
 		int i = 0; 
 		for (std::vector<GameObject*>::const_iterator it = App->scene->game_objects.cbegin(); it != App->scene->game_objects.cend(); ++it)
 		{
-			if (shown == 0)
-				MYLOG("my i=%d", i);
 			i = (*it)->OnHierarchy(i, node_flags, inspector_selected_gameobject); // generate trees for each game object
 			i++;
 		}
-		if (shown == 0)
-			shown++;
 		ImGui::TreePop();
 	}
 	ImGui::End();

@@ -69,6 +69,7 @@ void ComponentMesh::ShowBoundingBox()
 {
 	glColor3f(0.0f, 1.0f, 0.0f); 
 	glDisable(GL_LIGHTING);
+
 	glBegin(GL_LINES);
 	for (int i = 0; i < 8; i++)
 		glVertex3f(bounding_box.CornerPoint(i).x, bounding_box.CornerPoint(i).y, bounding_box.CornerPoint(i).z);
@@ -87,15 +88,22 @@ void ComponentMesh::ShowBoundingBox()
 		glVertex3f(bounding_box.CornerPoint(i).x, bounding_box.CornerPoint(i).y, bounding_box.CornerPoint(i).z);
 		glVertex3f(bounding_box.CornerPoint(i + 2).x, bounding_box.CornerPoint(i + 2).y, bounding_box.CornerPoint(i + 2).z);
 	}
-
 	glEnd();
+
 	glEnable(GL_LIGHTING); 
 	glColor3f(1.0f, 1.0f, 1.0f);
 }
 
-void ComponentMesh::UpdateBoundingBox()
+void ComponentMesh::UpdateBoundingBox( float4x4 parent_world_transform)
 {
 	bounding_box.SetNegativeInfinity();
-	bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
+	
+	float3* world_vertices = new float3[mesh->num_vertices];
+	for (int i = 0; i < mesh->num_vertices; i++)
+		world_vertices[i] = (parent_world_transform * mesh->vertices[i].ToPos4()).Float3Part();
 
+	bounding_box.Enclose((float3*)world_vertices, mesh->num_vertices); 
+	delete world_vertices;
+
+//	to_world_transform = parent_world_transform.Transposed();
 }

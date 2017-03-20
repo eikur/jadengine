@@ -43,9 +43,9 @@ void ComponentTransform::OnEditor()
 		float3 tmprot = rotation.ToEulerXYZ() * 180.0f / pi;
 		float rot[3] = { tmprot.x, tmprot.y, tmprot.z };
 
-		ImGui::InputFloat3("Position", pos);
-		ImGui::InputFloat3("Rotation", rot);
-		ImGui::InputFloat3("Scale", scl);
+		ImGui::DragFloat3("Position", pos, 0.1f); 
+		ImGui::DragFloat3("Rotation", rot, 2.0f); 
+		ImGui::DragFloat3("Scale", scl, 0.1f); 
 
 		position = { pos[0], pos[1], pos[2] };
 		scale = { scl[0], scl[1], scl[2] };
@@ -56,5 +56,11 @@ void ComponentTransform::OnEditor()
 void ComponentTransform::SetTransform(float3 new_pos, Quat new_rot, float3 new_scale)
 {
 	position = new_pos; rotation = new_rot; scale = new_scale;
+	parent->UpdateBoundingBoxes(); 
+
+}
+
+float4x4 ComponentTransform::GetTransform() {
+	return float4x4::FromTRS(position, rotation, scale); 
 
 }

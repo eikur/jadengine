@@ -12,6 +12,7 @@ class ComponentMesh : public Component
 private: 
 	AABB bounding_box;
 	bool show_bounding_box = false;
+	float4x4 to_world_transform = float4x4::identity;
 
 	Mesh *mesh = nullptr;
 
@@ -30,7 +31,7 @@ public:
 	void LoadMesh(aiMesh *ai_mesh, Material *material); 
 
 	void ShowBoundingBox();
-	void UpdateBoundingBox(); 
+	void UpdateBoundingBox( float4x4 parent_world_transform); 
 };
 
 #endif

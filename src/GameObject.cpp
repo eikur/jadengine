@@ -200,5 +200,25 @@ void GameObject::UpdateBoundingBoxes()
 {
 	ComponentMesh *mesh = (ComponentMesh*) FindComponentByType(Component::componentType::MESH);
 	if (mesh != nullptr)
-		mesh->UpdateBoundingBox(); 
+		mesh->UpdateBoundingBox(GetWorldTransformMatrix()); 
+	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+	{
+		if ((*it)->active == true)
+			(*it)->UpdateBoundingBoxes(); 
+	}
+}
+
+float4x4 GameObject::GetWorldTransformMatrix()
+{
+	if (parent == nullptr)
+		return GetTransformMatrix(); 
+	else 
+		return parent->GetWorldTransformMatrix()*GetTransformMatrix(); 
+}
+
+float4x4 GameObject::GetTransformMatrix()
+{
+	if (transform == nullptr)
+		return float4x4::zero;
+	return transform->GetTransform(); 
 }

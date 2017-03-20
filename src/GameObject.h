@@ -18,6 +18,7 @@ public:
 
 private:
 	GameObject* parent = nullptr; 
+	//GameObject* absolute_parent = nullptr; 
 	std::vector<Component*> components;
 	std::vector<GameObject*> children;
 
@@ -43,6 +44,8 @@ public:
 
 
 	// transform component handling methods
+	float4x4 GetWorldTransformMatrix(); 
+	float4x4 GetTransformMatrix();
 	void SetTransform(float3 new_pos, Quat new_rot, float3 new_scale);
 	float3 GetTransformPosition() const;
 
