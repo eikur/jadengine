@@ -77,6 +77,30 @@ Mesh::Mesh(aiMesh* mesh, Material* material)
 		indices.clear();
 	}
 
+	if (mesh->HasBones()) {
+		m_num_bones = mesh->mNumBones;
+		m_bones = new Bone[m_num_bones];
+		// Load each bone
+		for (size_t i = 0; i < mesh->mNumBones; ++i) {
+			m_bones[i].name = mesh->mBones[i]->mName.C_Str();
+			m_bones[i].num_weights = mesh->mBones[i]->mNumWeights;
+			m_bones[i].weights = new Weight[m_bones[i].num_weights];
+
+			// Offset matrix (transforms from mesh space to bone space in bind pose)
+			for (size_t row = 0; row < 4; ++row) {
+				for (size_t col = 0; col < 4; ++col) {
+					m_bones[i].bind[row][col] = mesh->mBones[i]->mOffsetMatrix[row][col];
+				}
+			}
+
+			// For each bone load all weights
+			for (size_t j = 0; j < mesh->mBones[i]->mNumWeights; ++j) {
+				m_bones[i].weights[j].vertex = mesh->mBones[i]->mWeights[j].mVertexId;
+				m_bones[i].weights[j].weight = mesh->mBones[i]->mWeights[j].mWeight;
+			}
+		}
+	}
+
 	// Unbind buffers
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -90,6 +114,12 @@ Mesh::~Mesh() {
 	glDeleteBuffers(1, &m_vbo[TEXCOORD_BUFFER]);
 	glDeleteBuffers(1, &m_vbo[NORMAL_BUFFER]);
 	glDeleteBuffers(1, &m_vbo[INDEX_BUFFER]);
+
+	for (size_t i = 0; i < m_num_bones; ++i) {
+		RELEASE_ARRAY(m_bones[i].weights);
+	}
+
+	RELEASE_ARRAY(m_bones);
 
 	//if (m_material != nullptr)
 //		RELEASE(m_material);

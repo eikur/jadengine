@@ -52,6 +52,7 @@ private:
 	//GLuint m_texture_id = 0;
 	Material* m_material = nullptr;
 	Bone* m_bones = nullptr;
+	unsigned int m_num_bones = 0;
 };
 
 #endif // __MESH_H__
