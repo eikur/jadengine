@@ -15,7 +15,6 @@ ComponentCamera::~ComponentCamera()
 
 bool ComponentCamera::CleanUp()
 {
-	RELEASE(parent);
 	return true;
 }
 

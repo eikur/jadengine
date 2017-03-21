@@ -14,7 +14,7 @@ ComponentMesh::ComponentMesh(GameObject* parent, bool active) : Component(parent
 
 ComponentMesh::~ComponentMesh()
 {
-	RELEASE(to_world_transform);
+	
 }
 
 bool ComponentMesh::Update(float)
@@ -32,6 +32,7 @@ bool ComponentMesh::Update(float)
 bool ComponentMesh::CleanUp()
 {
 	RELEASE(mesh); 
+	RELEASE(to_world_transform);
 	return true; 
 }
 

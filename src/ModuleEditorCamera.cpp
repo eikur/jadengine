@@ -8,8 +8,7 @@
 
 ModuleEditorCamera::ModuleEditorCamera()
 {
-	m_cam_object = new GameObject("Editor Camera");
-	m_component_cam = (ComponentCamera*)m_cam_object->CreateComponent(Component::componentType::CAMERA);
+	CreateEditorCamera(); 
 }
 
 ModuleEditorCamera::~ModuleEditorCamera()
@@ -95,9 +94,26 @@ ComponentCamera* ModuleEditorCamera::GetCameraComponent() const
 
 bool ModuleEditorCamera::CleanUp()
 {
-	RELEASE(m_cam_object);
-	RELEASE(m_component_cam);
+	m_cam_object->CleanUp(); 
+	RELEASE(m_cam_object); 
 	return true;
+}
+
+GameObject* ModuleEditorCamera::CreateCameraGameObject(const std::string& name) const
+{
+	GameObject *new_cam_go = new GameObject(name.c_str()); 
+	if (new_cam_go == nullptr)
+		return nullptr;
+	new_cam_go->CreateComponent(Component::componentType::TRANSFORM); 
+	new_cam_go->CreateComponent(Component::componentType::CAMERA); 
+	return new_cam_go; 
+}
+
+void ModuleEditorCamera::CreateEditorCamera()
+{
+	m_cam_object = new GameObject("Editor Camera");
+	m_cam_object->CreateComponent(Component::componentType::TRANSFORM);
+	m_component_cam = (ComponentCamera*)m_cam_object->CreateComponent(Component::componentType::CAMERA);
 }
 
 //-----------------------------------------------------

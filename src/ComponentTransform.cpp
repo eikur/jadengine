@@ -36,7 +36,7 @@ bool ComponentTransform::CleanUp()
 
 void ComponentTransform::OnEditor()
 {
-	if (ImGui::CollapsingHeader("Transform"))
+	if (ImGui::CollapsingHeader("Local Transformation"))
 	{
 		float pos[3] = { position.x, position.y, position.z };
 		float scl[3] = { scale.x, scale.y, scale.z };

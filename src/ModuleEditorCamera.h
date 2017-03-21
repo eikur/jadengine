@@ -21,11 +21,14 @@ public:
 	bool Start();
 
 	update_status Update( float dt = 0.0f);
+	void CreateEditorCamera(); 
+	GameObject* CreateCameraGameObject(const std::string& name = "Unnamed") const;
 	ComponentCamera* GetCameraComponent() const;
 
 	// Called before quitting
 	bool CleanUp();
 
+private:
 	// Load configuration from file
 	bool LoadConfigFromFile(const char* file_path);
 
