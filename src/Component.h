@@ -20,6 +20,7 @@ public:
 	void Enable() { active = true;  }
 	void Disable() { active = false; }
 
+	virtual bool Init();
 	virtual bool Update( float dt = 0.0f );
 	virtual bool CleanUp();
 

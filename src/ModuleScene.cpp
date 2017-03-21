@@ -6,6 +6,7 @@
 #include "Component.h"
 #include "ModuleInput.h"	// for anim blending
 #include "ModuleAnimation.h" // for anim blending
+#include "ModuleEditorCamera.h" // for camera go
 
 #include "ModuleScene.h"
 
@@ -31,6 +32,10 @@ bool ModuleScene::Init()
 	go = lvl->Load("assets/ArmyPilot/", "ArmyPilot.dae");
 	if (go != nullptr)
 		game_objects.push_back(go);
+
+	go = App->camera->CreateCameraGameObject("Sample Camera"); 
+	if (go != nullptr)
+		game_objects.push_back(go); 
 	return true; 
 }
 

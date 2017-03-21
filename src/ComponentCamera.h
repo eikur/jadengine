@@ -11,9 +11,10 @@ public:
 	ComponentCamera(GameObject* parent, bool active = true);
 	~ComponentCamera();
 
+	bool Update( float dt); 
 	bool CleanUp();
 	void OnEditor();
-	void Init();
+	bool Init();
 
 	float4x4 GetProjectionMatrix() const;
 	float4x4 GetViewMatrix() const;
@@ -24,8 +25,19 @@ public:
 	void Orientation(float3 front, float3 up);
 	void LookAt(float3 look_at);
 
+private:
+	void DrawFrustum(); 
+
 public:
 	Frustum frustum;
+
+private:
+	float near_plane_distance = 0.1f;
+	float far_plane_distance = 100.0f;
+	float field_of_view = 60.0f;
+	float aspect_ratio = 1.78f;
+
+	bool draw_frustum = false;
 };
 
 #endif // __COMPONENTCAMERA_H__

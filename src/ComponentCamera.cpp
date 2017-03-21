@@ -1,8 +1,11 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
-#include "ComponentCamera.h"
 #include "ModuleWindow.h"
+#include "ImGui/imgui.h"
+#include "GameObject.h"
+
+#include "ComponentCamera.h"
 
 
 ComponentCamera::ComponentCamera(GameObject* parent, bool active) : Component(parent, CAMERA, active)
@@ -13,6 +16,13 @@ ComponentCamera::~ComponentCamera()
 {
 }
 
+bool ComponentCamera::Update(float)
+{
+	if (draw_frustum)
+		DrawFrustum();
+	return true;
+}
+
 bool ComponentCamera::CleanUp()
 {
 	return true;
@@ -20,19 +30,28 @@ bool ComponentCamera::CleanUp()
 
 void ComponentCamera::OnEditor()
 {
+	if (ImGui::CollapsingHeader("Camera"))
+	{
+		ImGui::Checkbox("Enabled", &active); 
+		ImGui::SameLine();
+		ImGui::Checkbox("Draw Frustum", &draw_frustum); 
+	}
 }
 
-void ComponentCamera::Init()
+bool ComponentCamera::Init()
 {
-	float near_plane_distance = 0.1f;
-	float far_plane_distance = 100.0f;
+	near_plane_distance = 0.1f;
+	far_plane_distance = 100.0f;
+	field_of_view = 60.0f;
 
 	// Set vertical Field-of-view (parameter angle in degrees)
-	SetFOV(60.0f);
+	SetFOV(field_of_view);
 	SetPlaneDistances(near_plane_distance, far_plane_distance);
 
 	frustum.SetFrame(float3::zero, -float3::unitZ, float3::unitY);
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
+
+	return true;
 }
 
 float4x4 ComponentCamera::GetViewMatrix() const
@@ -56,14 +75,17 @@ void ComponentCamera::SetFOV(float vertical_fov)
 	frustum.SetVerticalFovAndAspectRatio(DegToRad(vertical_fov), aspect_ratio);
 }
 
-void ComponentCamera::SetAspectRatio(float aspect_ratio)
+void ComponentCamera::SetAspectRatio(float new_aspect_ratio)
 {
-	float horizontal_fov = 2.0f * atanf(tanf(frustum.VerticalFov() / 2.0f) * aspect_ratio);
-	frustum.SetHorizontalFovAndAspectRatio(horizontal_fov, aspect_ratio);
+	float horizontal_fov = 2.0f * atanf(tanf(frustum.VerticalFov() / 2.0f) * new_aspect_ratio);
+	frustum.SetHorizontalFovAndAspectRatio(horizontal_fov, new_aspect_ratio);
+	aspect_ratio = new_aspect_ratio;
 }
 
-void ComponentCamera::SetPlaneDistances(float near_plane_distance, float far_plane_distance)
+void ComponentCamera::SetPlaneDistances(float new_near, float new_far)
 {
+	near_plane_distance = new_near;
+	far_plane_distance = new_far;
 	frustum.SetViewPlaneDistances(near_plane_distance, far_plane_distance);
 }
 
@@ -75,8 +97,6 @@ void ComponentCamera::Position(float3 pos)
 void ComponentCamera::Orientation(float3 front, float3 up)
 {
 	frustum.SetFrame(frustum.Pos(), front, up);
-	//Calling this function recomputes the cached world matrix of this Frustum. As a micro-optimization, prefer this function 
-	//over the individual SetPos/SetFront/SetUp functions if you need to do a batch of two or more changes, to avoid redundant recomputation of the world matrix.
 }
 
 void ComponentCamera::LookAt(float3 look_at)
@@ -85,4 +105,34 @@ void ComponentCamera::LookAt(float3 look_at)
 	new_front.Normalize();
 	float3 translation = new_front - frustum.Front();
 	Orientation(new_front, frustum.Up() + translation);
+}
+
+void ComponentCamera::DrawFrustum() {
+	float3 *corner_points = new  float3[8];
+	frustum.GetCornerPoints(corner_points);
+	
+	glColor3f(1.0f, 1.0f, 0.0f); 
+	glDisable(GL_LIGHTING); 
+	glBegin(GL_LINES);
+	for (int i = 0; i < 8; i++)
+		glVertex3f(corner_points[i].x, corner_points[i].y, corner_points[i].z);
+	for (int i = 0; i < 4; i++)
+	{
+		glVertex3f(corner_points[i].x, corner_points[i].y, corner_points[i].z);
+		glVertex3f(corner_points[i + 4].x, corner_points[i + 4].y, corner_points[i + 4].z);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		glVertex3f(corner_points[i].x, corner_points[i].y, corner_points[i].z);
+		glVertex3f(corner_points[i + 2].x, corner_points[i + 2].y, corner_points[i + 2].z);
+	}
+	for (int i = 4; i < 6; i++)
+	{
+		glVertex3f(corner_points[i].x, corner_points[i].y, corner_points[i].z);
+		glVertex3f(corner_points[i + 2].x, corner_points[i + 2].y, corner_points[i + 2].z);
+	}
+	glEnd();
+	glEnable(GL_LIGHTING); 
+	delete corner_points;
+
 }

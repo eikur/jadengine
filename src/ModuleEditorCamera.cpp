@@ -105,7 +105,8 @@ GameObject* ModuleEditorCamera::CreateCameraGameObject(const std::string& name) 
 	if (new_cam_go == nullptr)
 		return nullptr;
 	new_cam_go->CreateComponent(Component::componentType::TRANSFORM); 
-	new_cam_go->CreateComponent(Component::componentType::CAMERA); 
+	new_cam_go->CreateComponent(Component::componentType::CAMERA)->Init(); 
+	
 	return new_cam_go; 
 }
 
