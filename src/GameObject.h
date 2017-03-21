@@ -18,7 +18,7 @@ public:
 
 private:
 	GameObject* parent = nullptr; 
-	//GameObject* absolute_parent = nullptr; 
+	
 	std::vector<Component*> components;
 	std::vector<GameObject*> children;
 
@@ -55,6 +55,8 @@ public:
 	void UpdateBoundingBoxes();
 	//animation component handling methods
 	void SetNextAnimationID(int next_id);
+	//camera component handling methods
+	void UpdateCameraTransform(); 
 
 private:
 	Component* FindComponentByType(Component::componentType type) const;

@@ -16,6 +16,7 @@ bool ComponentTransform::Update(float)
 	if ( scale.Equals(last_scale) == false || rotation.Equals(last_rotation) == false || position.Equals(last_position) == false)
 	{
 		parent->UpdateBoundingBoxes();
+		parent->UpdateCameraTransform(); 
 		last_position = position; 
 		last_scale = scale;
 		last_rotation = rotation;

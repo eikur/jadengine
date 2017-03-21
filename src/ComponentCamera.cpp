@@ -149,3 +149,14 @@ void ComponentCamera::DrawFrustum() {
 	delete corner_points;
 
 }
+
+void ComponentCamera::UpdateFrustumTransform(float4x4 parent_world_transform)
+{
+	float3 pos, scl;
+	Quat rot; 
+	parent_world_transform.Decompose(pos, rot, scl); 
+	if (pos.Equals(frustum.Pos()) == false)
+	{
+		frustum.SetPos(pos); 
+	}
+}

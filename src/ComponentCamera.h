@@ -27,6 +27,8 @@ public:
 	void Orientation(float3 front, float3 up);
 	void LookAt(float3 look_at);
 
+	void UpdateFrustumTransform( float4x4 parent_world_transform);
+
 private:
 	void DrawFrustum(); 
 

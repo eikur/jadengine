@@ -238,3 +238,14 @@ float4x4 GameObject::GetTransformMatrix()
 		return float4x4::zero;
 	return transform->GetTransform(); 
 }
+
+void GameObject::UpdateCameraTransform() {
+	ComponentCamera *camera = (ComponentCamera*)FindComponentByType(Component::componentType::CAMERA);
+	if (camera != nullptr)
+		camera->UpdateFrustumTransform(GetWorldTransformMatrix());
+	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+	{
+		if ((*it)->active == true)
+			(*it)->UpdateCameraTransform();
+	}
+}
