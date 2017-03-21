@@ -1,4 +1,5 @@
 #include "Globals.h"
+#include "GameObject.h"
 #include "ComponentMaterial.h"
 
 #include "ImGui/imgui.h"
@@ -8,11 +9,12 @@
 
 ComponentMesh::ComponentMesh(GameObject* parent, bool active) : Component(parent, MESH, active)
 {
+	to_world_transform = new GLfloat[16];
 }
 
 ComponentMesh::~ComponentMesh()
 {
-	
+	RELEASE(to_world_transform);
 }
 
 bool ComponentMesh::Update(float)
@@ -60,8 +62,7 @@ void ComponentMesh::LoadMesh(aiMesh *ai_mesh, Material *material)
 	if (mesh == nullptr)
 	{
 		mesh = new Mesh(ai_mesh, material);
-		bounding_box.SetNegativeInfinity();
-		bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
+		parent->UpdateBoundingBoxes();
 	}
 }
 
@@ -69,6 +70,8 @@ void ComponentMesh::ShowBoundingBox()
 {
 	glColor3f(0.0f, 1.0f, 0.0f); 
 	glDisable(GL_LIGHTING);
+	glPushMatrix(); 
+	glMultMatrixf(to_world_transform);
 
 	glBegin(GL_LINES);
 	for (int i = 0; i < 8; i++)
@@ -90,6 +93,7 @@ void ComponentMesh::ShowBoundingBox()
 	}
 	glEnd();
 
+	glPopMatrix();
 	glEnable(GL_LIGHTING); 
 	glColor3f(1.0f, 1.0f, 1.0f);
 }
@@ -103,7 +107,10 @@ void ComponentMesh::UpdateBoundingBox( float4x4 parent_world_transform)
 		world_vertices[i] = (parent_world_transform * mesh->vertices[i].ToPos4()).Float3Part();
 
 	bounding_box.Enclose((float3*)world_vertices, mesh->num_vertices); 
+	
 	delete world_vertices;
-
-//	to_world_transform = parent_world_transform.Transposed();
+	parent_world_transform.Inverse();
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			to_world_transform[i + 4*j] = parent_world_transform[i][j];
 }

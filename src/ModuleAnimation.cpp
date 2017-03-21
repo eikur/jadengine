@@ -283,8 +283,7 @@ ModuleAnimation::AnimationInstanceID ModuleAnimation::BlendTo(AnimationInstanceI
 
 float3 ModuleAnimation::InterpolateFloat3(const float3& first, const float3& second, float lambda) const
 {
-	return first.Lerp(second, lambda); 
-//	return first*(1.0f - lambda) + second*lambda;
+	return first*(1.0f - lambda) + second*lambda;
 }
 
 Quat ModuleAnimation::InterpolateQuat(const Quat& first, const Quat& second, float lambda) const

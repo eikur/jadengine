@@ -211,9 +211,9 @@ void GameObject::UpdateBoundingBoxes()
 float4x4 GameObject::GetWorldTransformMatrix()
 {
 	if (parent == nullptr)
-		return GetTransformMatrix(); 
-	else 
-		return parent->GetWorldTransformMatrix()*GetTransformMatrix(); 
+		return GetTransformMatrix();
+	else
+		return GetTransformMatrix() * parent->GetWorldTransformMatrix(); 
 }
 
 float4x4 GameObject::GetTransformMatrix()

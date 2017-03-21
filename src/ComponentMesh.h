@@ -12,7 +12,7 @@ class ComponentMesh : public Component
 private: 
 	AABB bounding_box;
 	bool show_bounding_box = false;
-	float4x4 to_world_transform = float4x4::identity;
+	GLfloat *to_world_transform = nullptr;
 
 	Mesh *mesh = nullptr;
 
