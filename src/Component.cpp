@@ -10,3 +10,5 @@ bool Component::Update(float dt) { return true; }
 bool Component::CleanUp() { return true; }
 
 bool Component::Init() { return true; }
+
+bool Component::Debug() { return true; }

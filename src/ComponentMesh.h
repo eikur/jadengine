@@ -12,7 +12,6 @@ class ComponentMesh : public Component
 private: 
 	AABB bounding_box;
 	bool show_bounding_box = false;
-	GLfloat *to_world_transform = nullptr;
 
 	Mesh *mesh = nullptr;
 
@@ -26,6 +25,8 @@ public:
 	bool Update(float dt);
 	bool CleanUp(); 
 	void OnEditor();
+
+	bool Debug(); 
 
 	void SetComponentMaterial(ComponentMaterial* comp_mat);
 	void LoadMesh(aiMesh *ai_mesh, Material *material); 

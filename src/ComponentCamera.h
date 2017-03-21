@@ -11,10 +11,12 @@ public:
 	ComponentCamera(GameObject* parent, bool active = true);
 	~ComponentCamera();
 
+	bool Init();
 	bool Update( float dt); 
 	bool CleanUp();
 	void OnEditor();
-	bool Init();
+	
+	bool Debug(); 
 
 	float4x4 GetProjectionMatrix() const;
 	float4x4 GetViewMatrix() const;

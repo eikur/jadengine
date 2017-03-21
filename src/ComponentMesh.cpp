@@ -9,7 +9,6 @@
 
 ComponentMesh::ComponentMesh(GameObject* parent, bool active) : Component(parent, MESH, active)
 {
-	to_world_transform = new GLfloat[16];
 }
 
 ComponentMesh::~ComponentMesh()
@@ -24,15 +23,12 @@ bool ComponentMesh::Update(float)
 		mesh->SetMaterial(component_material->GetMaterial());
 	}
 	mesh->Draw(); 
-	if (show_bounding_box)
-		ShowBoundingBox();
 	return true;
 }
 
 bool ComponentMesh::CleanUp()
 {
 	RELEASE(mesh); 
-	RELEASE(to_world_transform);
 	return true; 
 }
 
@@ -71,8 +67,6 @@ void ComponentMesh::ShowBoundingBox()
 {
 	glColor3f(0.0f, 1.0f, 0.0f); 
 	glDisable(GL_LIGHTING);
-	glPushMatrix(); 
-	glMultMatrixf(to_world_transform);
 
 	glBegin(GL_LINES);
 	for (int i = 0; i < 8; i++)
@@ -94,7 +88,6 @@ void ComponentMesh::ShowBoundingBox()
 	}
 	glEnd();
 
-	glPopMatrix();
 	glEnable(GL_LIGHTING); 
 	glColor3f(1.0f, 1.0f, 1.0f);
 }
@@ -110,8 +103,11 @@ void ComponentMesh::UpdateBoundingBox( float4x4 parent_world_transform)
 	bounding_box.Enclose((float3*)world_vertices, mesh->num_vertices); 
 	
 	delete world_vertices;
-	parent_world_transform.Inverse();
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 4; j++)
-			to_world_transform[i + 4*j] = parent_world_transform[i][j];
+}
+
+bool ComponentMesh::Debug()
+{
+	if (show_bounding_box)
+		ShowBoundingBox(); 
+	return true; 
 }

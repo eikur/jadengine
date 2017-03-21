@@ -33,9 +33,7 @@ bool ModuleScene::Init()
 	if (go != nullptr)
 		game_objects.push_back(go);
 
-	go = App->camera->CreateCameraGameObject("Sample Camera"); 
-	if (go != nullptr)
-		game_objects.push_back(go); 
+	game_objects.push_back(App->camera->CreateCameraGameObject("Sample Camera"));
 	return true; 
 }
 
@@ -45,6 +43,11 @@ update_status ModuleScene::Update(float dt)
 	{
 		if ((*it)->active == true)
 			(*it)->Update(dt);
+	}
+	for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
+	{
+		if ((*it)->active == true)
+			(*it)->Debug();
 	}
 	go->DrawSkeleton();
 	if (blend_animation == false && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)

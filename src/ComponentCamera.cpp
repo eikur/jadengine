@@ -18,8 +18,7 @@ ComponentCamera::~ComponentCamera()
 
 bool ComponentCamera::Update(float)
 {
-	if (draw_frustum)
-		DrawFrustum();
+
 	return true;
 }
 
@@ -36,6 +35,13 @@ void ComponentCamera::OnEditor()
 		ImGui::SameLine();
 		ImGui::Checkbox("Draw Frustum", &draw_frustum); 
 	}
+}
+
+bool ComponentCamera::Debug()
+{
+	if (draw_frustum)
+		DrawFrustum();
+	return true; 
 }
 
 bool ComponentCamera::Init()

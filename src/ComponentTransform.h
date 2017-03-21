@@ -12,6 +12,7 @@ public:
 	Quat rotation = Quat::identity; 
 
 private: 
+	float3 last_position = float3::zero;
 	float3 last_scale = float3::one;
 	Quat last_rotation = Quat::identity;
 

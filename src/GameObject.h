@@ -31,6 +31,8 @@ public:
 	bool Update( float dt);
 	bool CleanUp(); 
 
+	bool Debug(); 
+
 	void DrawSkeleton(float3 color = { 0.0f, 0.0f, 1.0f }) const;
 
 	void OnEditor(); 

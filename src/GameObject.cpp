@@ -57,6 +57,22 @@ bool GameObject::CleanUp()
 	return true; 
 }
 
+bool GameObject::Debug()
+{
+	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
+	{
+		if ((*it)->active == true)
+			(*it)->Debug();
+	}
+
+	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+	{
+		if ((*it)->active == true)
+			(*it)->Debug(); 
+	}
+
+	return true;
+}
 void GameObject::DrawSkeleton(float3 color) const
 {
 
@@ -213,7 +229,7 @@ float4x4 GameObject::GetWorldTransformMatrix()
 	if (parent == nullptr)
 		return GetTransformMatrix();
 	else
-		return GetTransformMatrix() * parent->GetWorldTransformMatrix(); 
+		return parent->GetWorldTransformMatrix()*GetTransformMatrix();
 }
 
 float4x4 GameObject::GetTransformMatrix()
