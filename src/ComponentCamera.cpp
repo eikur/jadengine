@@ -34,6 +34,13 @@ void ComponentCamera::OnEditor()
 		ImGui::Checkbox("Enabled", &active); 
 		ImGui::SameLine();
 		ImGui::Checkbox("Draw Frustum", &draw_frustum); 
+		ImGui::DragFloat("Near Plane", &near_plane_distance); 
+		ImGui::DragFloat("Far Plane", &far_plane_distance); 
+		SetPlaneDistances(near_plane_distance, far_plane_distance); 
+		ImGui::DragFloat("Field Of View", &field_of_view,0.5f); 
+		SetFOV(field_of_view); 
+		ImGui::DragFloat("Aspect Ratio", &aspect_ratio, 0.01f); 
+		SetAspectRatio(aspect_ratio); 
 	}
 }
 
