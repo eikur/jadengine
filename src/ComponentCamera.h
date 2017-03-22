@@ -16,7 +16,7 @@ public:
 	bool CleanUp();
 	void OnEditor();
 	
-	bool Debug(); 
+	bool DebugDraw();
 
 	float4x4 GetProjectionMatrix() const;
 	float4x4 GetViewMatrix() const;
@@ -42,6 +42,7 @@ private:
 	float aspect_ratio = 1.78f;
 
 	bool draw_frustum = false;
+	bool frustum_culling = false; 
 };
 
 #endif // __COMPONENTCAMERA_H__

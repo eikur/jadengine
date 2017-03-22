@@ -11,4 +11,4 @@ bool Component::CleanUp() { return true; }
 
 bool Component::Init() { return true; }
 
-bool Component::Debug() { return true; }
+bool Component::DebugDraw() { return true; }

@@ -17,6 +17,9 @@ private:
 
 	ComponentMaterial *component_material = nullptr;
 
+public: 
+	bool culled_out = false; 
+
 public:
 	ComponentMesh(GameObject* parent, bool active = true);
 	~ComponentMesh();
@@ -26,7 +29,7 @@ public:
 	bool CleanUp(); 
 	void OnEditor();
 
-	bool Debug(); 
+	bool DebugDraw();
 
 	void SetComponentMaterial(ComponentMaterial* comp_mat);
 	void LoadMesh(aiMesh *ai_mesh, Material *material); 

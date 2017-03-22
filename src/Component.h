@@ -24,7 +24,7 @@ public:
 	virtual bool Update( float dt = 0.0f );
 	virtual bool CleanUp();
 
-	virtual bool Debug(); 
+	virtual bool DebugDraw();
 
 	virtual void OnEditor() = 0; 
 	

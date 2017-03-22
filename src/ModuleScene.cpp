@@ -47,7 +47,7 @@ update_status ModuleScene::Update(float dt)
 	for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
 	{
 		if ((*it)->active == true)
-			(*it)->Debug();
+			(*it)->DebugDraw();
 	}
 	go->DrawSkeleton();
 	if (blend_animation == false && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)

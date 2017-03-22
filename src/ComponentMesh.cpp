@@ -59,7 +59,7 @@ void ComponentMesh::LoadMesh(aiMesh *ai_mesh, Material *material)
 	if (mesh == nullptr)
 	{
 		mesh = new Mesh(ai_mesh, material);
-		parent->UpdateBoundingBoxes();
+		parent->UpdateBoundingBoxesRecursively();
 	}
 }
 
@@ -105,7 +105,7 @@ void ComponentMesh::UpdateBoundingBox( float4x4 parent_world_transform)
 	delete world_vertices;
 }
 
-bool ComponentMesh::Debug()
+bool ComponentMesh::DebugDraw()
 {
 	if (show_bounding_box)
 		ShowBoundingBox(); 

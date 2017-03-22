@@ -31,7 +31,7 @@ public:
 	bool Update( float dt);
 	bool CleanUp(); 
 
-	bool Debug(); 
+	bool DebugDraw(); 
 
 	void DrawSkeleton(float3 color = { 0.0f, 0.0f, 1.0f }) const;
 
@@ -47,16 +47,18 @@ public:
 
 	// transform component handling methods
 	float4x4 GetWorldTransformMatrix(); 
-	float4x4 GetTransformMatrix();
-	void SetTransform(float3 new_pos, Quat new_rot, float3 new_scale);
-	float3 GetTransformPosition() const;
+	float4x4 GetLocalTransformMatrix();
+	void SetLocalTransform(float3 new_pos, Quat new_rot, float3 new_scale);
+	float3 GetLocalPosition() const;
 
 	//mesh component handling methods
-	void UpdateBoundingBoxes();
+	void UpdateBoundingBoxesRecursively();
+
 	//animation component handling methods
 	void SetNextAnimationID(int next_id);
+	
 	//camera component handling methods
-	void UpdateCameraTransform(); 
+	void UpdateCameraWorldTransform();
 
 private:
 	Component* FindComponentByType(Component::componentType type) const;

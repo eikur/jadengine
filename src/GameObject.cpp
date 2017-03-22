@@ -57,18 +57,18 @@ bool GameObject::CleanUp()
 	return true; 
 }
 
-bool GameObject::Debug()
+bool GameObject::DebugDraw()
 {
 	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
 	{
 		if ((*it)->active == true)
-			(*it)->Debug();
+			(*it)->DebugDraw();
 	}
 
 	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
 	{
 		if ((*it)->active == true)
-			(*it)->Debug(); 
+			(*it)->DebugDraw();
 	}
 
 	return true;
@@ -83,7 +83,7 @@ void GameObject::DrawSkeleton(float3 color) const
 	for (std::vector<GameObject*>::const_iterator it = children.cbegin(); it != children.cend(); ++it)
 	{
 		glDisable(GL_LIGHTING);
-		float3 line_end = (*it)->GetTransformPosition();
+		float3 line_end = (*it)->GetLocalPosition();
 		glBegin(GL_LINES);
 		glVertex3f(0, 0, 0);
 		glVertex3f(line_end.x, line_end.y, line_end.z);
@@ -134,13 +134,10 @@ int GameObject::OnHierarchy( int id, ImGuiTreeNodeFlags node_flags, GameObject *
 	return id;
 }
 
-// --- GameObject management ---
 void GameObject::AddGameObjectToChildren(GameObject* game_object)
 {
 	children.push_back(game_object); 
 }
-
-// --- Component management ---
 
 Component* GameObject::CreateComponent(Component::componentType type)
 {
@@ -177,7 +174,7 @@ Component* GameObject::FindComponentByType(Component::componentType type) const
 	return nullptr; 
 }
 
-void GameObject::SetTransform( float3 new_pos, Quat new_rot, float3 new_scale)
+void GameObject::SetLocalTransform( float3 new_pos, Quat new_rot, float3 new_scale)
 {
 	if (transform == nullptr)
 	{
@@ -187,7 +184,7 @@ void GameObject::SetTransform( float3 new_pos, Quat new_rot, float3 new_scale)
 	transform->SetTransform(new_pos, new_rot, new_scale);
 }
 
-float3 GameObject::GetTransformPosition() const
+float3 GameObject::GetLocalPosition() const
 {
 	if (transform == nullptr)
 	{
@@ -212,40 +209,43 @@ void GameObject::SetNextAnimationID( int next_id)
 
 }
 
-void GameObject::UpdateBoundingBoxes()
+void GameObject::UpdateBoundingBoxesRecursively()
 {
 	ComponentMesh *mesh = (ComponentMesh*) FindComponentByType(Component::componentType::MESH);
 	if (mesh != nullptr)
 		mesh->UpdateBoundingBox(GetWorldTransformMatrix()); 
+
 	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
 	{
 		if ((*it)->active == true)
-			(*it)->UpdateBoundingBoxes(); 
+			(*it)->UpdateBoundingBoxesRecursively(); 
 	}
 }
 
 float4x4 GameObject::GetWorldTransformMatrix()
 {
 	if (parent == nullptr)
-		return GetTransformMatrix();
+		return GetLocalTransformMatrix();
 	else
-		return parent->GetWorldTransformMatrix()*GetTransformMatrix();
+		return parent->GetWorldTransformMatrix()*GetLocalTransformMatrix();
 }
 
-float4x4 GameObject::GetTransformMatrix()
+float4x4 GameObject::GetLocalTransformMatrix()
 {
 	if (transform == nullptr)
 		return float4x4::zero;
 	return transform->GetTransform(); 
 }
 
-void GameObject::UpdateCameraTransform() {
+void GameObject::UpdateCameraWorldTransform() 
+{
 	ComponentCamera *camera = (ComponentCamera*)FindComponentByType(Component::componentType::CAMERA);
 	if (camera != nullptr)
 		camera->UpdateFrustumTransform(GetWorldTransformMatrix());
+
 	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
 	{
 		if ((*it)->active == true)
-			(*it)->UpdateCameraTransform();
+			(*it)->UpdateCameraWorldTransform();
 	}
 }

@@ -44,7 +44,7 @@ void ComponentCamera::OnEditor()
 	}
 }
 
-bool ComponentCamera::Debug()
+bool ComponentCamera::DebugDraw()
 {
 	if (draw_frustum)
 		DrawFrustum();
@@ -84,8 +84,9 @@ float4x4 ComponentCamera::GetProjectionMatrix() const
 
 void ComponentCamera::SetFOV(float vertical_fov)
 {
-	float aspect_ratio = (float)App->window->m_screen_width / (float)App->window->m_screen_height;
-	frustum.SetVerticalFovAndAspectRatio(DegToRad(vertical_fov), aspect_ratio);
+	float new_aspect = (float)App->window->m_screen_width / (float)App->window->m_screen_height;
+	frustum.SetVerticalFovAndAspectRatio(DegToRad(vertical_fov), new_aspect);
+	aspect_ratio = new_aspect;
 }
 
 void ComponentCamera::SetAspectRatio(float new_aspect_ratio)

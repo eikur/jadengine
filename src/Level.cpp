@@ -255,7 +255,7 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 	float3 scl(scaling.x, scaling.y, scaling.z); 
 	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 	
-	game_object->SetTransform(pos, rot, scl);
+	game_object->SetLocalTransform(pos, rot, scl);
 
 	// Material and mesh component
 	ComponentMaterial *component_material = nullptr;
@@ -273,7 +273,7 @@ GameObject* Level::CreateGameObject(const char* path, const aiNode* origin, Game
 			aux_game_object_name.append(std::to_string(i));
 			aux_game_object_name.append(")");
 			aux_game_object = new GameObject(aux_game_object_name.c_str(), game_object, true);
-			aux_game_object->SetTransform(float3::zero, Quat::identity, { 1,1,1 });	
+			aux_game_object->SetLocalTransform(float3::zero, Quat::identity, { 1,1,1 });	
 		}
 
 		component_material = (ComponentMaterial*)aux_game_object->CreateComponent(Component::componentType::MATERIAL);

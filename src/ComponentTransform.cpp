@@ -15,8 +15,8 @@ bool ComponentTransform::Update(float)
 {
 	if ( scale.Equals(last_scale) == false || rotation.Equals(last_rotation) == false || position.Equals(last_position) == false)
 	{
-		parent->UpdateBoundingBoxes();
-		parent->UpdateCameraTransform(); 
+		parent->UpdateBoundingBoxesRecursively();
+		parent->UpdateCameraWorldTransform(); 
 		last_position = position; 
 		last_scale = scale;
 		last_rotation = rotation;
@@ -58,7 +58,7 @@ void ComponentTransform::OnEditor()
 void ComponentTransform::SetTransform(float3 new_pos, Quat new_rot, float3 new_scale)
 {
 	position = new_pos; rotation = new_rot; scale = new_scale;
-	parent->UpdateBoundingBoxes(); 
+	parent->UpdateBoundingBoxesRecursively(); 
 
 }
 
