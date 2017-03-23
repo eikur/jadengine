@@ -6,6 +6,7 @@
 
 class GameObject;
 class Level;
+class Quadtree;
 
 class ModuleScene : public Module
 {
@@ -23,6 +24,8 @@ public:
 private:
 	Level *lvl = nullptr;
 	GameObject *go = nullptr;
+
+	Quadtree *quadtree = nullptr; 
 
 	bool blend_animation = false; 
 };

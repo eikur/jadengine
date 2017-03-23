@@ -112,6 +112,7 @@
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Primitive.h" />
     <ClInclude Include="src\PrimitiveManager.h" />
+    <ClInclude Include="src\Quadtree.h" />
     <ClInclude Include="src\SolidCube.h" />
     <ClInclude Include="src\SolidSphere.h" />
     <ClInclude Include="src\TimerMSec.h" />
@@ -154,6 +155,7 @@
     <ClCompile Include="src\ModuleTimer.cpp" />
     <ClCompile Include="src\ModuleWindow.cpp" />
     <ClCompile Include="src\PrimitiveManager.cpp" />
+    <ClCompile Include="src\Quadtree.cpp" />
     <ClCompile Include="src\SolidCube.cpp" />
     <ClCompile Include="src\SolidSphere.cpp" />
     <ClCompile Include="src\TimerUSec.cpp" />

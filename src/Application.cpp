@@ -71,6 +71,7 @@ Application::Application()
 	modules.push_back(fade = new ModuleFadeToBlack());
 
 	//textures = new ModuleTextures();
+	AABB limits = AABB({ -10,-2,-10 }, { 10,2,10 });
 }
 
 Application::~Application()

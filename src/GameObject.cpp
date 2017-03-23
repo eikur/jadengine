@@ -193,6 +193,12 @@ float3 GameObject::GetLocalPosition() const
 	return transform->position;
 }
 
+float3 GameObject::GetWorldPosition() const
+{
+	return (GetWorldTransformMatrix().Mul(GetLocalPosition().ToPos4())).Float3Part();
+}
+
+
 const std::string& GameObject::GetName() const
 {
 	return name;
@@ -222,7 +228,7 @@ void GameObject::UpdateBoundingBoxesRecursively()
 	}
 }
 
-float4x4 GameObject::GetWorldTransformMatrix()
+float4x4 GameObject::GetWorldTransformMatrix() const
 {
 	if (parent == nullptr)
 		return GetLocalTransformMatrix();
@@ -230,7 +236,7 @@ float4x4 GameObject::GetWorldTransformMatrix()
 		return parent->GetWorldTransformMatrix()*GetLocalTransformMatrix();
 }
 
-float4x4 GameObject::GetLocalTransformMatrix()
+float4x4 GameObject::GetLocalTransformMatrix() const
 {
 	if (transform == nullptr)
 		return float4x4::zero;

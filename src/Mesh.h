@@ -8,6 +8,7 @@
 
 struct aiMesh;
 class Material;
+class GameObject;
 
 struct Weight
 {
@@ -21,6 +22,7 @@ struct Bone
 	Weight* weights = nullptr;
 	unsigned num_weights = 0;
 	float4x4 bind;
+	const GameObject *attached_to = nullptr;
 };
 
 class Mesh

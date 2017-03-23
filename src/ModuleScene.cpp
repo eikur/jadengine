@@ -7,6 +7,7 @@
 #include "ModuleInput.h"	// for anim blending
 #include "ModuleAnimation.h" // for anim blending
 #include "ModuleEditorCamera.h" // for camera go
+#include "Quadtree.h" // for quadtree
 
 #include "ModuleScene.h"
 
@@ -34,6 +35,12 @@ bool ModuleScene::Init()
 		game_objects.push_back(go);
 
 	game_objects.push_back(App->camera->CreateCameraGameObject("Sample Camera"));
+
+	// create quadtree
+	quadtree = new Quadtree(); 
+	AABB limits = AABB({ -11,-2,-11 }, { 11,2,11 });
+	quadtree->Create(limits); 
+
 	return true; 
 }
 
@@ -49,7 +56,7 @@ update_status ModuleScene::Update(float dt)
 		if ((*it)->active == true)
 			(*it)->DebugDraw();
 	}
-	go->DrawSkeleton();
+//	go->DrawSkeleton();
 	if (blend_animation == false && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		int new_anim = App->animations->BlendTo(0, "Run_Forwards", 600);	// very improvable code
@@ -59,6 +66,17 @@ update_status ModuleScene::Update(float dt)
 				(*it)->SetNextAnimationID(new_anim);
 		}
 	}
+	
+	// add new go to quadtree and scene
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+	{
+		go = new GameObject("dummy");
+		go->SetLocalTransform({float(rand()%20 -10),0,float(rand()%20-10)}, Quat::identity, float3::one);
+		game_objects.push_back(go);
+		quadtree->Insert(go);
+	}
+	quadtree->DebugDraw(); 
+
 	return UPDATE_CONTINUE;
 }
 bool ModuleScene::CleanUp()

@@ -46,10 +46,11 @@ public:
 
 
 	// transform component handling methods
-	float4x4 GetWorldTransformMatrix(); 
-	float4x4 GetLocalTransformMatrix();
+	float4x4 GetWorldTransformMatrix() const;
+	float4x4 GetLocalTransformMatrix() const; 
 	void SetLocalTransform(float3 new_pos, Quat new_rot, float3 new_scale);
 	float3 GetLocalPosition() const;
+	float3 GetWorldPosition() const; 
 
 	//mesh component handling methods
 	void UpdateBoundingBoxesRecursively();
