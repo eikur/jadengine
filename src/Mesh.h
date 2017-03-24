@@ -38,6 +38,7 @@ public:
 public:
 	Mesh();
 	Mesh(aiMesh* mesh, Material* material);
+	Mesh(float3 *vertex, unsigned int num_vertices, unsigned int *indices, unsigned int num_indices, float2 *tex_coords, unsigned num_tex_coords);
 	~Mesh();
 	void Draw();
 

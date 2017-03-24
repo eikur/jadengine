@@ -8,6 +8,7 @@
 #include "ModuleAnimation.h" // for anim blending
 #include "ModuleEditorCamera.h" // for camera go
 #include "Quadtree.h" // for quadtree
+#include "CubePrimitive.h" // for testing quadtree
 
 #include "ModuleScene.h"
 
@@ -70,7 +71,7 @@ update_status ModuleScene::Update(float dt)
 	// add new go to quadtree and scene
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 	{
-		go = new GameObject("dummy");
+		go = new CubePrimitive("cube"); 
 		go->SetLocalTransform({float(rand()%20 -10),0,float(rand()%20-10)}, Quat::identity, float3::one);
 		game_objects.push_back(go);
 		quadtree->Insert(go);

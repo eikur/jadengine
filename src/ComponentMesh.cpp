@@ -63,6 +63,15 @@ void ComponentMesh::LoadMesh(aiMesh *ai_mesh, Material *material)
 	}
 }
 
+void ComponentMesh::LoadVertices(float3 *vertices, unsigned num_vertices, unsigned *indices, unsigned num_indices, float2 *tex_coords, unsigned num_tex_coords)
+{
+	if (mesh == nullptr)
+	{
+		mesh = new Mesh(vertices, num_vertices, indices, num_indices, tex_coords, num_tex_coords);
+		parent->UpdateBoundingBoxesRecursively(); 
+	}
+}
+
 void ComponentMesh::ShowBoundingBox()
 {
 	glColor3f(0.0f, 1.0f, 0.0f); 

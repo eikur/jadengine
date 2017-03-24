@@ -44,7 +44,7 @@ void Quadtree::QuadtreeNode::Insert(GameObject* go_to_insert)
 		{
 			if (children == nullptr)
 			{
-				CreateChildren(boundary); 
+				CreateChildren(); 
 			}
 			for (int i = 0; i < 4; ++i)
 			{
@@ -61,7 +61,7 @@ void Quadtree::QuadtreeNode::Insert(GameObject* go_to_insert)
 	}
 }
 
-void Quadtree::QuadtreeNode::CreateChildren(AABB parent_AABB)
+void Quadtree::QuadtreeNode::CreateChildren()
 {
 	children = new QuadtreeNode[4];
 	

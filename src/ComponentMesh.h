@@ -11,7 +11,7 @@ class ComponentMesh : public Component
 
 private: 
 	AABB bounding_box;
-	bool show_bounding_box = false;
+	bool show_bounding_box = true;
 
 	Mesh *mesh = nullptr;
 
@@ -33,6 +33,7 @@ public:
 
 	void SetComponentMaterial(ComponentMaterial* comp_mat);
 	void LoadMesh(aiMesh *ai_mesh, Material *material); 
+	void LoadVertices(float3 *vertices, unsigned num_vertices, unsigned *indices, unsigned num_indices, float2 *tex_coords, unsigned num_tex_coords); 
 
 	void ShowBoundingBox();
 	void UpdateBoundingBox( float4x4 parent_world_transform); 

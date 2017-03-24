@@ -107,6 +107,55 @@ Mesh::Mesh(aiMesh* mesh, Material* material)
 
 }
 
+Mesh::Mesh(float3 *vertex, unsigned int num_vertices, unsigned int *indices, unsigned int num_indices, float2 *tex_coords, unsigned num_tex_coords)
+{
+	m_num_elements = num_vertices;
+
+	std::vector<float3> vert;
+	vert.reserve(num_vertices);
+	this->num_vertices = num_vertices;
+	vertices = new float3[num_vertices];
+	for (size_t i = 0; i <num_vertices; ++i) {
+		vertices[i] = float3(vertex[i].x, vertex[i].y, vertex[i].z);
+		vert.push_back(float3(vertex[i].x, vertex[i].y, vertex[i].z));
+	}
+
+	glGenBuffers(1, &m_vbo[VERTEX_BUFFER]);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);
+	glBufferData(GL_ARRAY_BUFFER, size(vert) * sizeof(vert[0])*sizeof(float), &vert[0], GL_STATIC_DRAW);
+
+	vert.clear();
+	
+	//texture coords
+	std::vector<float2> texture_coords;
+	texture_coords.reserve(num_tex_coords);
+	for (size_t i = 0; i < num_tex_coords; ++i) {
+		texture_coords.push_back(tex_coords[i]);
+	}
+
+	glGenBuffers(1, &m_vbo[TEXCOORD_BUFFER]);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo[TEXCOORD_BUFFER]);
+	glBufferData(GL_ARRAY_BUFFER, size(texture_coords) * sizeof(texture_coords[0]), &texture_coords[0], GL_STATIC_DRAW);
+
+	texture_coords.clear();
+
+	// load indices
+	std::vector<GLuint> ind;
+	ind.reserve(num_indices);
+	for (size_t i = 0; i < num_indices; ++i) {
+			ind.push_back(indices[i]);
+	}
+
+	glGenBuffers(1, &m_vbo[INDEX_BUFFER]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vbo[INDEX_BUFFER]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size(ind) * sizeof(ind[0]), &ind[0], GL_STATIC_DRAW);
+
+	ind.clear();
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
 Mesh::~Mesh() {
 	RELEASE(vertices);
 
@@ -120,12 +169,10 @@ Mesh::~Mesh() {
 	}
 
 	RELEASE_ARRAY(m_bones);
-
-	//if (m_material != nullptr)
-//		RELEASE(m_material);
 }
 
 void Mesh::Draw() {
+
 	if (m_material != nullptr)
 		if (m_material->GetTexture() != 0)
 		App->textures->UseTexture2D(m_material->GetTexture());

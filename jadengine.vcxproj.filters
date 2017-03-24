@@ -23,6 +23,9 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{a5be9ff8-32c0-4def-8822-5c95ecb94fd9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjectPrimitives">
+      <UniqueIdentifier>{5261d9ef-582d-445e-b19c-a7fb910c8574}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Module.h">
@@ -148,6 +151,9 @@
     <ClInclude Include="src\Quadtree.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\CubePrimitive.h">
+      <Filter>GameObjectPrimitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -269,6 +275,9 @@
     </ClCompile>
     <ClCompile Include="src\Quadtree.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CubePrimitive.cpp">
+      <Filter>GameObjectPrimitives</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

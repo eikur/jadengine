@@ -15,17 +15,16 @@ class Quadtree {
 		~QuadtreeNode() { }
 
 		void Insert(GameObject *go_to_insert); 
-		void QuadtreeNode::CreateChildren(AABB parent_AABB); 
+		void QuadtreeNode::CreateChildren(); 
 		void Clear(); 
 		void DrawDebug(); 
-
 
 		AABB boundary; 
 		int capacity = 0; 
 		QuadtreeNode *children = nullptr; 
 
 		std::list<GameObject*> objects; 
-		int bucket_space = 1; 
+		int bucket_space = 2; 
 	};
 
 public: 

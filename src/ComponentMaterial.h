@@ -22,6 +22,7 @@ public:
 	void OnEditor();
 
 	void LoadMaterial(aiMaterial *ai_mat, const char* path);
+	void SetMaterial(const char* path, float3 *ambient , float3* diffuse = nullptr, float3* emissive = nullptr, float3* specular = nullptr, float3* transparent = nullptr, float shininess = 0); 
 
 	Material* GetMaterial();
 };
