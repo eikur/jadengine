@@ -109,7 +109,7 @@ Mesh::Mesh(aiMesh* mesh, Material* material)
 
 Mesh::Mesh(float3 *vertex, unsigned int num_vertices, unsigned int *indices, unsigned int num_indices, float2 *tex_coords, unsigned num_tex_coords)
 {
-	m_num_elements = num_vertices;
+	m_num_elements = num_indices;
 
 	std::vector<float3> vert;
 	vert.reserve(num_vertices);

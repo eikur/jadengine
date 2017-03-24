@@ -8,10 +8,10 @@ class CubePrimitive : public GameObject
 public:
 	CubePrimitive(const char* name, GameObject* parent = nullptr, bool active= true);
 	~CubePrimitive(); 
+
 private:
 	void CreateCubeComponents(); 
-
-
 	
 };
+
 #endif

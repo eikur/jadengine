@@ -11,14 +11,10 @@ class ComponentMesh : public Component
 
 private: 
 	AABB bounding_box;
-	bool show_bounding_box = true;
+	bool show_bounding_box = false;
 
 	Mesh *mesh = nullptr;
-
 	ComponentMaterial *component_material = nullptr;
-
-public: 
-	bool culled_out = false; 
 
 public:
 	ComponentMesh(GameObject* parent, bool active = true);
