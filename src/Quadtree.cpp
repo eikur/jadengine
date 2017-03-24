@@ -33,8 +33,7 @@ void Quadtree::DebugDraw()
 
 void Quadtree::QuadtreeNode::Insert(GameObject* go_to_insert)
 {
-//	if (boundary.Contains(go_to_insert->GetWorldPosition()))
-	if (boundary.Contains(go_to_insert->GetLocalPosition()))
+	if (boundary.Contains(go_to_insert->GetWorldPosition()))
 	{
 		if (capacity < bucket_space)
 		{

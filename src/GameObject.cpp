@@ -195,7 +195,10 @@ float3 GameObject::GetLocalPosition() const
 
 float3 GameObject::GetWorldPosition() const
 {
-	return (GetWorldTransformMatrix().Mul(GetLocalPosition().ToPos4())).Float3Part();
+	if (parent == nullptr)
+		return GetLocalPosition(); 
+	else
+		return (GetWorldTransformMatrix().Mul(GetLocalPosition().ToPos4())).Float3Part();
 }
 
 
