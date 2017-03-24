@@ -45,17 +45,26 @@ void Quadtree::QuadtreeNode::Insert(GameObject* go_to_insert)
 		{
 			if (children == nullptr)
 			{
-				children = CreateChildren(boundary); 
+				CreateChildren(boundary); 
 			}
 			for (int i = 0; i < 4; ++i)
-				children[i].Insert(go_to_insert); 
+			{
+				for (std::list<GameObject*>::iterator it = objects.begin(); it != objects.end(); )
+				{
+					children[i].Insert(*it); 
+					objects.remove(*it);
+					it = objects.begin(); 
+				}
+				children[i].Insert(go_to_insert);
+
+			}
 		}
 	}
 }
 
-Quadtree::QuadtreeNode* Quadtree::QuadtreeNode::CreateChildren(AABB parent_AABB)
+void Quadtree::QuadtreeNode::CreateChildren(AABB parent_AABB)
 {
-	QuadtreeNode* children = new QuadtreeNode[4];
+	children = new QuadtreeNode[4];
 	
 	float3 min = { boundary.CenterPoint().x, boundary.MinY(), boundary.CenterPoint().z };
 	float3 max = { boundary.MaxX(), boundary.MaxY(), boundary.MaxZ() };
@@ -77,9 +86,7 @@ Quadtree::QuadtreeNode* Quadtree::QuadtreeNode::CreateChildren(AABB parent_AABB)
 	min = { boundary.CenterPoint().x, boundary.MinY(), boundary.MinZ() };
 	max = {boundary.MaxX(), boundary.MaxY(), boundary.CenterPoint().z};
 	children[3].boundary = AABB(min, max); 
-	children[3].bucket_space = bucket_space;
-
-	return children; 
+	children[3].bucket_space = bucket_space; 
 }
 
 void Quadtree::QuadtreeNode::DrawDebug()

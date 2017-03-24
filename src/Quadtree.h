@@ -15,7 +15,7 @@ class Quadtree {
 		~QuadtreeNode() { }
 
 		void Insert(GameObject *go_to_insert); 
-		QuadtreeNode* QuadtreeNode::CreateChildren(AABB parent_AABB); 
+		void QuadtreeNode::CreateChildren(AABB parent_AABB); 
 		void Clear(); 
 		void DrawDebug(); 
 

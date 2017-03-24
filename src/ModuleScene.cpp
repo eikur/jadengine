@@ -89,5 +89,7 @@ bool ModuleScene::CleanUp()
 	}
 
 //	game_objects.clear(); 
+	quadtree->Clear(); 
+	RELEASE(quadtree); 
 	return true;
 }
