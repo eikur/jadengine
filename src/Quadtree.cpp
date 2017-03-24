@@ -31,7 +31,7 @@ void Quadtree::DebugDraw()
 	root_node->DrawDebug(); 
 }
 
-void Quadtree::QuadtreeNode::Insert(GameObject* go_to_insert)
+bool Quadtree::QuadtreeNode::Insert(GameObject* go_to_insert)
 {
 	if (boundary.Contains(go_to_insert->GetWorldPosition()))
 	{
@@ -39,26 +39,33 @@ void Quadtree::QuadtreeNode::Insert(GameObject* go_to_insert)
 		{
 			objects.push_back(go_to_insert); 
 			capacity++; 
+			return true; 
 		}
-		else
+
+		if (children == nullptr)
+			CreateChildren(); 
+
+		// transfer the inserted gos to the children
+		for (std::list<GameObject*>::iterator it = objects.begin(); it != objects.end(); )
 		{
-			if (children == nullptr)
-			{
-				CreateChildren(); 
-			}
 			for (int i = 0; i < 4; ++i)
 			{
-				for (std::list<GameObject*>::iterator it = objects.begin(); it != objects.end(); )
+				if (children[i].Insert(*it) == true)
 				{
-					children[i].Insert(*it); 
-					objects.remove(*it);
-					it = objects.begin(); 
+					objects.erase(it);
+					it = objects.begin();
+					break;
 				}
-				children[i].Insert(go_to_insert);
-
 			}
 		}
+
+		// insert the new one
+		for (int i = 0; i < 4; ++i)
+			if (children[i].Insert(go_to_insert) == true)
+				return true;
+
 	}
+	return false; 
 }
 
 void Quadtree::QuadtreeNode::CreateChildren()
