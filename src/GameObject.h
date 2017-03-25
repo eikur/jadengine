@@ -43,7 +43,7 @@ public:
 	void AddGameObjectToChildren(GameObject* game_object);
 
 	Component* CreateComponent(Component::componentType type);
-
+	const std::vector<GameObject*>& GetChildren() const;
 
 	// transform component handling methods
 	float4x4 GetWorldTransformMatrix() const;

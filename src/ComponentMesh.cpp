@@ -22,6 +22,7 @@ bool ComponentMesh::Update(float)
 	{
 		mesh->SetMaterial(component_material->GetMaterial());
 	}
+	mesh->Update();
 	mesh->Draw(); 
 	return true;
 }

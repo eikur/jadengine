@@ -7,6 +7,9 @@
 #include "Application.h"
 #include "ModuleTextures.h"
 #include "Material.h"
+#include "Application.h"
+#include "ModuleScene.h"
+#include "GameObject.h"
 
 Mesh::Mesh()
 {}
@@ -223,4 +226,14 @@ void Mesh::Draw() {
 void Mesh::SetMaterial(Material* new_mat)
 {
 	m_material = new_mat;
+}
+
+void Mesh::Update()
+{
+	// If the mesh is malleable find the corresponding node (game object)
+	// for each bone
+	for (size_t i = 0; i < m_num_bones; ++i) {
+		GameObject* go = App->scene->FindGameObject(m_bones[i].name, App->scene->game_objects);
+		MYLOG("found game object %s", go->name.c_str());
+	}
 }

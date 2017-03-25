@@ -18,7 +18,7 @@ struct Weight
 
 struct Bone
 {
-	std::string name;
+	const char* name;
 	Weight* weights = nullptr;
 	unsigned num_weights = 0;
 	float4x4 bind;
@@ -43,7 +43,7 @@ public:
 	void Draw();
 
 	void SetMaterial(Material* new_mat);
-
+	void Update();
 
 public:
 	float3 *vertices = nullptr;

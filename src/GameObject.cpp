@@ -258,3 +258,7 @@ void GameObject::UpdateCameraWorldTransform()
 			(*it)->UpdateCameraWorldTransform();
 	}
 }
+
+const std::vector<GameObject*>& GameObject::GetChildren() const {
+	return children;
+}

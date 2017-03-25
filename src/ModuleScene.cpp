@@ -11,6 +11,7 @@
 #include "CubePrimitive.h" // for testing quadtree
 
 #include "ModuleScene.h"
+#include <algorithm>
 
 
 ModuleScene::ModuleScene(bool active) : Module(active){}
@@ -94,3 +95,42 @@ bool ModuleScene::CleanUp()
 	RELEASE(quadtree); 
 	return true;
 }
+
+GameObject* ModuleScene::FindGameObject(const char* name, const std::vector<GameObject*>& gos) const
+{
+	std::vector<GameObject*>::const_iterator it = std::find_if(gos.begin(), gos.end(),
+		[name](const GameObject* go) { return strcmp(go->name.c_str(), name) == 0; });
+
+	if (it != gos.end()) {
+		return *it;
+	}
+
+	for (size_t i = 0; i < gos.size(); ++i) {
+		GameObject* go = FindGameObject(name, gos[i]->GetChildren());
+		if (go)	return go;
+	}
+
+	return nullptr;
+}
+
+/*GameObject* ModuleScene::FindGameObject(const char *name)
+{
+	std::vector<GameObject*>::iterator it = std::find_if(game_objects.begin(), game_objects.end(),
+		[name](const GameObject* e) { return strcmp(e->name.c_str(), name) == 0; });
+
+	if (it != game_objects.end()) {
+		return *it;
+	}
+	else {
+		for (size_t i = 0; i < game_objects.size(); ++i)
+		{
+			it = std::find_if(game_objects[i]->GetChildren().begin(), game_objects[i]->GetChildren().end(),
+				[name](const GameObject* e) { return strcmp(e->name.c_str(), name) == 0; });
+			if (it != game_objects[i]->GetChildren().end()) {
+				return *it;
+			}
+		}
+	}
+
+	return nullptr;
+}*/
