@@ -28,6 +28,7 @@ public:
 
 	void Enable() { active = true; }
 	void Disable() { active = false; }
+	bool Init();
 	bool Update( float dt);
 	bool CleanUp(); 
 

@@ -18,7 +18,7 @@ public:
 	bool Init();
 	update_status Update(float dt);
 	bool CleanUp();
-	GameObject* FindGameObject(const char* name, const std::vector<GameObject*>& gameobjects) const;
+	GameObject* BoneToGameObjMapping(const char* name, const std::vector<GameObject*>& gameobjects) const;
 
 public:
 	std::vector<GameObject*> game_objects;
