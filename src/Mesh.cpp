@@ -21,20 +21,15 @@ Mesh::Mesh(aiMesh* mesh, Material* material)
 	m_num_elements = mesh->mNumFaces * 3;
 
 	if (mesh->HasPositions()) {
-		std::vector<float3> vert;
-		vert.reserve(mesh->mNumVertices);
 		num_vertices = mesh->mNumVertices;
 		vertices = new float3[num_vertices];
 		for (size_t i = 0; i < mesh->mNumVertices; ++i) {
 			vertices[i] = float3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
-			vert.push_back(float3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z));
 		}
 
 		glGenBuffers(1, &m_vbo[VERTEX_BUFFER]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);
-		glBufferData(GL_ARRAY_BUFFER, size(vert) * sizeof(vert[0]), &vert[0], GL_STATIC_DRAW);
-
-		vert.clear();
+		glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
 	}
 
 	if (mesh->HasTextureCoords(0)) {
@@ -115,20 +110,15 @@ Mesh::Mesh(float3 *vertex, unsigned int num_vertices, unsigned int *indices, uns
 {
 	m_num_elements = num_indices;
 
-	std::vector<float3> vert;
-	vert.reserve(num_vertices);
 	this->num_vertices = num_vertices;
 	vertices = new float3[num_vertices];
 	for (size_t i = 0; i <num_vertices; ++i) {
 		vertices[i] = float3(vertex[i].x, vertex[i].y, vertex[i].z);
-		vert.push_back(float3(vertex[i].x, vertex[i].y, vertex[i].z));
 	}
 
 	glGenBuffers(1, &m_vbo[VERTEX_BUFFER]);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);
-	glBufferData(GL_ARRAY_BUFFER, size(vert) * sizeof(vert[0])*sizeof(float), &vert[0], GL_STATIC_DRAW);
-
-	vert.clear();
+	glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
 	
 	//texture coords
 	std::vector<float2> texture_coords;
