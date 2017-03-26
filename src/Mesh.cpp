@@ -10,6 +10,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "GameObject.h"
+#include "ComponentTransform.h"
 
 Mesh::Mesh()
 {}
@@ -230,15 +231,27 @@ void Mesh::SetMaterial(Material* new_mat)
 
 void Mesh::Init()
 {
-	// If the mesh is malleable find the corresponding node (game object)
-	// for each bone
+	// If the mesh is malleable find the corresponding node (game object) for each bone
 	for (size_t i = 0; i < m_num_bones; ++i) {
 		GameObject* go = App->scene->BoneToGameObjMapping(m_bones[i].name, App->scene->game_objects);
-		MYLOG("found game object %s", go->name.c_str());
+		m_bones[i].attached_to = go;
 	}
 }
 
 void Mesh::Update()
 {
-	return;
+	float4x4 Bmat = float4x4::identity;
+	float4x4 Mmat = float4x4::identity;
+	float4 original_vertex = float4::zero;
+	float weight = .0f;
+
+	for (size_t b = 0; b < m_num_bones; ++b) {
+		for (size_t w = 0; w < m_bones[b].num_weights; ++w) {
+			//Bmat = m_bones[b].attached_to->transform->GetTransform();
+			Mmat = m_bones[b].bind;
+			original_vertex = vertices[m_bones[b].weights[w].vertex].ToPos4();
+			weight = m_bones[b].weights[w].weight;
+			vertices[m_bones[b].weights[w].vertex] = (Bmat * Mmat * original_vertex).xyz();
+		}
+	}
 }
