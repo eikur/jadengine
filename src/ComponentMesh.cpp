@@ -28,7 +28,7 @@ bool ComponentMesh::Update(float)
 	{
 		mesh->SetMaterial(component_material->GetMaterial());
 	}
-//	mesh->Update();
+	mesh->Update();
 	if (shown_in_active_camera)
 		mesh->Draw(); 
 	return true;

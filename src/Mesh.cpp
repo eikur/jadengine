@@ -240,19 +240,17 @@ void Mesh::Init()
 
 void Mesh::Update()
 {
-	float4x4 Bmat = float4x4::identity;
-	float4x4 Mmat = float4x4::identity;
+	float4x4 mat = float4x4::identity;
 	float4 original_vertex = float4::zero;
 	float weight = .0f;
 
 	/* TODO - Vertex skinning piece of code significantly hits performance */
 	for (size_t b = 0; b < m_num_bones; ++b) {
+		mat = m_bones[b].attached_to->GetWorldTransformMatrix() * m_bones[b].bind;
 		for (size_t w = 0; w < m_bones[b].num_weights; ++w) {
-			Bmat = m_bones[b].attached_to->GetWorldTransformMatrix();
-			Mmat = m_bones[b].bind;
 			original_vertex = vertices[m_bones[b].weights[w].vertex].ToPos4();
 			weight = m_bones[b].weights[w].weight;
-			vertices[m_bones[b].weights[w].vertex] = (Bmat * Mmat * original_vertex).xyz() * weight;
+			vertices[m_bones[b].weights[w].vertex] = (mat * original_vertex).xyz() * weight;
 		}
 	}
 }
