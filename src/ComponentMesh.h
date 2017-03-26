@@ -8,6 +8,8 @@ class ComponentMaterial;
 
 class ComponentMesh : public Component
 {
+public:
+	bool shown_in_active_camera = true;
 
 private: 
 	AABB bounding_box;
@@ -33,6 +35,7 @@ public:
 
 	void ShowBoundingBox();
 	void UpdateBoundingBox( float4x4 parent_world_transform); 
+	AABB GetBoundingBox() const;
 };
 
 #endif

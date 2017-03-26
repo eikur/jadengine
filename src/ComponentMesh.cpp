@@ -22,8 +22,9 @@ bool ComponentMesh::Update(float)
 	{
 		mesh->SetMaterial(component_material->GetMaterial());
 	}
-	mesh->Update();
-	mesh->Draw(); 
+//	mesh->Update();
+	if (shown_in_active_camera)
+		mesh->Draw(); 
 	return true;
 }
 
@@ -114,6 +115,13 @@ void ComponentMesh::UpdateBoundingBox( float4x4 parent_world_transform)
 	
 	delete world_vertices;
 }
+
+AABB ComponentMesh::GetBoundingBox() const
+{
+	return bounding_box;
+}
+
+
 
 bool ComponentMesh::DebugDraw()
 {

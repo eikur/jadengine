@@ -231,6 +231,21 @@ void GameObject::UpdateBoundingBoxesRecursively()
 	}
 }
 
+void GameObject::GetAllMeshComponents(std::vector<ComponentMesh*>& meshes) const
+{
+	ComponentMesh *mesh = (ComponentMesh*)FindComponentByType(Component::componentType::MESH); 
+	if (mesh != nullptr)
+		meshes.push_back(mesh); 
+	
+	for (std::vector<GameObject*>::const_iterator it = children.cbegin(); it != children.cend(); ++it)
+	{
+		if ((*it)->active == true)
+			(*it)->GetAllMeshComponents(meshes);
+	}
+
+}
+
+
 float4x4 GameObject::GetWorldTransformMatrix() const
 {
 	if (parent == nullptr)

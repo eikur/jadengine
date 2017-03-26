@@ -58,7 +58,7 @@ update_status ModuleScene::Update(float dt)
 		if ((*it)->active == true)
 			(*it)->DebugDraw();
 	}
-//	go->DrawSkeleton();
+	go->DrawSkeleton();
 	if (blend_animation == false && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		int new_anim = App->animations->BlendTo(0, "Run_Forwards", 600);	// very improvable code
@@ -72,10 +72,10 @@ update_status ModuleScene::Update(float dt)
 	// add new go to quadtree and scene
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 	{
-		go = new CubePrimitive("cube"); 
-		go->SetLocalTransform({float(float(rand()%2000) /100 -10),0,float(rand()%20-10)}, Quat::identity, float3::one);
-		game_objects.push_back(go);
-		quadtree->Insert(go);
+		GameObject* cube = new CubePrimitive("cube"); 
+		cube->SetLocalTransform({float(float(rand()%2000) /100 -10),0,float(rand()%20-10)}, Quat::identity, float3::one);
+		game_objects.push_back(cube);
+		quadtree->Insert(cube);
 	}
 	quadtree->DebugDraw(); 
 
@@ -106,8 +106,8 @@ GameObject* ModuleScene::FindGameObject(const char* name, const std::vector<Game
 	}
 
 	for (size_t i = 0; i < gos.size(); ++i) {
-		GameObject* go = FindGameObject(name, gos[i]->GetChildren());
-		if (go)	return go;
+		GameObject* game_object = FindGameObject(name, gos[i]->GetChildren());
+		if (game_object)	return game_object;
 	}
 
 	return nullptr;

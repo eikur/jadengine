@@ -7,6 +7,7 @@
 #include "ImGui/imgui.h"
 
 class ComponentTransform;
+class ComponentMesh;
 class ComponentAnimation;
 
 class GameObject
@@ -54,6 +55,7 @@ public:
 
 	//mesh component handling methods
 	void UpdateBoundingBoxesRecursively();
+	void GetAllMeshComponents(std::vector<ComponentMesh*> &meshes) const;
 
 	//animation component handling methods
 	void SetNextAnimationID(int next_id);

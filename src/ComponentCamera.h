@@ -30,6 +30,8 @@ public:
 	void UpdateFrustumTransform( float4x4 parent_world_transform);
 
 private:
+	void PerformFrustumCulling() const; 
+	bool FrustumContainsAABB(const AABB& ref) const; 
 	void DrawFrustum(); 
 
 public:

@@ -4,6 +4,8 @@
 #include "ModuleWindow.h"
 #include "ImGui/imgui.h"
 #include "GameObject.h"
+#include "ModuleScene.h"
+#include "ComponentMesh.h"
 
 #include "ComponentCamera.h"
 
@@ -18,7 +20,8 @@ ComponentCamera::~ComponentCamera()
 
 bool ComponentCamera::Update(float)
 {
-
+	if (frustum_culling)
+		PerformFrustumCulling(); 
 	return true;
 }
 
@@ -32,8 +35,7 @@ void ComponentCamera::OnEditor()
 	if (ImGui::CollapsingHeader("Camera"))
 	{
 		ImGui::Checkbox("Enabled", &active); 
-		ImGui::SameLine();
-		ImGui::Checkbox("Draw Frustum", &draw_frustum); 
+
 		ImGui::DragFloat("Near Plane", &near_plane_distance); 
 		ImGui::DragFloat("Far Plane", &far_plane_distance); 
 		SetPlaneDistances(near_plane_distance, far_plane_distance); 
@@ -41,6 +43,10 @@ void ComponentCamera::OnEditor()
 		SetFOV(field_of_view); 
 		ImGui::DragFloat("Aspect Ratio", &aspect_ratio, 0.01f); 
 		SetAspectRatio(aspect_ratio); 
+
+		ImGui::Checkbox("Draw Frustum", &draw_frustum);
+		ImGui::SameLine();
+		ImGui::Checkbox("Enable Frustum Culling", &frustum_culling);
 	}
 }
 
@@ -121,6 +127,28 @@ void ComponentCamera::LookAt(float3 look_at)
 	Orientation(new_front, frustum.Up() + translation);
 }
 
+bool ComponentCamera::FrustumContainsAABB(const AABB& ref) const
+{
+	float3 refcorners[8]; 
+	ref.GetCornerPoints(refcorners); 
+
+	Plane plane; 
+	for (int p = 0; p < 6; p++)
+	{
+		plane = frustum.GetPlane(p); 
+	
+		int inside_count = 8;
+		for (int i = 0; i < 8; ++i)
+			if (plane.IsOnPositiveSide(refcorners[i]) == true)
+				inside_count--;
+
+		if (inside_count == 0)
+			return false; 
+	}
+
+	return true; 
+}
+
 void ComponentCamera::DrawFrustum() {
 	float3 *corner_points = new  float3[8];
 	frustum.GetCornerPoints(corner_points);
@@ -158,4 +186,22 @@ void ComponentCamera::UpdateFrustumTransform(float4x4 parent_world_transform)
 	parent_world_transform.Decompose(pos, rot, scl); 
 	frustum.SetPos(pos);
 	Orientation(rot.Mul(-float3::unitZ), rot.Mul(float3::unitY)); 
+}
+
+void ComponentCamera::PerformFrustumCulling() const
+{
+	std::vector<ComponentMesh*> meshes;
+
+	for (std::vector<GameObject*>::iterator it = App->scene->game_objects.begin(); it != App->scene->game_objects.end(); ++it)
+	{
+		if ((*it) != parent && (*it)->active)
+		{
+			(*it)->GetAllMeshComponents(meshes); 
+			for (std::vector<ComponentMesh*>::iterator mesh_it = meshes.begin(); mesh_it != meshes.end(); ++mesh_it)
+			{
+				(*mesh_it)->shown_in_active_camera = FrustumContainsAABB((*mesh_it)->GetBoundingBox());
+			}
+			meshes.clear(); 
+		}
+	}
 }
