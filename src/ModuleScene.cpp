@@ -65,7 +65,7 @@ update_status ModuleScene::Update(float dt)
 		if ((*it)->active == true)
 			(*it)->DebugDraw();
 	}
-//	go->DrawSkeleton();
+	go->DrawSkeleton();
 	if (blend_animation == false && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		int new_anim = App->animations->BlendTo(0, "Run_Forwards", 600);	// very improvable code

@@ -230,17 +230,26 @@ void Mesh::Init()
 
 void Mesh::Update()
 {
-	float4x4 mat = float4x4::identity;
-	float4 original_vertex = float4::zero;
-	float weight = .0f;
 
-	/* TODO - Vertex skinning piece of code significantly hits performance */
-	for (size_t b = 0; b < m_num_bones; ++b) {
+	if (m_num_bones <= 0)
+		return;
+
+	float4x4 mat = float4x4::identity;
+
+	float3 *vertices_skinned = new float3[num_vertices];
+	memset(vertices_skinned, 0, num_vertices*sizeof(float3));
+
+	for (size_t b = 0; b < m_num_bones; ++b)
+	{
 		mat = m_bones[b].attached_to->GetWorldTransformMatrix() * m_bones[b].bind;
-		for (size_t w = 0; w < m_bones[b].num_weights; ++w) {
-			original_vertex = vertices[m_bones[b].weights[w].vertex].ToPos4();
-			weight = m_bones[b].weights[w].weight;
-			vertices[m_bones[b].weights[w].vertex] = (mat * original_vertex).xyz() * weight;
+		for (size_t w = 0; w < m_bones[b].num_weights; ++w)
+		{
+			vertices_skinned[m_bones[b].weights[w].vertex] += m_bones[b].weights[w].weight * (mat * vertices[m_bones[b].weights[w].vertex].ToPos4()).Float3Part();
 		}
 	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);
+	glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(vertices_skinned[0]), &vertices_skinned[0], GL_STATIC_DRAW);
+	
+	delete vertices_skinned;
 }
