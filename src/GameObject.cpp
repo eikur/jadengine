@@ -16,6 +16,24 @@ GameObject::~GameObject()
 
 }
 
+bool GameObject::Init()
+{
+	bool ret = true;
+
+	for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); ++it)
+	{
+		if ((*it)->active == true)
+			ret = (*it)->Init();
+	}
+
+	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+	{
+		if ((*it)->active == true)
+			ret = (*it)->Init();
+	}
+	return ret;
+}
+
 bool GameObject::Update( float dt )
 {
 	bool ret = true; 

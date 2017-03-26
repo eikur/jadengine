@@ -43,6 +43,13 @@ bool ModuleScene::Init()
 	AABB limits = AABB({ -11,-2,-11 }, { 11,2,11 });
 	quadtree->Create(limits); 
 
+	// Init Game Objects in the scene
+	for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
+	{
+		if ((*it)->active == true)
+			(*it)->Init();
+	}
+
 	return true; 
 }
 
@@ -58,7 +65,7 @@ update_status ModuleScene::Update(float dt)
 		if ((*it)->active == true)
 			(*it)->DebugDraw();
 	}
-	go->DrawSkeleton();
+//	go->DrawSkeleton();
 	if (blend_animation == false && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		int new_anim = App->animations->BlendTo(0, "Run_Forwards", 600);	// very improvable code
@@ -96,7 +103,7 @@ bool ModuleScene::CleanUp()
 	return true;
 }
 
-GameObject* ModuleScene::FindGameObject(const char* name, const std::vector<GameObject*>& gos) const
+GameObject* ModuleScene::BoneToGameObjMapping(const char* name, const std::vector<GameObject*>& gos) const
 {
 	std::vector<GameObject*>::const_iterator it = std::find_if(gos.begin(), gos.end(),
 		[name](const GameObject* go) { return strcmp(go->name.c_str(), name) == 0; });
@@ -106,8 +113,8 @@ GameObject* ModuleScene::FindGameObject(const char* name, const std::vector<Game
 	}
 
 	for (size_t i = 0; i < gos.size(); ++i) {
-		GameObject* game_object = FindGameObject(name, gos[i]->GetChildren());
-		if (game_object)	return game_object;
+		GameObject* go = BoneToGameObjMapping(name, gos[i]->GetChildren());
+		if (go)	return go;
 	}
 
 	return nullptr;

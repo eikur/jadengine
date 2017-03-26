@@ -23,6 +23,7 @@ public:
 	~ComponentMesh();
 
 public:
+	bool Init();
 	bool Update(float dt);
 	bool CleanUp(); 
 	void OnEditor();

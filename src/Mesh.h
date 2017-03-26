@@ -43,6 +43,7 @@ public:
 	void Draw();
 
 	void SetMaterial(Material* new_mat);
+	void Init();
 	void Update();
 
 public:

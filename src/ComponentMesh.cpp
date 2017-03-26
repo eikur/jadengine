@@ -16,6 +16,12 @@ ComponentMesh::~ComponentMesh()
 	
 }
 
+bool ComponentMesh::Init()
+{
+	mesh->Init();
+	return true;
+}
+
 bool ComponentMesh::Update(float)
 {
 	if (component_material != nullptr)
