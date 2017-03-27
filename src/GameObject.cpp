@@ -263,6 +263,13 @@ void GameObject::GetAllMeshComponents(std::vector<ComponentMesh*>& meshes) const
 
 }
 
+float4x4 GameObject::GetModelSpaceTransformMatrix() const
+{
+	if (parent == nullptr)
+		return float4x4::identity;
+	else
+		return parent->GetModelSpaceTransformMatrix() * GetLocalTransformMatrix(); 
+}
 
 float4x4 GameObject::GetWorldTransformMatrix() const
 {

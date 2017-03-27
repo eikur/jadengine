@@ -57,6 +57,7 @@ public:
 	//mesh component handling methods
 	void UpdateBoundingBoxesRecursively();
 	void GetAllMeshComponents(std::vector<ComponentMesh*> &meshes) const;
+	float4x4 GetModelSpaceTransformMatrix() const; 
 
 	//animation component handling methods
 	void SetNextAnimationID(int next_id);
