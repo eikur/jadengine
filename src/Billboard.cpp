@@ -1,6 +1,3 @@
-#include "Application.h"
-#include "ModuleEditorCamera.h"
-#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 
@@ -26,11 +23,4 @@ Billboard::Billboard(const char* texture_path, float width, float height, GameOb
 Billboard::~Billboard()
 {
 
-}
-
-bool Billboard::DebugDraw()
-{
-	if (debug_mode == true)
-		MYLOG("DEBUG"); 
-	return true; 
 }
