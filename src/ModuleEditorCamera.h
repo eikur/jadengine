@@ -21,7 +21,6 @@ public:
 	bool Start();
 
 	update_status Update( float dt = 0.0f);
-	void CreateEditorCamera(); 
 	GameObject* CreateCameraGameObject(const std::string& name = "Unnamed") const;
 	ComponentCamera* GetCameraComponent() const;
 
@@ -30,6 +29,7 @@ public:
 
 private:
 	// Load configuration from file
+	void CreateEditorCamera();
 	bool LoadConfigFromFile(const char* file_path);
 
 private:

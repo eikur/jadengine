@@ -81,6 +81,7 @@
     <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Axis.h" />
+    <ClInclude Include="src\Billboard.h" />
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\ComponentAnimation.h" />
     <ClInclude Include="src\ComponentCamera.h" />
@@ -128,6 +129,7 @@
     <ClCompile Include="3rdparty\parson\parson.c" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Axis.cpp" />
+    <ClCompile Include="src\Billboard.cpp" />
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\ComponentAnimation.cpp" />
     <ClCompile Include="src\ComponentCamera.cpp" />

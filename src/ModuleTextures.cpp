@@ -89,8 +89,16 @@ GLuint ModuleTextures::LoadTexture(const std::string& texture_path)
 			{
 				iluFlipImage();
 			}
-
-			ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+			
+			int channels = ilGetInteger(IL_IMAGE_CHANNELS);
+			if (channels == 3)
+			{
+				ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+			}
+			else if (channels == 4)
+			{
+				ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+			}
 
 			ILubyte* data = ilGetData();
 			int width = ilGetInteger(IL_IMAGE_WIDTH);

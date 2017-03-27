@@ -154,6 +154,9 @@
     <ClInclude Include="src\CubePrimitive.h">
       <Filter>GameObjectPrimitives</Filter>
     </ClInclude>
+    <ClInclude Include="src\Billboard.h">
+      <Filter>Models</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -278,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="src\CubePrimitive.cpp">
       <Filter>GameObjectPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Billboard.cpp">
+      <Filter>Models</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@
 #include "ModuleEditorCamera.h" // for camera go
 #include "Quadtree.h" // for quadtree
 #include "CubePrimitive.h" // for testing quadtree
+#include "Billboard.h" // to test billboards
 
 #include "ModuleScene.h"
 #include <algorithm>
@@ -42,6 +43,9 @@ bool ModuleScene::Init()
 	quadtree = new Quadtree(); 
 	AABB limits = AABB({ -11,-2,-11 }, { 11,2,11 });
 	quadtree->Create(limits); 
+
+	game_objects.push_back(new Billboard("graphics/billboardgrass.png"));
+	
 
 	// Init Game Objects in the scene
 	for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
