@@ -33,47 +33,43 @@ Mesh::Mesh(aiMesh* mesh, Material* material)
 	}
 
 	if (mesh->HasTextureCoords(0)) {
-		std::vector<float2> texture_coords;
-		texture_coords.reserve(mesh->mNumVertices);
+		float2* texture_coords = new float2[num_vertices];
 		for (size_t i = 0; i < mesh->mNumVertices; ++i) {
-			texture_coords.push_back(float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y));
+			texture_coords[i] = float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 		}
 
 		glGenBuffers(1, &m_vbo[TEXCOORD_BUFFER]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo[TEXCOORD_BUFFER]);
-		glBufferData(GL_ARRAY_BUFFER, size(texture_coords) * sizeof(texture_coords[0]), &texture_coords[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(texture_coords[0]), &texture_coords[0], GL_STATIC_DRAW);
 
-		texture_coords.clear();
+		RELEASE_ARRAY(texture_coords);
 	}
 
 	if (mesh->HasNormals()) {
-		std::vector<float3> normals;
-		normals.reserve(mesh->mNumVertices);
+		normals = new float3[num_vertices];
 		for (size_t i = 0; i < mesh->mNumVertices; ++i) {
-			normals.push_back(float3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z));
+			normals[i] = float3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
 		}
 
 		glGenBuffers(1, &m_vbo[NORMAL_BUFFER]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo[NORMAL_BUFFER]);
-		glBufferData(GL_ARRAY_BUFFER, size(normals) * sizeof(normals[0]), &normals[0], GL_STATIC_DRAW);
-
-		normals.clear();
+		glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(normals[0]), &normals[0], GL_STATIC_DRAW);
 	}
 
 	if (mesh->HasFaces()) {
-		std::vector<GLuint> indices;
-		indices.reserve(mesh->mNumFaces * mesh->mFaces[0].mNumIndices);
+		GLuint num_indices = mesh->mNumFaces * mesh->mFaces[0].mNumIndices;
+		GLuint* indices = new GLuint[num_indices];
 		for (size_t i = 0; i < mesh->mNumFaces; ++i) {
 			for (size_t j = 0; j < mesh->mFaces[i].mNumIndices; ++j) {
-				indices.push_back(mesh->mFaces[i].mIndices[j]);
+				indices[mesh->mFaces[i].mNumIndices * i + j] = mesh->mFaces[i].mIndices[j];
 			}
 		}
 
 		glGenBuffers(1, &m_vbo[INDEX_BUFFER]);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vbo[INDEX_BUFFER]);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size(indices) * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_indices * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
 
-		indices.clear();
+		RELEASE_ARRAY(indices);
 	}
 
 	if (mesh->HasBones()) {
@@ -121,37 +117,36 @@ Mesh::Mesh(float3 *vertex, unsigned int num_vertices, unsigned int *indices, uns
 	glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
 	
 	//texture coords
-	std::vector<float2> texture_coords;
-	texture_coords.reserve(num_tex_coords);
+	float2* texture_coords = new float2[num_tex_coords];
 	for (size_t i = 0; i < num_tex_coords; ++i) {
-		texture_coords.push_back(tex_coords[i]);
+		texture_coords[i] = tex_coords[i];
 	}
 
 	glGenBuffers(1, &m_vbo[TEXCOORD_BUFFER]);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo[TEXCOORD_BUFFER]);
-	glBufferData(GL_ARRAY_BUFFER, size(texture_coords) * sizeof(texture_coords[0]), &texture_coords[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, num_tex_coords * sizeof(texture_coords[0]), &texture_coords[0], GL_STATIC_DRAW);
 
-	texture_coords.clear();
+	RELEASE_ARRAY(texture_coords);
 
 	// load indices
-	std::vector<GLuint> ind;
-	ind.reserve(num_indices);
+	GLuint* ind = new GLuint[num_indices];
 	for (size_t i = 0; i < num_indices; ++i) {
-			ind.push_back(indices[i]);
+			ind[i] = indices[i];
 	}
 
 	glGenBuffers(1, &m_vbo[INDEX_BUFFER]);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vbo[INDEX_BUFFER]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size(ind) * sizeof(ind[0]), &ind[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_indices * sizeof(ind[0]), &ind[0], GL_STATIC_DRAW);
 
-	ind.clear();
+	RELEASE_ARRAY(ind);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 Mesh::~Mesh() {
-	RELEASE(vertices);
+	RELEASE_ARRAY(vertices);
+	RELEASE_ARRAY(normals);
 
 	glDeleteBuffers(1, &m_vbo[VERTEX_BUFFER]);
 	glDeleteBuffers(1, &m_vbo[TEXCOORD_BUFFER]);

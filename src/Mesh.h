@@ -48,7 +48,8 @@ public:
 
 public:
 	float3 *vertices = nullptr;
-	int num_vertices = 0;
+	float3 *normals = nullptr;
+	GLuint num_vertices = 0;
 
 private:
 	GLuint m_num_elements = 0;
