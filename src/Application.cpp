@@ -109,7 +109,7 @@ update_status Application::Update()
 	float timer_read = game_timer.Read();
 	last_update_usec = timer_read - last_update_start;
 	last_update_start = timer_read;
-	//MYLOG("last_update_usec = %.2f", last_update_usec);
+	//MYLOG("last_update_usec = %.2f", 1000000/ last_update_usec);
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
