@@ -84,6 +84,7 @@
     <ClInclude Include="src\Billboard.h" />
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\ComponentAnimation.h" />
+    <ClInclude Include="src\ComponentBillboardQuad.h" />
     <ClInclude Include="src\ComponentCamera.h" />
     <ClInclude Include="src\ComponentMaterial.h" />
     <ClInclude Include="src\ComponentMesh.h" />
@@ -132,6 +133,7 @@
     <ClCompile Include="src\Billboard.cpp" />
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\ComponentAnimation.cpp" />
+    <ClCompile Include="src\ComponentBillboardQuad.cpp" />
     <ClCompile Include="src\ComponentCamera.cpp" />
     <ClCompile Include="src\ComponentMaterial.cpp" />
     <ClCompile Include="src\ComponentMesh.cpp" />

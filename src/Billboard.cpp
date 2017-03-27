@@ -11,6 +11,7 @@ Billboard::Billboard(const char* texture_path, float width, float height, GameOb
 	CreateComponent(Component::componentType::TRANSFORM); 
 	ComponentMesh *comp_mesh =  (ComponentMesh*) CreateComponent(Component::componentType::MESH);
 	ComponentMaterial *comp_material = (ComponentMaterial*)CreateComponent(Component::componentType::MATERIAL); 
+	CreateComponent(Component::componentType::BILLBOARD_QUAD); 
 
 	float3 vertices[4] = { { -width/2, -height/2, 0.0f }, { width / 2, -height / 2, 0.0f}, { width / 2, height / 2, 0.0f}, { -width / 2, height / 2, 0.0f} };
 	unsigned indices[6] = { 0, 1, 2, 0, 2, 3};
@@ -25,14 +26,6 @@ Billboard::Billboard(const char* texture_path, float width, float height, GameOb
 Billboard::~Billboard()
 {
 
-}
-
-void Billboard::ComputeQuad()
-{
-	ComponentCamera *camera = App->camera->GetCameraComponent();
-
-
-	
 }
 
 bool Billboard::DebugDraw()

@@ -11,12 +11,7 @@ public:
 	~Billboard(); 
 
 	bool DebugDraw(); 
-
-private:
-	void ComputeQuad(); 
-	void Draw(); 
-		
-
+	
 private: 
 	bool debug_mode = false; 
 };

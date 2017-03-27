@@ -157,6 +157,9 @@
     <ClInclude Include="src\Billboard.h">
       <Filter>Models</Filter>
     </ClInclude>
+    <ClInclude Include="src\ComponentBillboardQuad.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -284,6 +287,9 @@
     </ClCompile>
     <ClCompile Include="src\Billboard.cpp">
       <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComponentBillboardQuad.cpp">
+      <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
