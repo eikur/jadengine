@@ -73,5 +73,5 @@ void CubePrimitive::CreateCubeComponents()
 	comp_mesh->LoadVertices(vertices, 24, indices, 36, tex_coords, 24);
 	comp_mesh->SetComponentMaterial(comp_material);
 	float3 ambient = { 1.0f, 0, 0 };
-	comp_material->SetMaterial(nullptr,&ambient);
+	comp_material->SetMaterial(nullptr,false, &ambient);
 }

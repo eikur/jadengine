@@ -163,8 +163,11 @@ Mesh::~Mesh() {
 void Mesh::Draw() {
 
 	if (m_material != nullptr)
+	{
 		if (m_material->GetTexture() != 0)
-		App->textures->UseTexture2D(m_material->GetTexture());
+			App->textures->UseTexture2D(m_material->GetTexture());
+		m_material->has_alpha ?	glEnable(GL_BLEND) : glDisable(GL_BLEND);
+	}
 
 	glColorMaterial(GL_FRONT, GL_AMBIENT);
 	if (m_material != nullptr)

@@ -93,7 +93,7 @@ void ComponentMaterial::LoadMaterial(aiMaterial *ai_mat, const char* asset_path)
 
 }
 
-void ComponentMaterial::SetMaterial(const char* asset_path, float3 *ambient, float3* diffuse, float3* emissive, float3* specular, float3* transparent, float shininess)
+void ComponentMaterial::SetMaterial(const char* asset_path, bool has_alpha, float3 *ambient, float3* diffuse, float3* emissive, float3* specular, float3* transparent, float shininess)
 {
 	int texture_id = -1; 
 	if (asset_path != nullptr)
@@ -102,6 +102,7 @@ void ComponentMaterial::SetMaterial(const char* asset_path, float3 *ambient, flo
 		texture_id = App->textures->CreateCheckersTexture(); 
 
 	material = new Material(texture_id); 
+	material->has_alpha = has_alpha;
 	if (ambient != nullptr)
 		material->SetColor({ ambient->x, ambient->y, ambient->z, 1.0f }, Material::COLOR_COMPONENT::AMBIENT); 
 	if (diffuse != nullptr)

@@ -22,11 +22,15 @@ public:
 	const GLfloat* GetColorComponent(COLOR_COMPONENT c) const;
 	const float GetShininess() const;
 
+
 public:
 	float4 m_color[5] = { float4::zero, float4::zero, float4::zero, 
 	float4::zero, float4::zero };
 	float m_shininess;
 	GLuint m_texture_id;
+
+	bool has_alpha = false; 
+
 };
 
 #endif // __MATERIAL_H__

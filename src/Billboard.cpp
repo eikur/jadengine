@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ModuleEditorCamera.h"
+#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 
@@ -18,7 +19,7 @@ Billboard::Billboard(const char* texture_path, float width, float height, GameOb
 	comp_mesh->LoadVertices(vertices, 4, indices, 6, tex_coords, 4);
 	comp_mesh->SetComponentMaterial(comp_material);
 	float3 ambient = { 1.0f, 1.0f, 1.0f };
-	comp_material->SetMaterial(texture_path, &ambient);
+	comp_material->SetMaterial(texture_path, true, &ambient);
 }
 
 Billboard::~Billboard()
@@ -29,11 +30,8 @@ Billboard::~Billboard()
 void Billboard::ComputeQuad()
 {
 	ComponentCamera *camera = App->camera->GetCameraComponent();
-	//change the vertices for the mesh
-}
 
-void Billboard::Draw()
-{
+
 	
 }
 
