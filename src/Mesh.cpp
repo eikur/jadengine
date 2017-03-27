@@ -244,7 +244,8 @@ void Mesh::Update()
 		mat = m_bones[b].attached_to->GetModelSpaceTransformMatrix() * m_bones[b].bind;
 		for (size_t w = 0; w < m_bones[b].num_weights; ++w)
 		{
-			vertices_skinned[m_bones[b].weights[w].vertex] += m_bones[b].weights[w].weight * (mat * vertices[m_bones[b].weights[w].vertex].ToPos4()).Float3Part();
+			vertices_skinned[m_bones[b].weights[w].vertex] += m_bones[b].weights[w].weight * mat.TransformPos( vertices[m_bones[b].weights[w].vertex]);
+		//	vertices_skinned[m_bones[b].weights[w].vertex] += m_bones[b].weights[w].weight * (mat * vertices[m_bones[b].weights[w].vertex].ToPos4()).Float3Part();
 		}
 	}
 
