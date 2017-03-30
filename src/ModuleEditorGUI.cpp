@@ -1,4 +1,4 @@
-#include "Globals.h"
+﻿#include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
 #include <Windows.h>
@@ -12,7 +12,8 @@
 
 #include "ModuleEditorGUI.h"
 
-ModuleEditorGUI::ModuleEditorGUI(bool active) : Module(active), show_hierarchy(true), show_inspector(true)
+ModuleEditorGUI::ModuleEditorGUI(bool active) 
+: Module(active), show_hierarchy(true), show_inspector(true), show_player(true)
 {
 }
 
@@ -37,6 +38,7 @@ update_status ModuleEditorGUI::Update(float)
 	if (show_hierarchy) ShowHierarchy(&show_hierarchy);
 	if (show_inspector) ShowInspector(&show_inspector);
 	if (show_stats) ShowStats(&show_stats);
+	if (show_player) ShowPlayer(&show_player);
 
 	if (ShowMainMenu() == false)
 		return UPDATE_STOP;
@@ -77,6 +79,7 @@ bool ModuleEditorGUI::ShowMainMenu()
 			if (ImGui::MenuItem("Hierarchy", NULL, &show_hierarchy)) {}
 			if (ImGui::MenuItem("Inspector", NULL, &show_inspector)) {}
 			if (ImGui::MenuItem("Stats", NULL, &show_stats)) {}
+			if (ImGui::MenuItem("Player", NULL, &show_player)) {}
 			ImGui::EndMenu();
 		}
 
@@ -133,6 +136,25 @@ void ModuleEditorGUI::ShowStats(bool *enabled) const {
 	ImGui::Text("Mouse: (%.1f,%.1f)", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
 	ImGui::End();
 
+}
+
+void ModuleEditorGUI::ShowPlayer(bool *enabled) const {
+	// example> overlayLayout
+	unsigned short int width = 200;
+	ImGui::SetNextWindowPos(ImVec2(App->window->m_screen_width / 2 - width / 2, 25));
+	ImGui::SetNextWindowSize(ImVec2(width, 40));
+	if (!ImGui::Begin("Player", enabled, ImVec2(0, 0), 0.3f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings))
+	{
+		ImGui::End();
+		return;
+	}
+	ImGui::Columns(3, 0, false);
+	ImGui::Button("Play", ImVec2(50, 20)); 
+	ImGui::NextColumn();
+	ImGui::Button("Pause", ImVec2(50, 20));
+	ImGui::NextColumn();
+	ImGui::Button("Tick", ImVec2(50, 20));
+	ImGui::End();
 }
 
 void ModuleEditorGUI::ShowInspector(bool *enabled) const {

@@ -26,6 +26,7 @@ private:
 	void ShowHierarchy(bool *p_open);
 	
 	void ShowAbout(bool *p_open) const;
+	void ShowPlayer(bool *p_open) const;
 
 private:
 	bool show_about = false;
@@ -33,6 +34,7 @@ private:
 	bool show_inspector = false;
 	bool show_hierarchy = false;
 	bool show_stats = false;
+	bool show_player = false;
 
 	GameObject *inspector_selected_gameobject = nullptr;
 };
