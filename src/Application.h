@@ -49,6 +49,9 @@ public:
 	ModuleEditorGUI* gui = nullptr;
 	ModuleScene* scene = nullptr; 
 	ModuleAnimation* animations = nullptr; 
+	TimerUSec game_timer;
+	TimerMSec update_timer;
+	TimerMSec real_timer;
 
 	Uint32 frame_count = 0;
 	float FPS = 0.0f;
@@ -56,8 +59,6 @@ public:
 private:
 	std::list<Module*> modules;
 
-	TimerUSec game_timer;
-	TimerMSec update_timer;
 	Uint32 last_frame_count = 0;
 	Uint32 fps_cap = 0;
 	Uint32 msec_wait_fps_cap = 0;

@@ -124,7 +124,7 @@ void ModuleEditorGUI::ShowConsole(bool *p_open) const {
 void ModuleEditorGUI::ShowStats(bool *enabled) const {
 	// example> overlayLayout
 	ImGui::SetNextWindowPos(ImVec2(App->window->m_screen_width*3/4, 25));
-	ImGui::SetNextWindowSize(ImVec2(App->window->m_screen_width/4 - 5, 80));
+	ImGui::SetNextWindowSize(ImVec2(App->window->m_screen_width/4 - 5, 120));
 	if (!ImGui::Begin("Statistics", enabled, ImVec2(0, 0), 0.3f, ImGuiWindowFlags_NoTitleBar| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings))
 	{
 		ImGui::End();
@@ -134,6 +134,8 @@ void ModuleEditorGUI::ShowStats(bool *enabled) const {
 	ImGui::Separator();
 	ImGui::Text("%.2f/60 fps", App->FPS );
 	ImGui::Text("Mouse: (%.1f,%.1f)", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
+	ImGui::Text("Game Clock: %.2f s", App->game_timer.Read() / 1000000);
+	ImGui::Text("Real Time Clock: %.2f s", App->real_timer.Read() / 1000.0f);
 	ImGui::End();
 
 }
@@ -149,9 +151,11 @@ void ModuleEditorGUI::ShowPlayer(bool *enabled) const {
 		return;
 	}
 	ImGui::Columns(3, 0, false);
-	ImGui::Button("Play", ImVec2(50, 20)); 
+	if (ImGui::Button("Play", ImVec2(50, 20)))
+		App->game_timer.Start();
 	ImGui::NextColumn();
-	ImGui::Button("Pause", ImVec2(50, 20));
+	if (ImGui::Button("Pause", ImVec2(50, 20)))
+		App->game_timer.Stop();
 	ImGui::NextColumn();
 	ImGui::Button("Tick", ImVec2(50, 20));
 	ImGui::End();

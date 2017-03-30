@@ -94,8 +94,9 @@ bool Application::Init()
 		if((*it)->IsEnabled() == true)
 			ret = (*it)->Start();
 
-	game_timer.Start();
-	last_update_usec = game_timer.Read();
+//	game_timer.Start();
+//	last_update_usec = game_timer.Read();
+	real_timer.Start();
 	update_timer.Start();
 
 	return ret;
@@ -117,7 +118,7 @@ update_status Application::Update()
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
-			ret = (*it)->Update(last_update_usec/1000000.0f);
+			ret = (*it)->Update(last_update_usec / 1000000.0f);
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
