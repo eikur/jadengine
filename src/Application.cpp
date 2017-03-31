@@ -94,10 +94,8 @@ bool Application::Init()
 		if((*it)->IsEnabled() == true)
 			ret = (*it)->Start();
 
-//	game_timer.Start();
-//	last_update_usec = game_timer.Read();
 	real_timer.Start();
-	update_timer.Start();
+	fps_refresh_timer.Start();
 
 	return ret;
 }
@@ -106,39 +104,37 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	//Amount of usec took the last update
-	float timer_read = game_timer.Read();
-	last_update_usec = timer_read - last_update_start;
-	last_update_start = timer_read;
-	//MYLOG("last_update_usec = %.2f", 1000000/ last_update_usec);
+	//Amount of usec the last update took - GAME TIME
+	float game_timer_read = game_timer.Read();
+	last_game_update_usec = game_timer_read - last_game_update_start;
+	last_game_update_start = game_timer_read;
 
+	//Amount of usec the last update tool - REAL TIME
+	float real_timer_read = real_timer.Read();
+	last_real_update_usec = real_timer_read - last_real_update_start;
+	last_real_update_start = real_timer_read;
+
+	// Pre-Update all modules
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->PreUpdate();
 
+	// Update all modules
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
-			ret = (*it)->Update(last_update_usec / 1000000.0f);
+			ret = (*it)->Update(last_game_update_usec / 1000000.0f);
 
+	// Post update all modules 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->PostUpdate();
-/*
-	float before_msec = game_timer.Read();
-	SDL_Delay(msec_wait_fps_cap);
-	float later_msec = game_timer.Read();
-	MYLOG("SDL_Delay(%lu) actually waits %.2f", msec_wait_fps_cap, (later_msec - before_msec)/1000.0f);
-	*/
 
-	avgFPS = ((float)frame_count )/ (game_timer.Read() / 1000000.0f);
 
-	// If a second has passed, re-calculate FPS
-	if (update_timer.Read() > 1000.0f)
+	// Fps calculation for application stats
+	if (fps_refresh_timer.Read() > 250.0f)
 	{
-		FPS = (frame_count - last_frame_count) / (update_timer.Read() / 1000.0f);
-		last_frame_count = frame_count;
-		update_timer.Start();
-		//MYLOG("***** UPDATE FPS: %.2f , AvgFPS: %.2f", FPS, avgFPS);
+		FPS = 1 / (last_real_update_usec / 1000000.0f);
+		fps_refresh_timer.Start(); 
 	}
 
 	return ret;

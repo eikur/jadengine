@@ -135,7 +135,7 @@ void ModuleEditorGUI::ShowStats(bool *enabled) const {
 	ImGui::Text("%.2f/60 fps", App->FPS );
 	ImGui::Text("Mouse: (%.1f,%.1f)", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
 	ImGui::Text("Game Clock: %.2f s", App->game_timer.Read() / 1000000);
-	ImGui::Text("Real Time Clock: %.2f s", App->real_timer.Read() / 1000.0f);
+	ImGui::Text("Real Time Clock: %.2f s", App->real_timer.Read() / 1000000.0f);
 	ImGui::End();
 
 }

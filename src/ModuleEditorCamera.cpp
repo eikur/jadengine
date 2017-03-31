@@ -1,10 +1,13 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
-#include "ModuleEditorCamera.h"
 #include "ModuleWindow.h"
+
 #include "GameObject.h"
+#include "ComponentTransform.h"
 #include "ComponentCamera.h"
+
+#include "ModuleEditorCamera.h"
 
 ModuleEditorCamera::ModuleEditorCamera()
 {
@@ -26,7 +29,7 @@ bool ModuleEditorCamera::Init()
 	}
 	else
 	{
-		m_component_cam->Init();
+		m_camera_component->Init();
 	}
 
 	return ret;
@@ -39,9 +42,12 @@ bool ModuleEditorCamera::Start()
 
 update_status ModuleEditorCamera::Update(float dt)
 {
-	float3 front = m_component_cam->frustum.Front();
-	float3 up = m_component_cam->frustum.Up();
-	float3 right = m_component_cam->frustum.WorldRight();
+	m_camera_gameobject->Update(dt); 
+
+	float3 front = m_camera_component->frustum.Front();
+	float3 up = m_camera_component->frustum.Up();
+	float3 right = m_camera_component->frustum.WorldRight();
+
 	
 	float mod = App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : (App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : 1.0f);
 
@@ -51,51 +57,52 @@ update_status ModuleEditorCamera::Update(float dt)
 	int mouse_wheel = App->input->GetMouseWheel();
 
 	if (mouse_wheel != 0)
-		m_component_cam->Position(m_component_cam->frustum.Pos() + front*(float)mouse_wheel * m_mouse_wheel_speed* mod * dt);
+		m_camera_component->Position(m_camera_component->frustum.Pos() + front*(float)mouse_wheel * m_mouse_wheel_speed* mod * fixed_dt);
 
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
 		if (mouse_motion.y != 0)
-			m_component_cam->Position(m_component_cam->frustum.Pos() + up* (float) mouse_motion.y * m_mouse_speed * mod* dt);
+			m_transform->position += up* (float) mouse_motion.y * m_mouse_speed * mod* fixed_dt;
 		if (mouse_motion.x != 0)
-			m_component_cam->Position(m_component_cam->frustum.Pos() - right*(float)mouse_motion.x * m_mouse_speed *  mod * dt);
+			m_transform->position -= right*(float)mouse_motion.x * m_mouse_speed *  mod * fixed_dt;
 	}
 
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		if (mouse_motion.IsZero() == false)
 		{
-			rotation = rotation.RotateAxisAngle(right, -DegToRad(m_rotation_speed)*dt*mouse_motion.y);
+			rotation = rotation.RotateAxisAngle(right, -DegToRad(m_rotation_speed)*fixed_dt*mouse_motion.y);
 			front = rotation.Mul(front);	up = rotation.Mul(up);
-			rotation = rotation.RotateY(-DegToRad(m_rotation_speed)*dt*mouse_motion.x);
-			m_component_cam->Orientation(rotation.Mul(front), rotation.Mul(up));
+			rotation = rotation.RotateY(-DegToRad(m_rotation_speed)*fixed_dt*mouse_motion.x);
+			m_camera_component->Orientation(rotation.Mul(front), rotation.Mul(up));
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-			m_component_cam->Position(m_component_cam->frustum.Pos() + front*m_advance_speed * mod * dt);
+			m_transform->position += front*m_advance_speed * mod * fixed_dt;
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-			m_component_cam->Position(m_component_cam->frustum.Pos() - front*m_advance_speed * mod * dt);
+			m_transform->position -= front*m_advance_speed * mod * fixed_dt;
 		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
-			m_component_cam->Position(m_component_cam->frustum.Pos() + up*m_advance_speed * mod * dt);
+			m_transform->position += up*m_advance_speed * mod * fixed_dt;
 		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
-			m_component_cam->Position(m_component_cam->frustum.Pos() - up*m_advance_speed * mod * dt);
+			m_transform->position -= up*m_advance_speed * mod * fixed_dt;
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-			m_component_cam->Position(m_component_cam->frustum.Pos() + right*m_advance_speed * mod * dt);
+			m_transform->position += right*m_advance_speed * mod * fixed_dt;
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-			m_component_cam->Position(m_component_cam->frustum.Pos() - right*m_advance_speed * mod * dt);
+			m_transform->position -= right*m_advance_speed * mod * fixed_dt;
 	}
+
 	return UPDATE_CONTINUE;
 }
 
 ComponentCamera* ModuleEditorCamera::GetCameraComponent() const
 {
-	return m_component_cam;
+	return m_camera_component;
 }
 
 bool ModuleEditorCamera::CleanUp()
 {
-	m_cam_object->CleanUp(); 
-	RELEASE(m_cam_object); 
+	m_camera_gameobject->CleanUp(); 
+	RELEASE(m_camera_gameobject);
 	return true;
 }
 
@@ -112,9 +119,9 @@ GameObject* ModuleEditorCamera::CreateCameraGameObject(const std::string& name) 
 
 void ModuleEditorCamera::CreateEditorCamera()
 {
-	m_cam_object = new GameObject("Editor Camera");
-	m_cam_object->CreateComponent(Component::componentType::TRANSFORM);
-	m_component_cam = (ComponentCamera*)m_cam_object->CreateComponent(Component::componentType::CAMERA);
+	m_camera_gameobject = new GameObject("Editor Camera");
+	m_transform = (ComponentTransform*) m_camera_gameobject->CreateComponent(Component::componentType::TRANSFORM);
+	m_camera_component = (ComponentCamera*)m_camera_gameobject->CreateComponent(Component::componentType::CAMERA);
 }
 
 //-----------------------------------------------------

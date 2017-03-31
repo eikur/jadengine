@@ -5,6 +5,7 @@
 #include "MathGeoLib\include\MathGeoLib.h"
 
 class GameObject;
+class ComponentTransform; 
 class ComponentCamera;
 
 class ModuleEditorCamera : public Module
@@ -33,8 +34,11 @@ private:
 	bool LoadConfigFromFile(const char* file_path);
 
 private:
-	GameObject* m_cam_object = nullptr;
-	ComponentCamera* m_component_cam = nullptr;
+	GameObject* m_camera_gameobject = nullptr;
+	ComponentTransform* m_transform = nullptr; 
+	ComponentCamera* m_camera_component = nullptr;
+
+	float fixed_dt = 0.02f;
 
 	int m_screen_height = 0;
 	int m_screen_width = 0;

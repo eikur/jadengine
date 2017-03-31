@@ -8,7 +8,7 @@
 		"title": "JADEngine - running at xx fps",
 		"fullscreen": false,
 		"resizable": true,
-		"vsync": true	
+		"vsync": false	
 	},
 	"renderer":{
 		"file": "graphics/sprite.png",
