@@ -25,12 +25,14 @@ bool ComponentMesh::Init()
 bool ComponentMesh::Update(float)
 {
 	if (component_material != nullptr)
-	{
 		mesh->SetMaterial(component_material->GetMaterial());
-	}
-	mesh->Update();
+
 	if (shown_in_active_camera)
-		mesh->Draw(); 
+	{
+		mesh->Update();
+		mesh->Draw();
+	}
+
 	return true;
 }
 

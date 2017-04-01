@@ -21,6 +21,9 @@ bool ModuleAnimation::Init()
 
 update_status ModuleAnimation::Update(float dt)
 {
+	if (dt <= 0.005f)
+		return UPDATE_CONTINUE;
+
 	for (InstanceList::iterator it = instances.begin(); it != instances.end(); ++it)
 	{
 		if ((*it) != nullptr)
@@ -142,7 +145,7 @@ ModuleAnimation::AnimationInstanceID ModuleAnimation::Play(const char* animation
 
 	AnimationMap::iterator it = animations.find(animation_name);
 	if (it == animations.end())
-		return ret; // to be improved
+		return ret; 
 
 	AnimationInstance *instance = new AnimationInstance();
 	instance->animation = (*it).second;
@@ -307,7 +310,5 @@ Quat ModuleAnimation::InterpolateQuat(const Quat& first, const Quat& second, flo
 		result.w = first.w*(1.0f - lambda) - second.w*lambda;
 	}
 
-	result.Normalize();
-
-	return result;
+	return result.Normalized(); 
 }

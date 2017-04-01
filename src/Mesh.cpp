@@ -73,6 +73,8 @@ Mesh::Mesh(aiMesh* mesh, Material* material)
 	}
 
 	if (mesh->HasBones()) {
+		vertices_skinned = new float3[num_vertices];
+
 		m_num_bones = mesh->mNumBones;
 		m_bones = new Bone[m_num_bones];
 		// Load each bone
@@ -146,6 +148,7 @@ Mesh::Mesh(float3 *vertex, unsigned int num_vertices, unsigned int *indices, uns
 
 Mesh::~Mesh() {
 	RELEASE_ARRAY(vertices);
+	RELEASE_ARRAY(vertices_skinned); 
 	RELEASE_ARRAY(normals);
 
 	glDeleteBuffers(1, &m_vbo[VERTEX_BUFFER]);
@@ -234,7 +237,6 @@ void Mesh::Update()
 
 	float4x4 mat = float4x4::identity;
 
-	float3 *vertices_skinned = new float3[num_vertices];
 	memset(vertices_skinned, 0, num_vertices*sizeof(float3));
 
 	for (size_t b = 0; b < m_num_bones; ++b)
@@ -243,12 +245,9 @@ void Mesh::Update()
 		for (size_t w = 0; w < m_bones[b].num_weights; ++w)
 		{
 			vertices_skinned[m_bones[b].weights[w].vertex] += m_bones[b].weights[w].weight * mat.TransformPos( vertices[m_bones[b].weights[w].vertex]);
-		//	vertices_skinned[m_bones[b].weights[w].vertex] += m_bones[b].weights[w].weight * (mat * vertices[m_bones[b].weights[w].vertex].ToPos4()).Float3Part();
 		}
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);
 	glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(vertices_skinned[0]), &vertices_skinned[0], GL_STATIC_DRAW);
-	
-	delete vertices_skinned;
 }
