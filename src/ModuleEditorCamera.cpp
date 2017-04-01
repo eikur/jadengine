@@ -44,6 +44,7 @@ update_status ModuleEditorCamera::Update(float dt)
 {
 	m_camera_gameobject->Update(dt); 
 
+	/* EDITOR CONTROLS*/
 	float3 front = m_camera_component->frustum.Front();
 	float3 up = m_camera_component->frustum.Up();
 	float3 right = m_camera_component->frustum.WorldRight();
@@ -51,13 +52,11 @@ update_status ModuleEditorCamera::Update(float dt)
 	
 	float mod = App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : (App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ? m_advance_speed_modifier : 1.0f);
 
-	Quat rotation = Quat::identity;
-	
 	iPoint mouse_motion = App->input->GetMouseMotion();
 	int mouse_wheel = App->input->GetMouseWheel();
 
 	if (mouse_wheel != 0)
-		m_camera_component->Position(m_camera_component->frustum.Pos() + front*(float)mouse_wheel * m_mouse_wheel_speed* mod * fixed_dt);
+		m_transform->position += front*(float)mouse_wheel * m_mouse_wheel_speed* mod * fixed_dt;
 
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
@@ -71,10 +70,18 @@ update_status ModuleEditorCamera::Update(float dt)
 	{
 		if (mouse_motion.IsZero() == false)
 		{
+			Quat rotation = Quat::identity;
+
 			rotation = rotation.RotateAxisAngle(right, -DegToRad(m_rotation_speed)*fixed_dt*mouse_motion.y);
-			front = rotation.Mul(front);	up = rotation.Mul(up);
+			front = rotation.Mul(front);	
+			up = rotation.Mul(up);
+			
 			rotation = rotation.RotateY(-DegToRad(m_rotation_speed)*fixed_dt*mouse_motion.x);
-			m_camera_component->Orientation(rotation.Mul(front), rotation.Mul(up));
+			front = rotation.Mul(front); 
+			up = rotation.Mul(up); 
+			
+			m_camera_component->Orientation(front, up);
+			m_transform->rotation = m_transform->rotation.LookAt(-float3::unitZ, front, float3::unitY, up);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)

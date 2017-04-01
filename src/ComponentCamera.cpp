@@ -185,7 +185,7 @@ void ComponentCamera::UpdateFrustumTransform(float4x4 parent_world_transform)
 	Quat rot; 
 	parent_world_transform.Decompose(pos, rot, scl); 
 	frustum.SetPos(pos);
-	Orientation(rot.Mul(-float3::unitZ), rot.Mul(float3::unitY)); 
+	Orientation(rot.Mul(-float3::unitZ).Normalized(), rot.Mul(float3::unitY).Normalized()); 
 }
 
 void ComponentCamera::PerformFrustumCulling() const
