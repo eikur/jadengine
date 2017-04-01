@@ -17,10 +17,11 @@ ComponentBillboardQuad::~ComponentBillboardQuad()
 
 }
 
-bool ComponentBillboardQuad::Update(float dt)
+bool ComponentBillboardQuad::Update(float)
 {
-	ComponentCamera *camera = App->camera->GetCameraComponent(); 
-	// rotate here the go
+	float3 camera_pos = App->camera->GetCameraComponent()->frustum.Pos(); 
+	float3 right = (parent->transform->position - camera_pos).Cross(float3::unitY).Normalized(); 
+	parent->transform->rotation = parent->transform->rotation.LookAt(float3::unitZ, right.Cross(float3::unitY), float3::unitY, float3::unitY);
 
 	return true; 
 }
