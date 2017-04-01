@@ -6,20 +6,19 @@
 class TimerUSec
 {
 public:
-	
 	void Start();
-	float Read();
+	void Measure();
+	float Read() const;
+	float Delta() const;
 	void Stop();
 
 private:
-	Uint64 m_timestamp = 0;
-	Uint64 m_timer_count = 0;
 	Uint64 m_timer_start = 0;
+	Uint64 m_previous_read = 0;
+	Uint64 m_last_read = 0;
 	bool m_stop = true;
-	static Uint64 m_frequency;
+	static const Uint64 m_frequency;
 };
-
-
 
 
 #endif

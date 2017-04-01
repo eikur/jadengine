@@ -68,12 +68,6 @@ private:
 	Uint32 fps_cap = 0;
 	Uint32 msec_wait_fps_cap = 0;
 
-	float last_game_update_usec;
-	float last_game_update_start;
-
-	float last_real_update_usec;
-	float last_real_update_start;
-
 };
 
 extern Application* App;

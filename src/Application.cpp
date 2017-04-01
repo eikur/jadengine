@@ -104,36 +104,28 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	//Amount of usec the last update took - GAME TIME
-	float game_timer_read = game_timer.Read();
-	last_game_update_usec = game_timer_read - last_game_update_start;
-	last_game_update_start = game_timer_read;
-
-	//Amount of usec the last update tool - REAL TIME
-	float real_timer_read = real_timer.Read();
-	last_real_update_usec = real_timer_read - last_real_update_start;
-	last_real_update_start = real_timer_read;
+	game_timer.Measure();
+	real_timer.Measure();
 
 	// Pre-Update all modules
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->PreUpdate();
 
-	// Update all modules
+	// Update all modules considering the game timer's delta
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
-			ret = (*it)->Update(last_game_update_usec / 1000000.0f);
+			ret = (*it)->Update(game_timer.Delta() / 1000000.0f);
 
 	// Post update all modules 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->PostUpdate();
 
-
 	// Fps calculation for application stats
 	if (fps_refresh_timer.Read() > 250.0f)
 	{
-		FPS = 1 / (last_real_update_usec / 1000000.0f);
+		FPS = 1 / (real_timer.Delta() / 1000000.0f);
 		fps_refresh_timer.Start(); 
 	}
 

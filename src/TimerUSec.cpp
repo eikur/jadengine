@@ -1,33 +1,35 @@
 #include "TimerUSec.h"
+#include "Globals.h"
 
 void TimerUSec::Start()
 {
 	m_timer_start = SDL_GetPerformanceCounter();
+	m_previous_read = m_timer_start;
+	m_last_read = m_timer_start;
 	m_stop = false;
 }
 
-float TimerUSec::Read()
+void TimerUSec::Measure()
 {
+	m_previous_read = m_last_read;
 	if (!m_stop)
-	{
-		m_timer_count = SDL_GetPerformanceCounter() - m_timer_start;
-	}
-	else
-	{
-		m_timer_count = m_timestamp - m_timer_start;
-	}
+		m_last_read = SDL_GetPerformanceCounter() - m_timer_start;
+}
 
-	return ((float) m_timer_count)/((float) m_frequency) * 1000000;
+float TimerUSec::Read() const
+{
+	return (float)m_last_read * 1000000.0f / (float)m_frequency ;
+}
+
+float TimerUSec::Delta() const
+{
+	return ((float)m_last_read - (float)m_previous_read) * 1000000.0f / (float)m_frequency;
 }
 
 void TimerUSec::Stop()
 {
 	if (!m_stop)
-	{
 		m_stop = true;
-		m_timestamp = SDL_GetPerformanceCounter();
-	}
 }
 
-Uint64 TimerUSec::m_frequency = SDL_GetPerformanceFrequency();
-
+const Uint64 TimerUSec::m_frequency = SDL_GetPerformanceFrequency();
