@@ -29,7 +29,7 @@ Mesh::Mesh(aiMesh* mesh, Material* material)
 
 		glGenBuffers(1, &m_vbo[VERTEX_BUFFER]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);
-		glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(vertices[0]), &vertices[0], GL_DYNAMIC_DRAW);
 	}
 
 	if (mesh->HasTextureCoords(0)) {
@@ -53,7 +53,7 @@ Mesh::Mesh(aiMesh* mesh, Material* material)
 
 		glGenBuffers(1, &m_vbo[NORMAL_BUFFER]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo[NORMAL_BUFFER]);
-		glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(normals[0]), &normals[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(normals[0]), &normals[0], GL_DYNAMIC_DRAW);
 	}
 
 	if (mesh->HasFaces()) {
@@ -74,6 +74,9 @@ Mesh::Mesh(aiMesh* mesh, Material* material)
 
 	if (mesh->HasBones()) {
 		vertices_skinned = new float3[num_vertices];
+		if (normals != nullptr) {
+			normals_skinned = new float3[num_vertices];
+		}
 
 		m_num_bones = mesh->mNumBones;
 		m_bones = new Bone[m_num_bones];
@@ -116,7 +119,7 @@ Mesh::Mesh(float3 *vertex, unsigned int num_vertices, unsigned int *indices, uns
 
 	glGenBuffers(1, &m_vbo[VERTEX_BUFFER]);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);
-	glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(vertices[0]), &vertices[0], GL_DYNAMIC_DRAW);
 	
 	//texture coords
 	float2* texture_coords = new float2[num_tex_coords];
@@ -148,8 +151,9 @@ Mesh::Mesh(float3 *vertex, unsigned int num_vertices, unsigned int *indices, uns
 
 Mesh::~Mesh() {
 	RELEASE_ARRAY(vertices);
-	RELEASE_ARRAY(vertices_skinned); 
+	RELEASE_ARRAY(vertices_skinned);
 	RELEASE_ARRAY(normals);
+	RELEASE_ARRAY(normals_skinned);
 
 	glDeleteBuffers(1, &m_vbo[VERTEX_BUFFER]);
 	glDeleteBuffers(1, &m_vbo[TEXCOORD_BUFFER]);
@@ -169,7 +173,7 @@ void Mesh::Draw() {
 	{
 		if (m_material->GetTexture() != 0)
 			App->textures->UseTexture2D(m_material->GetTexture());
-		m_material->has_alpha ?	glEnable(GL_BLEND) : glDisable(GL_BLEND);
+		m_material->has_alpha ? glEnable(GL_BLEND) : glDisable(GL_BLEND);
 	}
 
 	glColorMaterial(GL_FRONT, GL_AMBIENT);
@@ -235,19 +239,26 @@ void Mesh::Update()
 	if (m_num_bones <= 0)
 		return;
 
-	float4x4 mat = float4x4::identity;
-
-	memset(vertices_skinned, 0, num_vertices*sizeof(float3));
+	float4x4 mat4x4 = float4x4::identity;
+	float3x3 mat3x3 = float3x3::identity;
+	memset(vertices_skinned, 0, num_vertices * sizeof(float3));
+	memset(normals_skinned, 0, num_vertices * sizeof(float3));
 
 	for (size_t b = 0; b < m_num_bones; ++b)
 	{
-		mat = m_bones[b].attached_to->GetModelSpaceTransformMatrix() * m_bones[b].bind;
+		mat4x4 = m_bones[b].attached_to->GetModelSpaceTransformMatrix() * m_bones[b].bind;
+		mat3x3 = mat4x4.Float3x3Part();
 		for (size_t w = 0; w < m_bones[b].num_weights; ++w)
 		{
-			vertices_skinned[m_bones[b].weights[w].vertex] += m_bones[b].weights[w].weight * mat.TransformPos( vertices[m_bones[b].weights[w].vertex]);
+			vertices_skinned[m_bones[b].weights[w].vertex] += m_bones[b].weights[w].weight * mat4x4.TransformPos(vertices[m_bones[b].weights[w].vertex]);
+			normals_skinned[m_bones[b].weights[w].vertex] += m_bones[b].weights[w].weight * mat3x3.Transform(normals[m_bones[b].weights[w].vertex]);
 		}
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo[VERTEX_BUFFER]);
-	glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(vertices_skinned[0]), &vertices_skinned[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(vertices_skinned[0]), &vertices_skinned[0], GL_DYNAMIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo[NORMAL_BUFFER]);
+	glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(normals_skinned[0]), &normals_skinned[0], GL_DYNAMIC_DRAW);
+
 }

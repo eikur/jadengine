@@ -50,6 +50,7 @@ public:
 	float3 *vertices = nullptr;
 	float3 *vertices_skinned = nullptr; 
 	float3 *normals = nullptr;
+	float3 *normals_skinned = nullptr;
 	GLuint num_vertices = 0;
 
 private:
