@@ -106,6 +106,7 @@ update_status Application::Update()
 
 	game_timer.Measure();
 	real_timer.Measure();
+	fps_refresh_timer.Measure();
 
 	// Pre-Update all modules
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
@@ -123,9 +124,9 @@ update_status Application::Update()
 			ret = (*it)->PostUpdate();
 
 	// Fps calculation for application stats
-	if (fps_refresh_timer.Read() > 250.0f)
+	if (fps_refresh_timer.Read() > 250)
 	{
-		FPS = 1 / (real_timer.Delta() / 1000000.0f);
+		FPS = 1000.0f / (float)fps_refresh_timer.Delta();
 		fps_refresh_timer.Start(); 
 	}
 
