@@ -158,11 +158,11 @@ bool ModuleRender::Start()
 	m_primitives->createPrimitive(Primitive::Types::GRID);
 
 	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
-		->Translate(float3(1.0, 1.0f, 1.0f))
+		->Translate(float3(1.0, 1.0f, -6.0f))
 		->Scale(float3(0.1f, 0.1f, 0.1f))
 		->ApplyTexture(m_checkers_texture);
 	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
-		->Translate(float3(-1.0, 1.0f, 1.0f))
+		->Translate(float3(-1.0, 1.0f, -6.0f))
 		->Scale(float3(0.1f, 0.1f, 0.1f))
 		->ApplyTexture(m_checkers_texture);
 	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
@@ -171,7 +171,7 @@ bool ModuleRender::Start()
 		->Rotate(45.0f, float3(0.0f, 1.0f, 0.0f))
 		->ApplyTexture(m_lenna_texture);
 	m_primitives->createPrimitive(Primitive::Types::SOLID_SPHERE)
-		->Translate(float3(0.0, 1.0f, 2.0f))
+		->Translate(float3(0.0, 1.0f, -5.0f))
 		->ApplyTexture(m_checkers_texture);
 
 //	m_model = new Model();
