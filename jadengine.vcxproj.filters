@@ -160,6 +160,9 @@
     <ClInclude Include="src\BillboardGO.h">
       <Filter>Models</Filter>
     </ClInclude>
+    <ClInclude Include="src\ParticleSystem.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -296,6 +299,9 @@
     </ClCompile>
     <ClCompile Include="src\Billboard.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticleSystem.cpp">
+      <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -112,6 +112,7 @@
     <ClInclude Include="src\ModuleTextures.h" />
     <ClInclude Include="src\ModuleTimer.h" />
     <ClInclude Include="src\ModuleWindow.h" />
+    <ClInclude Include="src\ParticleSystem.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Primitive.h" />
     <ClInclude Include="src\PrimitiveManager.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="src\ModuleTextures.cpp" />
     <ClCompile Include="src\ModuleTimer.cpp" />
     <ClCompile Include="src\ModuleWindow.cpp" />
+    <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\PrimitiveManager.cpp" />
     <ClCompile Include="src\Quadtree.cpp" />
     <ClCompile Include="src\SolidCube.cpp" />
