@@ -25,10 +25,10 @@ void Billboard::Update()
 void Billboard::ComputeQuad()
 {
 	right = (position - camera->GetPosition()).Cross(up).Normalized();
-	vertices[0] = position - up*height - right*width; 
-	vertices[1] = position - up*height + right*width;
-	vertices[2] = position + up*height + right*width; 
-	vertices[3] = position + up*height - right*width; 
+	vertices[0] = position - up*height/2 - right*width/2; 
+	vertices[1] = position - up*height/2 + right*width/2;
+	vertices[2] = position + up*height/2 + right*width/2; 
+	vertices[3] = position + up*height/2 - right*width/2; 
 }
 
 void Billboard::Draw()

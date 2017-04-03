@@ -154,13 +154,13 @@
     <ClInclude Include="src\CubePrimitive.h">
       <Filter>GameObjectPrimitives</Filter>
     </ClInclude>
-    <ClInclude Include="src\ComponentBillboardQuad.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="src\BillboardGO.h">
       <Filter>Models</Filter>
     </ClInclude>
     <ClInclude Include="src\ParticleSystem.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ComponentBillboard.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -288,9 +288,6 @@
     <ClCompile Include="src\CubePrimitive.cpp">
       <Filter>GameObjectPrimitives</Filter>
     </ClCompile>
-    <ClCompile Include="src\ComponentBillboardQuad.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="src\BillboardGO.cpp">
       <Filter>Models</Filter>
     </ClCompile>
@@ -301,6 +298,9 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\ParticleSystem.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComponentBillboard.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>

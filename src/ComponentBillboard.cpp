@@ -5,19 +5,19 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 
-#include "ComponentBillboardQuad.h"
+#include "ComponentBillboard.h"
 
-ComponentBillboardQuad::ComponentBillboardQuad(GameObject* parent, bool active) : Component(parent, Component::componentType::BILLBOARD_QUAD, active)
+ComponentBillboard::ComponentBillboard(GameObject* parent, bool active) : Component(parent, Component::componentType::BILLBOARD, active)
 {
 
 }
 
-ComponentBillboardQuad::~ComponentBillboardQuad()
+ComponentBillboard::~ComponentBillboard()
 {
 
 }
 
-bool ComponentBillboardQuad::Update(float)
+bool ComponentBillboard::Update(float)
 {
 	float3 camera_pos = App->camera->GetCameraComponent()->frustum.Pos(); 
 	float3 right = (parent->transform->position - camera_pos).Cross(float3::unitY).Normalized(); 
@@ -26,7 +26,7 @@ bool ComponentBillboardQuad::Update(float)
 	return true; 
 }
 
-void ComponentBillboardQuad::OnEditor()
+void ComponentBillboard::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Billboard Quad"))
 	{

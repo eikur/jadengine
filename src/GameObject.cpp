@@ -6,7 +6,7 @@
 #include "ComponentMaterial.h"
 #include "ComponentAnimation.h"
 #include "ComponentCamera.h"
-#include "ComponentBillboardQuad.h"
+#include "ComponentBillboard.h"
 #include "ParticleSystem.h"
 
 GameObject::GameObject(const char* name, GameObject* parent, bool active) : name(name), parent(parent), active(active)
@@ -177,7 +177,7 @@ Component* GameObject::CreateComponent(Component::componentType type)
 	case Component::componentType::CAMERA: ret = new ComponentCamera(this, true); 
 		camera_component = (ComponentCamera*) ret;
 		break;
-	case Component::componentType::BILLBOARD_QUAD: ret = new ComponentBillboardQuad(this, true); break;
+	case Component::componentType::BILLBOARD: ret = new ComponentBillboard(this, true); break;
 	case Component::componentType::PARTICLES: ret = new ParticleSystem(this, true); break;
 	case Component::componentType::UNKNOWN: 
 	default:ret = nullptr;  break;

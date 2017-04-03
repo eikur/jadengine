@@ -44,7 +44,7 @@ bool ModuleScene::Init()
 	AABB limits = AABB({ -11,-2,-11 }, { 11,2,11 });
 	quadtree->Create(limits); 
 	
-	bboard = new Billboard(App->camera->GetCameraComponent(), { 0,1,0 }, 2, 0.5, "graphics/billboardgrass.png"); 
+	bboard = new Billboard(App->camera->GetCameraComponent(), { 0,1,0 }, 1, 1, "graphics/billboardgrass.png"); 
 	// Init Game Objects in the scene
 	for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
 	{
