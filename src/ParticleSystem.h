@@ -24,9 +24,8 @@ public:
 	bool Init();
 	bool Update(float dt);
 	bool CleanUp();
-	void OnEditor();
 	void Draw();
-	void GetTransform(const char* go_name, float3& position, Quat& rotation) const;
+	void OnEditor();
 
 private:
 	ParticlePool m_particles;

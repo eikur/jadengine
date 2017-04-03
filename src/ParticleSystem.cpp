@@ -23,9 +23,16 @@ bool ParticleSystem::CleanUp()
 	RELEASE_ARRAY(text_coords);
 	RELEASE_ARRAY(colors);
 	RELEASE_ARRAY(indices);
+
+	return true;
 }
 
 void ParticleSystem::Draw()
+{
+
+}
+
+void ParticleSystem::OnEditor()
 {
 
 }

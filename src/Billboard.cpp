@@ -2,7 +2,8 @@
 
 #include "Billboard.h"
 
-Billboard::Billboard(ComponentCamera *camera, float3 position, float width, float height) : camera(camera), position(position), width(width), height(height) {}
+//Billboard::Billboard(ComponentCamera *camera, float3 position, float width, float height) : camera(camera), position(position), width(width), height(height) {}
+Billboard::Billboard() {}
 Billboard::~Billboard() {}
 
 void Billboard::ComputeQuad()

@@ -8,7 +8,8 @@ class ComponentCamera;
 class Billboard {
 
 	public:
-		Billboard(ComponentCamera *camera = nullptr, float3 position = { 0,0,0 }, float width = 1.0f, float height = 1.0f);
+//		Billboard(ComponentCamera *camera = nullptr, float3 position = { 0,0,0 }, float width = 1.0f, float height = 1.0f);
+		Billboard();
 		~Billboard();
 
 		void ComputeQuad();
