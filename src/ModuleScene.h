@@ -7,7 +7,6 @@
 class GameObject;
 class Level;
 class Quadtree;
-class Billboard;
 
 class ModuleScene : public Module
 {
@@ -30,8 +29,6 @@ private:
 	Quadtree *quadtree = nullptr; 
 
 	bool blend_animation = false; 
-
-	Billboard *bboard = nullptr; 
 };
 
 #endif

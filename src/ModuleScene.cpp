@@ -9,7 +9,7 @@
 #include "ModuleEditorCamera.h" // for camera go
 #include "Quadtree.h" // for quadtree
 #include "CubePrimitive.h" // for testing quadtree
-#include "Billboard.h"	// for testing billboard 
+#include "ComponentBillboard.h" // for testing billboard structure
 
 #include "ModuleScene.h"
 #include <algorithm>
@@ -44,7 +44,12 @@ bool ModuleScene::Init()
 	AABB limits = AABB({ -11,-2,-11 }, { 11,2,11 });
 	quadtree->Create(limits); 
 	
-	bboard = new Billboard(App->camera->GetCameraComponent(), { 0,1,0 }, 1, 1, "graphics/billboardgrass.png"); 
+	go = new GameObject("Billboard structure"); 
+	go->CreateComponent(Component::componentType::TRANSFORM); 
+	ComponentBillboard *bbcomp = (ComponentBillboard*) go->CreateComponent(Component::componentType::BILLBOARD); 
+	bbcomp->Configure(4, 5, "graphics/billboardgrass.png"); 
+	game_objects.push_back(go); 
+
 	// Init Game Objects in the scene
 	for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
 	{
@@ -67,7 +72,7 @@ update_status ModuleScene::Update(float dt)
 		if ((*it)->active == true)
 			(*it)->DebugDraw();
 	}
-	go->DrawSkeleton();
+//	go->DrawSkeleton();
 	if (blend_animation == false && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		int new_anim = App->animations->BlendTo(0, "Run_Forwards", 600);	// very improvable code
@@ -88,8 +93,7 @@ update_status ModuleScene::Update(float dt)
 	}
 	quadtree->DebugDraw(); 
 
-	// billboard test
-	bboard->Update(); 
+
 
 	return UPDATE_CONTINUE;
 }
@@ -106,8 +110,7 @@ bool ModuleScene::CleanUp()
 	quadtree->Clear(); 
 	RELEASE(quadtree); 
 
-	// remove billboard
-	RELEASE(bboard); 
+
 
 	return true;
 }
