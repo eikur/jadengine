@@ -168,10 +168,14 @@ Component* GameObject::CreateComponent(Component::componentType type)
 	case Component::componentType::TRANSFORM: ret = new ComponentTransform(this, true); 
 		transform = (ComponentTransform*) ret; 
 		break;
-	case Component::componentType::MESH: ret = new ComponentMesh(this, true);  break;
+	case Component::componentType::MESH: ret = new ComponentMesh(this, true); 
+		mesh_component = (ComponentMesh*)ret;
+		break;
 	case Component::componentType::MATERIAL: ret = new ComponentMaterial(this, true);  break;
 	case Component::componentType::ANIMATION: ret = new ComponentAnimation(this, true); break;
-	case Component::componentType::CAMERA: ret = new ComponentCamera(this, true); break;
+	case Component::componentType::CAMERA: ret = new ComponentCamera(this, true); 
+		camera_component = (ComponentCamera*) ret;
+		break;
 	case Component::componentType::BILLBOARD_QUAD: ret = new ComponentBillboardQuad(this, true); break;
 	case Component::componentType::UNKNOWN: 
 	default:ret = nullptr;  break;
@@ -240,9 +244,8 @@ void GameObject::SetNextAnimationID( int next_id)
 
 void GameObject::UpdateBoundingBoxesRecursively()
 {
-	ComponentMesh *mesh = (ComponentMesh*) FindComponentByType(Component::componentType::MESH);
-	if (mesh != nullptr)
-		mesh->UpdateBoundingBox(GetWorldTransformMatrix()); 
+	if (mesh_component != nullptr)
+		mesh_component->UpdateBoundingBox(GetWorldTransformMatrix()); 
 
 	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
 	{
@@ -253,9 +256,8 @@ void GameObject::UpdateBoundingBoxesRecursively()
 
 void GameObject::GetAllMeshComponents(std::vector<ComponentMesh*>& meshes) const
 {
-	ComponentMesh *mesh = (ComponentMesh*)FindComponentByType(Component::componentType::MESH); 
-	if (mesh != nullptr)
-		meshes.push_back(mesh); 
+	if (mesh_component != nullptr)
+		meshes.push_back(mesh_component);
 	
 	for (std::vector<GameObject*>::const_iterator it = children.cbegin(); it != children.cend(); ++it)
 	{
@@ -290,9 +292,8 @@ float4x4 GameObject::GetLocalTransformMatrix() const
 
 void GameObject::UpdateCameraWorldTransform() 
 {
-	ComponentCamera *camera = (ComponentCamera*)FindComponentByType(Component::componentType::CAMERA);
-	if (camera != nullptr)
-		camera->UpdateFrustumTransform(GetWorldTransformMatrix());
+	if (camera_component != nullptr)
+		camera_component->UpdateFrustumTransform(GetWorldTransformMatrix());
 
 	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
 	{

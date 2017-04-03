@@ -14,8 +14,11 @@ ComponentAnimation::ComponentAnimation(GameObject* parent, bool active) : Compon
 ComponentAnimation::~ComponentAnimation()
 {}
 
-bool ComponentAnimation::Update(float)
+bool ComponentAnimation::Update(float dt)
 {	
+	if (dt <= 0.005f)
+		return true; 
+
 	if (animation_instance_id != -1)
 	{
 		if (App->animations->GetTransform(animation_instance_id, parent->GetName().c_str(), parent->transform->position, parent->transform->rotation) == false)

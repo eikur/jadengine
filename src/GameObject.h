@@ -9,6 +9,7 @@
 class ComponentTransform;
 class ComponentMesh;
 class ComponentAnimation;
+class ComponentCamera;
 
 class GameObject
 {
@@ -18,7 +19,9 @@ public:
 	ComponentTransform *transform = nullptr;
 
 private:
-	GameObject* parent = nullptr; 
+	ComponentMesh *mesh_component = nullptr;
+	ComponentCamera *camera_component = nullptr;
+	GameObject *parent = nullptr; 
 	
 	std::vector<Component*> components;
 	std::vector<GameObject*> children;

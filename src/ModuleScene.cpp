@@ -29,9 +29,9 @@ bool ModuleScene::Init()
 	// test game object creation here
 	lvl = new Level();
 
-  go = lvl->Load("assets/street/", "Street.obj");
+ /* go = lvl->Load("assets/street/", "Street.obj");
   if (go != nullptr)
-	  game_objects.push_back(go);
+	  game_objects.push_back(go);*/
 //	go = lvl->Load("assets/Batman/", "Batman.obj");
 	go = lvl->Load("assets/ArmyPilot/", "ArmyPilot.dae");
 	if (go != nullptr)
