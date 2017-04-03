@@ -154,11 +154,11 @@
     <ClInclude Include="src\CubePrimitive.h">
       <Filter>GameObjectPrimitives</Filter>
     </ClInclude>
-    <ClInclude Include="src\Billboard.h">
-      <Filter>Models</Filter>
-    </ClInclude>
     <ClInclude Include="src\ComponentBillboardQuad.h">
       <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BillboardGO.h">
+      <Filter>Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,11 +285,17 @@
     <ClCompile Include="src\CubePrimitive.cpp">
       <Filter>GameObjectPrimitives</Filter>
     </ClCompile>
-    <ClCompile Include="src\Billboard.cpp">
-      <Filter>Models</Filter>
-    </ClCompile>
     <ClCompile Include="src\ComponentBillboardQuad.cpp">
       <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BillboardGO.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Billboard.h">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Billboard.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
