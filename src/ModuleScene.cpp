@@ -9,6 +9,7 @@
 #include "ModuleEditorCamera.h" // for camera go
 #include "Quadtree.h" // for quadtree
 #include "CubePrimitive.h" // for testing quadtree
+#include "Billboard.h"	// for testing billboard 
 
 #include "ModuleScene.h"
 #include <algorithm>
@@ -43,7 +44,7 @@ bool ModuleScene::Init()
 	AABB limits = AABB({ -11,-2,-11 }, { 11,2,11 });
 	quadtree->Create(limits); 
 	
-
+	bboard = new Billboard(App->camera->GetCameraComponent(), { 0,1,0 }, 2, 0.5, "graphics/billboardgrass.png"); 
 	// Init Game Objects in the scene
 	for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
 	{
@@ -87,6 +88,9 @@ update_status ModuleScene::Update(float dt)
 	}
 	quadtree->DebugDraw(); 
 
+	// billboard test
+	bboard->Update(); 
+
 	return UPDATE_CONTINUE;
 }
 bool ModuleScene::CleanUp()
@@ -101,6 +105,10 @@ bool ModuleScene::CleanUp()
 //	game_objects.clear(); 
 	quadtree->Clear(); 
 	RELEASE(quadtree); 
+
+	// remove billboard
+	RELEASE(bboard); 
+
 	return true;
 }
 

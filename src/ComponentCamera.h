@@ -23,6 +23,7 @@ public:
 	void SetFOV(float vertical_fov);
 	void SetAspectRatio(float aspect_ratio);
 	void SetPlaneDistances(float near_plane_distance, float far_plane_distance);
+	float3 GetPosition(); 
 	void Position(float3 pos);
 	void Orientation(float3 front, float3 up);
 	void LookAt(float3 look_at);

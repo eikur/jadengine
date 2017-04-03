@@ -109,6 +109,11 @@ void ComponentCamera::SetPlaneDistances(float new_near, float new_far)
 	frustum.SetViewPlaneDistances(near_plane_distance, far_plane_distance);
 }
 
+float3 ComponentCamera::GetPosition()
+{
+	return frustum.Pos(); 
+}
+
 void ComponentCamera::Position(float3 pos)
 {
 	frustum.SetPos(pos);
