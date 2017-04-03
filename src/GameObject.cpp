@@ -7,6 +7,7 @@
 #include "ComponentAnimation.h"
 #include "ComponentCamera.h"
 #include "ComponentBillboardQuad.h"
+#include "ParticleSystem.h"
 
 GameObject::GameObject(const char* name, GameObject* parent, bool active) : name(name), parent(parent), active(active)
 {
@@ -160,7 +161,7 @@ void GameObject::AddGameObjectToChildren(GameObject* game_object)
 
 Component* GameObject::CreateComponent(Component::componentType type)
 {
-	static_assert(Component::componentType::UNKNOWN == 6, "Component class code needs update");
+	static_assert(Component::componentType::UNKNOWN == 7, "Component class code needs update");
 	Component* ret = nullptr;
 	
 	switch (type)
@@ -177,6 +178,7 @@ Component* GameObject::CreateComponent(Component::componentType type)
 		camera_component = (ComponentCamera*) ret;
 		break;
 	case Component::componentType::BILLBOARD_QUAD: ret = new ComponentBillboardQuad(this, true); break;
+	case Component::componentType::PARTICLES: ret = new ParticleSystem(this, true); break;
 	case Component::componentType::UNKNOWN: 
 	default:ret = nullptr;  break;
 	}

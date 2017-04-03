@@ -7,7 +7,7 @@ class Component
 {
 
 public: 
-	enum componentType{ TRANSFORM, MESH, MATERIAL, ANIMATION, CAMERA, BILLBOARD_QUAD, UNKNOWN };
+	enum componentType{ TRANSFORM, MESH, MATERIAL, ANIMATION, CAMERA, BILLBOARD_QUAD, PARTICLES, UNKNOWN };
 	bool active = true;
 	componentType type = UNKNOWN;
 
