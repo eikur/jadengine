@@ -1,6 +1,7 @@
 #ifndef __COMPONENT_BILLBOARD_H__
 #define __COMPONENT_BILLBOARD_H__
 
+#include <vector>
 #include "Component.h"
 
 class Billboard;
@@ -19,10 +20,7 @@ public:
 	bool CleanUp(); 
 
 private:
-	int m = 0; 
-	int n = 0; 
-
-	Billboard ***grid = nullptr; 
+	std::vector<Billboard*> elements;
 
 };
 

@@ -5,7 +5,7 @@
 #include "Billboard.h"
 
 Billboard::Billboard(ComponentCamera *camera, float3 position, float width, float height, const char* texture) : camera(camera), position(position), width(width), height(height) {
-	vertices = new float3[4];
+	//vertices = new float3[4];
 	if (texture != nullptr)
 		texture_id = App->textures->LoadTexture(texture); 
 
@@ -13,8 +13,9 @@ Billboard::Billboard(ComponentCamera *camera, float3 position, float width, floa
 
 
 Billboard::~Billboard() {
-	delete vertices;
+	//delete[] vertices;
 }
+
 void Billboard::Update()
 {
 	ComputeQuad(); 
@@ -24,7 +25,8 @@ void Billboard::Update()
 
 void Billboard::ComputeQuad()
 {
-	right = (position - camera->GetPosition()).Cross(up).Normalized();
+	float3 up = { 0,1,0 };
+	float3 right = (position - camera->GetPosition()).Cross(up).Normalized();
 	vertices[0] = position - up*height/2 - right*width/2; 
 	vertices[1] = position - up*height/2 + right*width/2;
 	vertices[2] = position + up*height/2 + right*width/2; 

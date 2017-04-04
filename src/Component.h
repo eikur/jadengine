@@ -15,8 +15,9 @@ protected:
 	GameObject* parent = nullptr;
 
 public: 
-
 	Component(GameObject* parent, componentType type = UNKNOWN, bool active = true);
+	virtual ~Component();
+
 	void Enable() { active = true;  }
 	void Disable() { active = false; }
 

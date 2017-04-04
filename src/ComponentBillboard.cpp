@@ -18,9 +18,9 @@ ComponentBillboard::~ComponentBillboard()
 
 bool ComponentBillboard::Update(float)
 {
-	for (int i = 0; i < m; ++i)
-		for (int j = 0; j < n; ++j)
-			grid[i][j]->Update(); 
+	for (std::vector<Billboard*>::iterator it = elements.begin(); it != elements.end(); ++it )
+		(*it)->Update();
+
 	return true; 
 }
 
@@ -28,34 +28,28 @@ void ComponentBillboard::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Billboard Quad"))
 	{
-		ImGui::Text("m = %d", m); 
-		ImGui::Text("n = %d", n); 
+		ImGui::Checkbox("Enabled", &active); 
+		ImGui::Text("Quad elements are updated here"); 
 	}
 }
 
 
 void ComponentBillboard::Configure(int m_rows, int n_cols, const char* texture)
 {
-	m = m_rows; 
-	n = n_cols; 
-
-	grid = new Billboard**[m];
-	for (int i = 0; i < m; i++)
-		grid[i] = new Billboard*[n];
-
-	for (int i = 0; i < m; ++i)
-		for (int j = 0; j < n; ++j)
-			grid[i][j] = new Billboard(App->camera->GetCameraComponent(), { (float)i,0,(float)j }, 1.0f, 1.0f, texture); 
+	for (int i = 0; i < m_rows; ++i)
+		for (int j = 0; j < n_cols; ++j)
+			elements.push_back(new Billboard(App->camera->GetCameraComponent(), { (float)i,0,(float)j }, 1.0f, 1.0f, texture));
 }
 
 bool ComponentBillboard::CleanUp()
 {
-	for (int i = 0; i < m; ++i)
-		for (int j = 0; j < n; ++j)
-			delete grid[i][j];
-	for (int i = 0; i < m; ++i)
-		delete grid[i];
-	delete grid;
+	for (std::vector<Billboard*>::iterator it = elements.begin(); it != elements.end(); )
+	{
+		delete (*it);
+		elements.erase(it);
+		it = elements.begin();
+	}
 	
+	elements.clear();
 	return true; 
 }

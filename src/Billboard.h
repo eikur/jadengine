@@ -24,11 +24,8 @@ private:
 		float3 position = { 0,0,0 };
 		float width = 0.0f;
 		float height = 0.0f;
-		
-		float3 up = { 0,1,0 };
-		float3 right = { 0,0,0 };
 
-		float3 *vertices = nullptr; 
+		float3 vertices[4];
 
 		int texture_id = -1;
 };
