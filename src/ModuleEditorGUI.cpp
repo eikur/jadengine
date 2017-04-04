@@ -23,7 +23,16 @@ ModuleEditorGUI::~ModuleEditorGUI()
 
 bool ModuleEditorGUI::Init()
 {
+	// apply style
 	ImGui_ImplSdlGL3_Init(App->window->m_window);
+	ImGuiStyle& style = ImGui::GetStyle();
+	style.FrameRounding = 8;
+
+	style.Colors[7] = ImVec4(0.0f, 0.5f, 1.0f, 0.4f);	// FrameBg
+	style.Colors[8] = ImVec4(0.0f, 0.5f, 1.0f, 0.6f);	// FrameBgHovered
+	style.Colors[9] = ImVec4(0.0f, 0.8f, 0.6f, 0.6f);	//FrameBgActive
+	style.Colors[43] = ImVec4(0.0f, 0.8f, 0.5f, 0.7f);	//TextSelectedBg
+
 	return true;
 }
 
@@ -44,7 +53,7 @@ update_status ModuleEditorGUI::Update(float)
 		return UPDATE_STOP;
 	else
 	{
-	//	ImGui::ShowTestWindow();
+		ImGui::ShowTestWindow();
 
 		Draw();
 		return UPDATE_CONTINUE;
