@@ -13,7 +13,7 @@ class Billboard {
 		~Billboard();
 
 		void Update(); 
-
+		float GetDistanceToCamera() const;
 private:
 		void ComputeQuad();
 		void Draw(); 
@@ -26,6 +26,10 @@ private:
 		float height = 0.0f;
 
 		float3 vertices[4];
+		float3 up = { 0,1,0 };
+		float3 right;
+
+		float distance_to_camera = 0.0f;
 
 		int texture_id = -1;
 };

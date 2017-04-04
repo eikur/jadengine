@@ -2,7 +2,6 @@
 #include "Application.h"
 #include "ModuleEditorCamera.h"
 #include "GameObject.h"
-#include "Billboard.h"
 
 #include "ComponentBillboard.h"
 
@@ -18,7 +17,9 @@ ComponentBillboard::~ComponentBillboard()
 
 bool ComponentBillboard::Update(float)
 {
-	for (std::vector<Billboard*>::iterator it = elements.begin(); it != elements.end(); ++it )
+	elements.sort(billboardDistanceComparator());
+	
+	for (std::list<Billboard*>::iterator it = elements.begin(); it != elements.end(); ++it )
 		(*it)->Update();
 
 	return true; 
@@ -43,7 +44,7 @@ void ComponentBillboard::Configure(int m_rows, int n_cols, const char* texture)
 
 bool ComponentBillboard::CleanUp()
 {
-	for (std::vector<Billboard*>::iterator it = elements.begin(); it != elements.end(); )
+	for (std::list<Billboard*>::iterator it = elements.begin(); it != elements.end(); )
 	{
 		delete (*it);
 		elements.erase(it);

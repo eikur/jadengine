@@ -5,16 +5,12 @@
 #include "Billboard.h"
 
 Billboard::Billboard(ComponentCamera *camera, float3 position, float width, float height, const char* texture) : camera(camera), position(position), width(width), height(height) {
-	//vertices = new float3[4];
 	if (texture != nullptr)
 		texture_id = App->textures->LoadTexture(texture); 
 
 }
 
-
-Billboard::~Billboard() {
-	//delete[] vertices;
-}
+Billboard::~Billboard() {}
 
 void Billboard::Update()
 {
@@ -22,11 +18,11 @@ void Billboard::Update()
 	Draw(); 
 }
 
-
 void Billboard::ComputeQuad()
 {
-	float3 up = { 0,1,0 };
-	float3 right = (position - camera->GetPosition()).Cross(up).Normalized();
+	right = position - camera->GetPosition(); 
+	distance_to_camera = right.Length(); 
+	right = right.Cross(up).Normalized();
 	vertices[0] = position - up*height/2 - right*width/2; 
 	vertices[1] = position - up*height/2 + right*width/2;
 	vertices[2] = position + up*height/2 + right*width/2; 
@@ -36,7 +32,8 @@ void Billboard::ComputeQuad()
 void Billboard::Draw()
 {
 	glEnable(GL_BLEND);
-
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.1f);
 	App->textures->UseTexture2D(texture_id);
 	
 	glBegin(GL_QUADS); 
@@ -52,5 +49,11 @@ void Billboard::Draw()
 	
 	App->textures->DontUseTexture2D(); 
 
+	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_BLEND);
+}
+
+float Billboard::GetDistanceToCamera() const
+{
+	return distance_to_camera;
 }

@@ -1,14 +1,21 @@
 #ifndef __COMPONENT_BILLBOARD_H__
 #define __COMPONENT_BILLBOARD_H__
 
-#include <vector>
+#include <list>
 #include "Component.h"
-
-class Billboard;
+#include "Billboard.h"
 
 
 class ComponentBillboard : public Component
 {
+	struct billboardDistanceComparator {
+		bool operator() (const Billboard* left, const Billboard* right) const {
+			return left->GetDistanceToCamera() < right->GetDistanceToCamera();
+		}
+	};
+
+
+
 public: 
 	ComponentBillboard(GameObject* parent = nullptr, bool active = true);
 	~ComponentBillboard(); 
@@ -20,7 +27,7 @@ public:
 	bool CleanUp(); 
 
 private:
-	std::vector<Billboard*> elements;
+	std::list<Billboard*> elements;
 
 };
 
