@@ -23,6 +23,13 @@ ModuleEditorGUI::~ModuleEditorGUI()
 
 bool ModuleEditorGUI::Init()
 {
+	//use this log to find the element to change in style.Colors[]
+	/*for (int i = 0; i < ImGuiCol_COUNT; i++)
+	{
+	const char* name = ImGui::GetStyleColName(i);
+	MYLOG("style.Colors[%d].name = \"%s\"", i, name);
+	}*/
+	
 	// apply style
 	ImGui_ImplSdlGL3_Init(App->window->m_window);
 	ImGuiStyle& style = ImGui::GetStyle();
@@ -31,7 +38,15 @@ bool ModuleEditorGUI::Init()
 	style.Colors[7] = ImVec4(0.0f, 0.5f, 1.0f, 0.4f);	// FrameBg
 	style.Colors[8] = ImVec4(0.0f, 0.5f, 1.0f, 0.6f);	// FrameBgHovered
 	style.Colors[9] = ImVec4(0.0f, 0.8f, 0.6f, 0.6f);	//FrameBgActive
-	style.Colors[43] = ImVec4(0.0f, 0.8f, 0.5f, 0.7f);	//TextSelectedBg
+	style.Colors[13] = ImVec4(0.0f, 0.5f, 1.0f, 0.4f);	// MenuBarBg
+	style.Colors[22] = ImVec4(0.0f, 0.5f, 1.0f, 0.4f);	// Button
+	style.Colors[23] = ImVec4(0.0f, 0.5f, 1.0f, 0.6f);	// ButtonHovered
+	style.Colors[24] = ImVec4(0.0f, 0.8f, 0.6f, 0.6f);	// ButtonActive
+	style.Colors[25] = ImVec4(0.0f, 0.5f, 1.0f, 0.4f);	// Header
+	style.Colors[26] = ImVec4(0.0f, 0.5f, 1.0f, 0.6f);	// HeaderHovered
+	style.Colors[27] = ImVec4(0.0f, 0.8f, 0.6f, 0.6f);	// HeaderActive
+
+	style.Colors[41] = ImVec4(0.0f, 1.0f, 0.0f, 0.35f);	//TextSelectedBg
 
 	return true;
 }
