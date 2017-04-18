@@ -2,9 +2,8 @@
 #define __MODULE_SHADERS_H__
 
 #include <map>
-#include "Module.h"
 
-class ModuleShaders : public Module
+class ProgramManager
 {
 	struct LessString
 	{
@@ -17,11 +16,11 @@ class ModuleShaders : public Module
 	typedef std::map<std::string, unsigned, LessString> ProgramList;
 
 	ProgramList programs;
-	//static std::auto_ptr<ModuleShaders> instance;
+	static std::auto_ptr<ProgramManager> instance;
 
 public: 
-	ModuleShaders( bool active = true);
-	~ModuleShaders();
+	ProgramManager();
+	~ProgramManager();
 
 	void Load(const char* name, const char* vertex_shader, const char* fragment_shader);
 	void Clear(); 
@@ -30,7 +29,7 @@ public:
 	void UseProgram(const char* name); 
 	void UnuseProgram();
 
-//	static ModuleShaders* GetInstance(); 
+	static ProgramManager* GetInstance(); 
 };
 
 #endif

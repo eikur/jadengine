@@ -12,7 +12,6 @@
 #include "ModuleEditorGUI.h"
 #include "ModuleScene.h"
 #include "ModuleAnimation.h"
-#include "ModuleShaders.h"
 
 #include "MathGeoLib/include/MathGeoLib.h"
 #include "DevIL/include/IL/il.h"
@@ -60,7 +59,6 @@ Application::Application()
 	modules.push_back(camera = new ModuleEditorCamera());
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(animations = new ModuleAnimation());
-	modules.push_back(shaders = new ModuleShaders()); 
 	modules.push_back(scene = new ModuleScene());
 	modules.push_back(gui = new ModuleEditorGUI());
 	modules.push_back(audio = new ModuleAudio());

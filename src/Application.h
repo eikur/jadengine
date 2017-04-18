@@ -20,7 +20,6 @@ class ModuleEditorCamera;
 class ModuleEditorGUI;
 class ModuleScene;
 class ModuleAnimation;
-class ModuleShaders;
 
 class Application
 {
@@ -50,7 +49,6 @@ public:
 	ModuleEditorGUI* gui = nullptr;
 	ModuleScene* scene = nullptr; 
 	ModuleAnimation* animations = nullptr; 
-	ModuleShaders* shaders = nullptr;
 
 	TimerUSec game_timer;
 	TimerUSec real_timer;

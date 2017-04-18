@@ -166,8 +166,8 @@
     <ClInclude Include="src\Billboard.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\ModuleShaders.h">
-      <Filter>Core Modules</Filter>
+    <ClInclude Include="src\ProgramManager.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -306,8 +306,8 @@
     <ClCompile Include="src\ComponentBillboard.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="src\ModuleShaders.cpp">
-      <Filter>Core Modules</Filter>
+    <ClCompile Include="src\ProgramManager.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
