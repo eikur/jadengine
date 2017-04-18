@@ -45,7 +45,6 @@ bool ModuleEditorGUI::Init()
 	style.Colors[25] = ImVec4(0.0f, 0.5f, 1.0f, 0.4f);	// Header
 	style.Colors[26] = ImVec4(0.0f, 0.5f, 1.0f, 0.6f);	// HeaderHovered
 	style.Colors[27] = ImVec4(0.0f, 0.8f, 0.6f, 0.6f);	// HeaderActive
-
 	style.Colors[41] = ImVec4(0.0f, 1.0f, 0.0f, 0.35f);	//TextSelectedBg
 
 	return true;
@@ -68,7 +67,7 @@ update_status ModuleEditorGUI::Update(float)
 		return UPDATE_STOP;
 	else
 	{
-		ImGui::ShowTestWindow();
+	//	ImGui::ShowTestWindow();
 
 		Draw();
 		return UPDATE_CONTINUE;

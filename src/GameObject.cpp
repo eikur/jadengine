@@ -9,6 +9,7 @@
 #include "ComponentBillboard.h"
 #include "ParticleSystem.h"
 
+
 GameObject::GameObject(const char* name, GameObject* parent, bool active) : name(name), parent(parent), active(active)
 {
 
@@ -254,6 +255,16 @@ void GameObject::UpdateBoundingBoxesRecursively()
 		if ((*it)->active == true)
 			(*it)->UpdateBoundingBoxesRecursively(); 
 	}
+}
+
+AABB GameObject::GetBoundingBox()
+{
+
+	if (mesh_component != nullptr)
+		return mesh_component->GetBoundingBox();
+	AABB ret;
+	ret.SetNegativeInfinity();
+	return ret;
 }
 
 void GameObject::GetAllMeshComponents(std::vector<ComponentMesh*>& meshes) const

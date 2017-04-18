@@ -18,7 +18,6 @@ void Quadtree::Clear()
 void Quadtree::Insert(GameObject* go_to_insert)
 {
 	root_node->Insert(go_to_insert); 
-
 }
 
 void Quadtree::Remove(GameObject* )
@@ -31,6 +30,12 @@ void Quadtree::DebugDraw()
 	root_node->DrawDebug(); 
 }
 
+template<typename TYPE>
+inline void Quadtree::Intersect(std::vector<GameObject*>& intersections, const TYPE & primitive) const
+{
+	root_node->Intersect(intersections, primitive);
+}
+//------------------------------------------------------
 bool Quadtree::QuadtreeNode::Insert(GameObject* go_to_insert)
 {
 	if (boundary.Contains(go_to_insert->GetWorldPosition()))
@@ -136,5 +141,22 @@ void Quadtree::QuadtreeNode::Clear()
 		for (int i = 0; i < 4; ++i)
 			children[i].Clear();
 		delete[] children; 
+	}
+}
+
+template<typename TYPE>
+inline void Quadtree::QuadtreeNode::Intersect(std::vector<GameObject*>& intersections, const TYPE & primitive) const
+{
+	if (primitive.Intersects(box))
+	{
+		for (std::list<GameObject*>::const_iterator it = this->objects.begin(); it != this->objects.end(); ++it)
+		{
+			if (primitive.Intersects((*it)->GetBoundingBox()))
+				objects.push_back(*it);
+		}
+
+		for (int i = 0; i < 4; ++i)
+			if (children[i] != nullptr) 
+				children[i]->CollectIntersections(objects, primitive);
 	}
 }

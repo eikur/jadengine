@@ -61,6 +61,7 @@ public:
 	void UpdateBoundingBoxesRecursively();
 	void GetAllMeshComponents(std::vector<ComponentMesh*> &meshes) const;
 	float4x4 GetModelSpaceTransformMatrix() const; 
+	AABB GetBoundingBox();
 
 	//animation component handling methods
 	void SetNextAnimationID(int next_id);

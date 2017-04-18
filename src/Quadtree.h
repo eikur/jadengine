@@ -19,6 +19,9 @@ class Quadtree {
 		void Clear(); 
 		void DrawDebug(); 
 
+		template<typename TYPE>
+		inline void Intersect(std::vector<GameObject*>& intersections, const TYPE & primitive) const; 
+
 		AABB boundary; 
 		int capacity = 0; 
 		QuadtreeNode *children = nullptr; 
@@ -32,6 +35,9 @@ public:
 	void Clear(); 
 	void Insert(GameObject *go_to_insert);
 	void Remove(GameObject *go_to_remove); 
+
+	template<typename TYPE>
+	inline void Intersect(std::vector<GameObject*>& intersections, const TYPE & primitive) const;
 
 	void DebugDraw();
 
