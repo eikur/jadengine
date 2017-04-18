@@ -1,6 +1,7 @@
 #ifndef __MODULE_SHADERS_H__
 #define __MODULE_SHADERS_H__
 
+#include <stdlib.h>
 #include <map>
 
 class ProgramManager
@@ -22,7 +23,7 @@ public:
 	ProgramManager();
 	~ProgramManager();
 
-	void Load(const char* name, const char* vertex_shader, const char* fragment_shader);
+	GLuint Load(const char* name, const char* vertex_shader, const char* fragment_shader);
 	void Clear(); 
 
 	int	GetUniformLocation(const char* name, const char* uniform);
