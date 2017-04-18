@@ -166,6 +166,9 @@
     <ClInclude Include="src\Billboard.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\ModuleShaders.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -302,6 +305,9 @@
     </ClCompile>
     <ClCompile Include="src\ComponentBillboard.cpp">
       <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleShaders.cpp">
+      <Filter>Core Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
