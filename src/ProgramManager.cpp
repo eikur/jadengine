@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "glew-2.0.0\include\GL\glew.h"
+#include <vector>
 #include "ProgramManager.h"
 
 ProgramManager::ProgramManager(){}
@@ -17,56 +18,118 @@ GLuint ProgramManager::Load(const char* name, const char* vertex_shader_name, co
 	GLuint vertex_shader;
 	GLuint fragment_shader;
 	FILE* fp;
-	long size;
+	GLint size;
 	char *buffer;
-
-	// vertex shader load
-	fp = fopen(vertex_shader_name, "r");
-	if (fp == nullptr){
-		MYLOG("Error opening file: %s\n", strerror(errno));
-		return 0;
-	}
-
-	fseek(fp, 0, SEEK_END);
-	size = ftell(fp);
-	buffer = (char*) malloc(size + 1);
-
-	rewind(fp);
-	fread(buffer, size, 1, fp);
-	buffer[size] = '\0';
-	
-	// compile vertex shader
-	fclose(fp);
-
-	// fragment shader load
-	fp = fopen(fragment_shader_name, "r");
-	if (fp == nullptr) {
-		MYLOG("Error opening file: %s\n", strerror(errno));
-		return 0;
-	}
-
-	fseek(fp, 0, SEEK_END);
-	size = ftell(fp);
-	buffer = (char*)malloc(size + 1);
-
-	rewind(fp);
-	fread(buffer, size, 1, fp);
-	buffer[size] = '\0';
-
-	// compile fragment shader
-	fclose(fp);
-
-
+	GLint result;
 
 	GLuint program = glCreateProgram();
-	glAttachShader(program, vertex_shader);
-	glAttachShader(program, fragment_shader);
+
+	if (vertex_shader_name != nullptr)
+	{
+		fp = fopen(vertex_shader_name, "r");
+		if (fp == nullptr){
+			MYLOG("Error opening file: %s\n", strerror(errno));
+		}
+		else
+		{
+			fseek(fp, 0, SEEK_END);
+			size = ftell(fp) + 1; 
+			buffer = (char*)malloc(size);
+
+			rewind(fp);
+			fread(buffer, size-1, 1, fp);
+			buffer[size-1] = '\0';
+			fclose(fp);
+
+			vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+			glShaderSource(vertex_shader, 1, &buffer, &size);
+			glCompileShader(vertex_shader);
+			free(buffer);
+
+
+			result = 0;
+			glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &result);
+			if (result == GL_FALSE)
+			{
+				// error display management
+				GLint maxLength = 0;
+				glGetShaderiv(vertex_shader, GL_INFO_LOG_LENGTH, &maxLength);
+				std::vector<GLchar> errorLog(maxLength);
+				glGetShaderInfoLog(vertex_shader, maxLength, &maxLength, &errorLog[0]);
+			}
+			else
+			{
+				glAttachShader(program, vertex_shader);
+			}
+			glDeleteShader(vertex_shader);
+		}
+	}
+
+	if (fragment_shader_name != nullptr)
+	{
+		fp = fopen(fragment_shader_name, "r");
+		if (fp == nullptr) {
+			MYLOG("Error opening file: %s\n", strerror(errno));
+		}
+		else
+		{
+			fseek(fp, 0, SEEK_END);
+			size = ftell(fp) + 1;
+			buffer = (char*)malloc(size);
+
+			rewind(fp);
+			fread(buffer, size-1, 1, fp);
+			buffer[size-1] = '\0';
+			fclose(fp);
+
+			fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+			glShaderSource(fragment_shader, 1, &buffer, &size);
+			glCompileShader(fragment_shader);
+			free(buffer);
+
+			result = 0;
+			glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &result);
+			if (result == GL_FALSE)
+			{
+				// error display management
+				GLint maxLength = 0;
+				glGetShaderiv(fragment_shader, GL_INFO_LOG_LENGTH, &maxLength);
+				std::vector<GLchar> errorLog(maxLength);
+				glGetShaderInfoLog(fragment_shader, maxLength, &maxLength, &errorLog[0]);
+			}
+			else
+			{
+				glAttachShader(program, fragment_shader);
+			}
+			glDeleteShader(fragment_shader);
+		}
+	}
+
 	glLinkProgram( program );
-	
 
-	free(buffer);
+	result = 0;
+	glGetProgramiv(program, GL_LINK_STATUS, &result);
+	if (result == GL_FALSE)
+	{
+		GLint maxLength = 0;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 
+		//The maxLength includes the NULL character
+		std::vector<GLchar> infoLog(maxLength);
+		glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+
+		//The program is useless now. So delete it.
+		glDeleteProgram(program);
+
+		//Provide the infolog in whatever manner you deem best.
+		//Exit with failure.
+		return -1;
+	}
+	else
+		return program; 
 }
+
+
 void ProgramManager::Clear() {}
 
 int	ProgramManager::GetUniformLocation(const char* name, const char* uniform) {
