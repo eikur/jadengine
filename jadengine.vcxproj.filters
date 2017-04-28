@@ -169,6 +169,9 @@
     <ClInclude Include="src\ProgramManager.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\ModulePhysics.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -308,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="src\ProgramManager.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModulePhysics.cpp">
+      <Filter>Core Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

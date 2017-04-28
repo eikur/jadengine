@@ -108,6 +108,7 @@
     <ClInclude Include="src\ModuleFonts.h" />
     <ClInclude Include="src\ModuleInput.h" />
     <ClInclude Include="src\ModuleParticles.h" />
+    <ClInclude Include="src\ModulePhysics.h" />
     <ClInclude Include="src\ModuleRender.h" />
     <ClInclude Include="src\ModuleScene.h" />
     <ClInclude Include="src\ModuleTextures.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="src\ModuleFonts.cpp" />
     <ClCompile Include="src\ModuleInput.cpp" />
     <ClCompile Include="src\ModuleParticles.cpp" />
+    <ClCompile Include="src\ModulePhysics.cpp" />
     <ClCompile Include="src\ModuleRender.cpp" />
     <ClCompile Include="src\ModuleScene.cpp" />
     <ClCompile Include="src\ModuleTextures.cpp" />

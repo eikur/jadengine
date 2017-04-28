@@ -20,6 +20,7 @@ class ModuleEditorCamera;
 class ModuleEditorGUI;
 class ModuleScene;
 class ModuleAnimation;
+class ModulePhysics;
 
 class Application
 {
@@ -49,6 +50,7 @@ public:
 	ModuleEditorGUI* gui = nullptr;
 	ModuleScene* scene = nullptr; 
 	ModuleAnimation* animations = nullptr; 
+	ModulePhysics* physics = nullptr;
 
 	TimerUSec game_timer;
 	TimerUSec real_timer;
