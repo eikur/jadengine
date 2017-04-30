@@ -3,6 +3,12 @@
 
 #include "Module.h"
 
+class btBroadphaseInterface;
+class btDefaultCollisionConfiguration;
+class btCollisionDispatcher;
+class btSequentialImpulseConstraintSolver;
+class btDiscreteDynamicsWorld;
+
 class ModulePhysics : public Module
 {
 public:
@@ -12,6 +18,14 @@ public:
 	bool Init();
 	update_status Update(float dt);
 	bool CleanUp();
+
+private:
+	btBroadphaseInterface* broadphase;
+	btDefaultCollisionConfiguration* collision_configuration;
+	btCollisionDispatcher* dispatcher;
+	btSequentialImpulseConstraintSolver* solver;
+	btDiscreteDynamicsWorld* dynamics_world;
+
 };
 
 #endif

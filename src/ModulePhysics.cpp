@@ -23,6 +23,20 @@ ModulePhysics::~ModulePhysics()
 
 bool ModulePhysics::Init()
 {
+	// Build the broadphase
+	broadphase = new btDbvtBroadphase();
+
+	// Set up the collision configuration and dispatcher
+	collision_configuration = new btDefaultCollisionConfiguration();
+	dispatcher = new btCollisionDispatcher(collision_configuration);
+
+	// The actual physics solver
+	solver = new btSequentialImpulseConstraintSolver;
+
+	// The world
+	dynamics_world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_configuration);
+	dynamics_world->setGravity(btVector3(0, -10, 0));
+
 	return true;
 }
 
@@ -33,5 +47,11 @@ update_status ModulePhysics::Update(float dt)
 
 bool ModulePhysics::CleanUp()
 {
+	RELEASE(dynamics_world);
+	RELEASE(solver);
+	RELEASE(dispatcher);
+	RELEASE(collision_configuration);
+	RELEASE(broadphase);
+
 	return true;
 }
