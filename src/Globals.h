@@ -1,7 +1,6 @@
 #ifndef __GLOBALS_H__
 #define __GLOBALS_H__
 
-#include "MemLeaks.h"
 #include "SDL/include/SDL_rect.h"
 
 #define MYLOG(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__);
