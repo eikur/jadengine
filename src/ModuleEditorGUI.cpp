@@ -6,6 +6,9 @@
 #include "ModuleScene.h"
 #include "GameObject.h"
 
+#include "ModulePhysics.h"
+#include "Bullet/include/btBulletDynamicsCommon.h"
+
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_sdl_gl3.h"
 #include "ImGui/imgui_internal.h"
@@ -62,6 +65,7 @@ update_status ModuleEditorGUI::Update(float)
 	if (show_inspector) ShowInspector(&show_inspector);
 	if (show_stats) ShowStats(&show_stats);
 	if (show_player) ShowPlayer(&show_player);
+	if (show_physics_configuration) ShowPhysicsConfiguration(&show_physics_configuration); 
 
 	if (ShowMainMenu() == false)
 		return UPDATE_STOP;
@@ -104,6 +108,12 @@ bool ModuleEditorGUI::ShowMainMenu()
 			if (ImGui::MenuItem("Stats", NULL, &show_stats)) {}
 			if (ImGui::MenuItem("Player", NULL, &show_player)) {}
 			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Configuration"))
+		{
+			if (ImGui::MenuItem("Physic system", NULL, &show_physics_configuration)) {}
+			ImGui::EndMenu(); 
 		}
 
 		if (ImGui::BeginMenu("Documentation"))
@@ -224,4 +234,24 @@ void ModuleEditorGUI::ShowHierarchy(bool *enabled) {
 	}
 	ImGui::End();
 	
+}
+
+void ModuleEditorGUI::ShowPhysicsConfiguration(bool *enabled) const
+{
+	// example> overlayLayout
+	ImGui::SetNextWindowPos(ImVec2(App->window->m_screen_width * 3 / 4, 25));
+	ImGui::SetNextWindowSize(ImVec2(App->window->m_screen_width / 4 - 5, 120));
+	if (ImGui::Begin("Physics config", enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize) == false) {
+		ImGui::End();
+		return;
+	}
+	btVector3 gravity = App->physics->GetGravity(); 
+	
+	float grav[3] = { gravity.getX(), gravity.getY(), gravity.getZ() };
+	
+	ImGui::DragFloat3("Gravity", grav, 0.1f);
+	
+	gravity.setX(grav[0]); gravity.setY(grav[1]); gravity.setZ(grav[2]);
+	App->physics->SetGravity(gravity); 
+	ImGui::End(); 
 }

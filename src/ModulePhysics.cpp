@@ -55,3 +55,14 @@ bool ModulePhysics::CleanUp()
 
 	return true;
 }
+
+btVector3 ModulePhysics::GetGravity() const
+{
+	return dynamics_world->getGravity(); 
+}
+
+
+void ModulePhysics::SetGravity(const btVector3 &new_gravity)
+{
+	dynamics_world->setGravity(new_gravity); 
+}

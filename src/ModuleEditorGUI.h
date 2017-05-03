@@ -20,13 +20,15 @@ public:
 private:
 	bool ShowMainMenu();
 
-	void ShowConsole(bool *p_open) const;
-	void ShowStats(bool *p_open) const;
-	void ShowInspector(bool *p_open) const;
-	void ShowHierarchy(bool *p_open);
+	void ShowConsole(bool *enabled) const;
+	void ShowStats(bool *enabled) const;
+	void ShowInspector(bool *enabled) const;
+	void ShowHierarchy(bool *enabled);
 	
-	void ShowAbout(bool *p_open) const;
-	void ShowPlayer(bool *p_open) const;
+	void ShowPhysicsConfiguration(bool *enabled) const; 
+
+	void ShowAbout(bool *enabled) const;
+	void ShowPlayer(bool *enabled) const;
 
 private:
 	bool show_about = false;
@@ -35,6 +37,7 @@ private:
 	bool show_hierarchy = false;
 	bool show_stats = false;
 	bool show_player = false;
+	bool show_physics_configuration = false; 
 
 	GameObject *inspector_selected_gameobject = nullptr;
 };

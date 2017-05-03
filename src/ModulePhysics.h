@@ -8,6 +8,7 @@ class btDefaultCollisionConfiguration;
 class btCollisionDispatcher;
 class btSequentialImpulseConstraintSolver;
 class btDiscreteDynamicsWorld;
+class btVector3;	
 
 class ModulePhysics : public Module
 {
@@ -18,6 +19,9 @@ public:
 	bool Init();
 	update_status Update(float dt);
 	bool CleanUp();
+
+	btVector3 GetGravity() const; 
+	void SetGravity(const btVector3 &new_gravity); 
 
 private:
 	btBroadphaseInterface* broadphase;
