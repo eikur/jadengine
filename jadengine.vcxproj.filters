@@ -175,6 +175,9 @@
     <ClInclude Include="src\PhysicsDebugDrawer.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\ComponentPhysics.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -320,6 +323,9 @@
     </ClCompile>
     <ClCompile Include="src\PhysicsDebugDrawer.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComponentPhysics.cpp">
+      <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
