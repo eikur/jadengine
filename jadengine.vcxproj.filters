@@ -172,6 +172,9 @@
     <ClInclude Include="src\ModulePhysics.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
+    <ClInclude Include="src\PhysicsDebugDrawer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ModuleAudio.cpp">
@@ -314,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="src\ModulePhysics.cpp">
       <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PhysicsDebugDrawer.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

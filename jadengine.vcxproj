@@ -115,6 +115,7 @@
     <ClInclude Include="src\ModuleTimer.h" />
     <ClInclude Include="src\ModuleWindow.h" />
     <ClInclude Include="src\ParticleSystem.h" />
+    <ClInclude Include="src\PhysicsDebugDrawer.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Primitive.h" />
     <ClInclude Include="src\PrimitiveManager.h" />
@@ -167,6 +168,7 @@
     <ClCompile Include="src\ModuleTimer.cpp" />
     <ClCompile Include="src\ModuleWindow.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
+    <ClCompile Include="src\PhysicsDebugDrawer.cpp" />
     <ClCompile Include="src\PrimitiveManager.cpp" />
     <ClCompile Include="src\ProgramManager.cpp" />
     <ClCompile Include="src\Quadtree.cpp" />
