@@ -5,6 +5,8 @@
 #include "Globals.h"
 #include "Application.h"
 
+#include "brofiler/Brofiler.h"
+
 #include "ModuleAnimation.h"
 
 
@@ -21,6 +23,8 @@ bool ModuleAnimation::Init()
 
 update_status ModuleAnimation::Update(float dt)
 {
+	BROFILER_CATEGORY("ModuleAnimation::Update", Profiler::Color::DodgerBlue)
+
 	if (dt <= 0.005f)
 		return UPDATE_CONTINUE;
 

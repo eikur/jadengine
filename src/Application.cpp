@@ -125,7 +125,6 @@ update_status Application::Update()
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if ((*it)->IsEnabled() == true)
 		{
-			BROFILER_CATEGORY("functionName", Profiler::Color::LimeGreen)
 			ret = (*it)->Update(game_timer.Delta() / 1000000.0f);
 		}
 

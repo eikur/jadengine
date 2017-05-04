@@ -12,6 +12,8 @@
 #include "Primitive.h"
 #include "Level.h"
 
+#include "brofiler/Brofiler.h"
+
 ModuleRender::ModuleRender()
 {
 }
@@ -184,6 +186,8 @@ bool ModuleRender::Start()
 
 update_status ModuleRender::PreUpdate()
 {
+	BROFILER_CATEGORY("ModuleRender::PreUpdate", Profiler::Color::Magenta)
+
 	glViewport(0, 0, App->window->m_screen_width, App->window->m_screen_height);
 	if (m_projection_changed)
 		LoadProjection();

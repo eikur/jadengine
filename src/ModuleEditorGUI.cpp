@@ -9,6 +9,8 @@
 #include "ModulePhysics.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
 
+#include "brofiler/Brofiler.h"
+
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_sdl_gl3.h"
 #include "ImGui/imgui_internal.h"
@@ -55,6 +57,7 @@ bool ModuleEditorGUI::Init()
 
 update_status ModuleEditorGUI::Update(float)
 {
+	BROFILER_CATEGORY("ModuleEditorGUI::Update", Profiler::Color::LimeGreen)
 	ImVec4 clear_color = ImColor(0, 0, 0);
 
 	ImGui_ImplSdlGL3_NewFrame(App->window->m_window);
