@@ -17,6 +17,8 @@
 #include "MathGeoLib/include/MathGeoLib.h"
 #include "DevIL/include/IL/il.h"
 #include "glew-2.0.0/include/GL/glew.h"
+#include "brofiler/Brofiler.h"
+
 
 #ifdef _MSC_VER
 #	ifdef _WIN64
@@ -35,6 +37,7 @@
 #			pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #			pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #			pragma comment (lib, "3rdparty/assimp/lib/assimp-vc140-mt.lib")
+#			pragma comment(lib, "3rdparty/brofiler/ProfilerCore32.lib")
 #		else // RELEASE
 #			pragma comment( lib, "3rdparty/MathGeoLib/libx86/rel/MathGeoLib.lib" )
 #			pragma comment( lib, "3rdparty/DevIL/libx86/rel/DevIL.lib")
@@ -44,6 +47,7 @@
 #			pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #			pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #			pragma comment (lib, "3rdparty/assimp/lib/assimp-vc140-mt.lib")
+#			pragma comment(lib, "3rdparty/brofiler/ProfilerCore32.lib")
 #		endif // _DEBUG	
 #	endif // _WIN64
 #endif // _MSC_VER
@@ -106,6 +110,8 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
+	BROFILER_FRAME("abracadabra")
+
 	game_timer.Measure();
 	real_timer.Measure();
 	fps_refresh_timer.Measure();
@@ -117,8 +123,11 @@ update_status Application::Update()
 
 	// Update all modules considering the game timer's delta
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		if((*it)->IsEnabled() == true) 
+		if ((*it)->IsEnabled() == true)
+		{
+			BROFILER_CATEGORY("functionName", Profiler::Color::LimeGreen)
 			ret = (*it)->Update(game_timer.Delta() / 1000000.0f);
+		}
 
 	// Post update all modules 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
