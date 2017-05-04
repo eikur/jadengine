@@ -7,6 +7,8 @@
 #include "ModuleRender.h"
 #include "ComponentCamera.h"
 
+#include "brofiler/Brofiler.h"
+
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_sdl_gl3.h"
 
@@ -50,6 +52,7 @@ bool ModuleInput::Start()
 // Called each loop iteration
 update_status ModuleInput::PreUpdate()
 {
+	BROFILER_CATEGORY("ModuleInput", Profiler::Color::Magenta)
 	static SDL_Event event;
 
 	mouse_motion = {0, 0};

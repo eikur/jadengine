@@ -186,7 +186,7 @@ bool ModuleRender::Start()
 
 update_status ModuleRender::PreUpdate()
 {
-	BROFILER_CATEGORY("ModuleRender::PreUpdate", Profiler::Color::Magenta)
+	BROFILER_CATEGORY("ModuleRender", Profiler::Color::Magenta)
 
 	glViewport(0, 0, App->window->m_screen_width, App->window->m_screen_height);
 	if (m_projection_changed)
@@ -213,12 +213,14 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update( float )
 {
+	BROFILER_CATEGORY("ModuleRender", Profiler::Color::Green)
 	return UPDATE_CONTINUE;
 }
 
 
 update_status ModuleRender::PostUpdate()
 {
+	BROFILER_CATEGORY("ModuleRender", Profiler::Color::Blue)
 	++(App->frame_count);
 
 	SDL_GL_SwapWindow(App->window->m_window);

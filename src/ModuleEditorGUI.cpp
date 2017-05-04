@@ -57,7 +57,7 @@ bool ModuleEditorGUI::Init()
 
 update_status ModuleEditorGUI::Update(float)
 {
-	BROFILER_CATEGORY("ModuleEditorGUI::Update", Profiler::Color::LimeGreen)
+	BROFILER_CATEGORY("ModuleEditorGUI::Update", Profiler::Color::Green)
 	ImVec4 clear_color = ImColor(0, 0, 0);
 
 	ImGui_ImplSdlGL3_NewFrame(App->window->m_window);

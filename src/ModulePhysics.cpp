@@ -2,6 +2,8 @@
 #include "ModulePhysics.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
 
+#include "brofiler/Brofiler.h"
+
 #ifdef _DEBUG
 #	pragma comment( lib, "3rdparty/Bullet/libx86/BulletDynamics_debug.lib" )
 #	pragma comment( lib, "3rdparty/Bullet/libx86/BulletCollision_debug.lib" )
@@ -42,6 +44,7 @@ bool ModulePhysics::Init()
 
 update_status ModulePhysics::Update(float dt)
 {
+	BROFILER_CATEGORY("ModulePhysics", Profiler::Color::Green)
 	return UPDATE_CONTINUE;
 }
 

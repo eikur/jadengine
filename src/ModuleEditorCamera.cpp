@@ -7,6 +7,8 @@
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
 
+#include "brofiler/Brofiler.h"
+
 #include "ModuleEditorCamera.h"
 
 ModuleEditorCamera::ModuleEditorCamera()
@@ -42,6 +44,7 @@ bool ModuleEditorCamera::Start()
 
 update_status ModuleEditorCamera::Update(float dt)
 {
+	BROFILER_CATEGORY("ModuleEditorCamera", Profiler::Color::Green)
 	m_camera_gameobject->Update(dt); 
 
 	/* EDITOR CONTROLS*/

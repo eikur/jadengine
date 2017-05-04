@@ -11,6 +11,8 @@
 #include "CubePrimitive.h" // for testing quadtree
 #include "ComponentBillboard.h" // for testing billboard structure
 
+#include "brofiler/Brofiler.h"
+
 #include "ModuleScene.h"
 #include <algorithm>
 
@@ -62,6 +64,7 @@ bool ModuleScene::Init()
 
 update_status ModuleScene::Update(float dt)
 {
+	BROFILER_CATEGORY("ModuleInput", Profiler::Color::Green)
 	for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
 	{
 		if ((*it)->active == true)

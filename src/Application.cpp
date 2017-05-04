@@ -110,7 +110,7 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	BROFILER_FRAME("abracadabra")
+	BROFILER_FRAME("ApplicationUpdate")
 
 	game_timer.Measure();
 	real_timer.Measure();

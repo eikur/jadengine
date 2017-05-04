@@ -23,7 +23,7 @@ bool ModuleAnimation::Init()
 
 update_status ModuleAnimation::Update(float dt)
 {
-	BROFILER_CATEGORY("ModuleAnimation::Update", Profiler::Color::DodgerBlue)
+	BROFILER_CATEGORY("ModuleAnimation", Profiler::Color::Green)
 
 	if (dt <= 0.005f)
 		return UPDATE_CONTINUE;

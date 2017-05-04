@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleRender.h"
+#include "brofiler/Brofiler.h"
+
 #include "SDL/include/SDL.h"
 
 ModuleFadeToBlack::ModuleFadeToBlack(bool start_enabled) :  Module(start_enabled)
@@ -22,6 +24,7 @@ bool ModuleFadeToBlack::Start()
 // Update: draw background
 update_status ModuleFadeToBlack::Update( float )
 {
+	BROFILER_CATEGORY("ModuleFadeToBlack", Profiler::Color::Green)
 	if(start_time > 0)
 	{
 		Uint32 now = SDL_GetTicks() - start_time;

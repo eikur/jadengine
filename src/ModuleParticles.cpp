@@ -7,6 +7,8 @@
 #include "ModuleCollision.h"
 #include "ModuleFonts.h"
 
+#include "brofiler/Brofiler.h"
+
 #include "SDL/include/SDL_timer.h"
 
 ModuleParticles::ModuleParticles()
@@ -40,6 +42,7 @@ bool ModuleParticles::CleanUp()
 // Update: draw particles 
 update_status ModuleParticles::Update( float )
 {
+	BROFILER_CATEGORY("ModuleParticles", Profiler::Color::Green)
 /*	for (list<Particle*>::iterator it = active.begin(); it != active.end();)
 	{
 		Particle* p = *it;
@@ -95,6 +98,8 @@ Particle::~Particle()
 
 bool Particle::Update( float dt )
 {
+
+	BROFILER_CATEGORY("ModuleParticles", Profiler::Color::Green)
 	// Return false if the particle must be destroyed
 
 	//death by age

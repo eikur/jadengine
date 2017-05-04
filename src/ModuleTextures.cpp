@@ -8,7 +8,6 @@
 #include "DevIL/include/IL/devil_cpp_wrapper.hpp"
 #include "DevIL/include/IL/ilut.h"
 
-
 #ifdef _MSC_VER
 # pragma comment( lib, "3rdparty/DevIL/libx86/rel/DevIL.lib")
 #endif

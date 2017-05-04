@@ -5,6 +5,8 @@
 #include "ModuleRender.h"
 #include "ModuleCollision.h"
 
+#include "brofiler/Brofiler.h"
+
 using namespace std;
 
 ModuleCollision::ModuleCollision(bool start_enabled) : Module(start_enabled)
@@ -35,6 +37,8 @@ update_status ModuleCollision::PreUpdate()
 
 update_status ModuleCollision::Update( float )
 {
+	BROFILER_CATEGORY("ModuleCollision", Profiler::Color::Green)
+
 	for (list<Collider*>::const_iterator it = colliders.cbegin(); it != colliders.cend();++it )
 	{
 		for (list<Collider*>::const_iterator it2 = it; it2 != colliders.cend();++it2)	

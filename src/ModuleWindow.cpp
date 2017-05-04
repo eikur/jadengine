@@ -1,6 +1,9 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+
+#include "brofiler/Brofiler.h"
+
 #include "SDL/include/SDL.h"
 
 ModuleWindow::ModuleWindow()
@@ -71,6 +74,8 @@ bool ModuleWindow::Init()
 // Called every draw update
 update_status ModuleWindow::Update( float )
 {
+	BROFILER_CATEGORY("ModuleWindow", Profiler::Color::Green)
+
 	char *title1 = "JADEngine - running at ";
 	char fps[10];
 	char *title2 = " FPS";
