@@ -65,4 +65,28 @@ btVector3 ModulePhysics::GetGravity() const
 void ModulePhysics::SetGravity(const btVector3 &new_gravity)
 {
 	dynamics_world->setGravity(new_gravity); 
+
+
+}
+
+btRigidBody* ModulePhysics::AddBody(float box_size)
+{
+	// to improve, not working properly yet
+	float mass = 1.0f; // 0.0 creates a static or immutable body. Consider passing it as a parameter
+	btVector3 box_extents(box_size, box_size, box_size );
+	btCollisionShape* colShape = new btBoxShape(box_extents); 
+	shapes.push_back(colShape); 
+
+	btVector3 localInertia(0.0f, 0.0f, 0.0f);
+	if (mass != 0.0f)
+		colShape->calculateLocalInertia(mass, localInertia); 
+
+	/*
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, component, colShape, localInertia);
+	btRigidBody* body = new btRigidBody(rbInfo); 
+	*/
+
+	btRigidBody* body = new btRigidBody(mass, nullptr, colShape, localInertia);
+	dynamics_world->addRigidBody(body);
+	return body; 
 }
