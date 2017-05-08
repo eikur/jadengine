@@ -34,10 +34,11 @@ GLuint ProgramManager::Load(const char* name, const char* vertex_shader_name, co
 			fseek(fp, 0, SEEK_END);
 			size = ftell(fp) + 1; 
 			buffer = (char*)malloc(size);
-
+			memset(buffer, 0, size);
 			rewind(fp);
-			fread(buffer, size-1, 1, fp);
-			buffer[size-1] = '\0';
+			fread(buffer, size, 1, fp);
+			buffer[size - 1] = '\0';
+			
 			fclose(fp);
 
 			vertex_shader = glCreateShader(GL_VERTEX_SHADER);
@@ -55,7 +56,7 @@ GLuint ProgramManager::Load(const char* name, const char* vertex_shader_name, co
 				glGetShaderiv(vertex_shader, GL_INFO_LOG_LENGTH, &maxLength);
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(vertex_shader, maxLength, &maxLength, &errorLog[0]);
-				PrintErrorLog("vertex shader compilation fail", errorLog);
+				PrintErrorLog("Vertex Shader Compilation Failed", errorLog);
 			}
 			else
 			{
@@ -76,6 +77,7 @@ GLuint ProgramManager::Load(const char* name, const char* vertex_shader_name, co
 			fseek(fp, 0, SEEK_END);
 			size = ftell(fp) + 1;
 			buffer = (char*)malloc(size);
+			memset(buffer, 0, size);
 
 			rewind(fp);
 			fread(buffer, size-1, 1, fp);
@@ -96,7 +98,7 @@ GLuint ProgramManager::Load(const char* name, const char* vertex_shader_name, co
 				glGetShaderiv(fragment_shader, GL_INFO_LOG_LENGTH, &maxLength);
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(fragment_shader, maxLength, &maxLength, &errorLog[0]);
-				PrintErrorLog("fragment shader compilation fail", errorLog);
+				PrintErrorLog("Fragment Shader Compilation Failed", errorLog);
 			}
 			else
 			{
@@ -149,8 +151,12 @@ void ProgramManager::PrintErrorLog(const char* header, const std::vector<GLchar>
 {
 	std::ofstream output; 
 	output.open(output_file, std::ios::out | std::ios::app);
+	output << "------------------------------------" << std::endl;
 	output << header << std::endl;
+	output << __DATE__ << " at " << __TIME__ << std::endl;
+	output << "------------------------------------" << std::endl;
 	for (std::vector<GLchar>::const_iterator it = log_to_print.cbegin(); it != log_to_print.cend(); ++it)
 		output << (*it); 
+	output << std::endl << std::endl;
 	output.close(); 
 }
