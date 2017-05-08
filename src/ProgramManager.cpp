@@ -1,6 +1,5 @@
 #include "Globals.h"
 #include "glew-2.0.0\include\GL\glew.h"
-#include <vector>
 #include "ProgramManager.h"
 
 ProgramManager::ProgramManager(){}
@@ -56,6 +55,7 @@ GLuint ProgramManager::Load(const char* name, const char* vertex_shader_name, co
 				glGetShaderiv(vertex_shader, GL_INFO_LOG_LENGTH, &maxLength);
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(vertex_shader, maxLength, &maxLength, &errorLog[0]);
+				PrintErrorLog("vertex shader compilation fail", errorLog);
 			}
 			else
 			{
@@ -96,6 +96,7 @@ GLuint ProgramManager::Load(const char* name, const char* vertex_shader_name, co
 				glGetShaderiv(fragment_shader, GL_INFO_LOG_LENGTH, &maxLength);
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(fragment_shader, maxLength, &maxLength, &errorLog[0]);
+				PrintErrorLog("fragment shader compilation fail", errorLog);
 			}
 			else
 			{
@@ -122,6 +123,7 @@ GLuint ProgramManager::Load(const char* name, const char* vertex_shader_name, co
 		glDeleteProgram(program);
 
 		//Provide the infolog in whatever manner you deem best.
+		PrintErrorLog("Program link failed", infoLog);
 		//Exit with failure.
 		return -1;
 	}
@@ -141,4 +143,14 @@ void ProgramManager::UnuseProgram() {}
 ProgramManager* ProgramManager::GetInstance()
 {
 	return nullptr;
+}
+
+void ProgramManager::PrintErrorLog(const char* header, const std::vector<GLchar> &log_to_print ) const
+{
+	std::ofstream output; 
+	output.open(output_file, std::ios::out | std::ios::app);
+	output << header << std::endl;
+	for (std::vector<GLchar>::const_iterator it = log_to_print.cbegin(); it != log_to_print.cend(); ++it)
+		output << (*it); 
+	output.close(); 
 }

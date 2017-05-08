@@ -2,10 +2,14 @@
 #define __MODULE_SHADERS_H__
 
 #include <stdlib.h>
+#include <vector>
 #include <map>
+#include <fstream>
 
 class ProgramManager
 {
+	const char* output_file = "shader_log.txt";
+	
 	struct LessString
 	{
 		bool operator()(const std::string left, const std::string right) const
@@ -31,6 +35,8 @@ public:
 	void UnuseProgram();
 
 	static ProgramManager* GetInstance(); 
+
+	void PrintErrorLog(const char* header, const std::vector<GLchar> &log_to_print) const;
 };
 
 #endif

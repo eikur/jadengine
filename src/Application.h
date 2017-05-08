@@ -21,6 +21,7 @@ class ModuleEditorGUI;
 class ModuleScene;
 class ModuleAnimation;
 class ModulePhysics;
+class ProgramManager;
 
 class Application
 {
@@ -56,8 +57,10 @@ public:
 	TimerUSec real_timer;
 	
 	TimerMSec fps_refresh_timer;
-	//TimerMSec real_timer;
+	//TimerMSec real_timer;	
 	
+	ProgramManager *shaders = nullptr;
+	GLuint program; 
 	
 
 	Uint32 frame_count = 0;

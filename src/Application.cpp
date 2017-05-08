@@ -13,6 +13,7 @@
 #include "ModuleScene.h"
 #include "ModuleAnimation.h"
 #include "ModulePhysics.h"
+#include "ProgramManager.h"
 
 #include "MathGeoLib/include/MathGeoLib.h"
 #include "DevIL/include/IL/il.h"
@@ -78,12 +79,15 @@ Application::Application()
 
 	//textures = new ModuleTextures();
 	AABB limits = AABB({ -10,-2,-10 }, { 10,2,10 });
+
+	shaders = new ProgramManager();
 }
 
 Application::~Application()
 {
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
 		RELEASE(*it);
+	RELEASE(shaders);
 }
 
 bool Application::Init()
@@ -102,6 +106,8 @@ bool Application::Init()
 
 	real_timer.Start();
 	fps_refresh_timer.Start();
+
+	program = shaders->Load("test_shader", "shaders/vertex_shader.txt", "shaders/fragment_shader.txt");
 
 	return ret;
 }
