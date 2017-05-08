@@ -108,7 +108,7 @@ bool Application::Init()
 	fps_refresh_timer.Start();
 
 	program = shaders->Load("test_shader", "shaders/vertex_shader.txt", "shaders/fragment_shader.txt");
-
+	shaders->UseProgram("test_shader");
 	return ret;
 }
 

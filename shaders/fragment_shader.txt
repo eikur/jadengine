@@ -1,7 +1,13 @@
+#version 330
+
 varying vec2 myTexCoord;
 uniform sampler2D diffuse;
+uniform vec4 color = vec4(1.0,0.0,1.0,1.0);
+
+out vec4 outputF;
 
 void main()
 {
-	gl_FragColor = texture2D(diffuse, myTexCoord);
+	//gl_FragColor = texture2D(diffuse, myTexCoord);
+	outputF = color;
 }

@@ -130,7 +130,10 @@ GLuint ProgramManager::Load(const char* name, const char* vertex_shader_name, co
 		return -1;
 	}
 	else
-		return program; 
+	{
+		programs[name] = program;
+		return program;
+	}
 }
 
 
@@ -139,7 +142,17 @@ void ProgramManager::Clear() {}
 int	ProgramManager::GetUniformLocation(const char* name, const char* uniform) {
 	return 0;
 }
-void ProgramManager::UseProgram(const char* name) {}
+void ProgramManager::UseProgram(const char* name) {
+	std::map<std::string, unsigned, LessString>::iterator it;
+
+	it = programs.find(name);
+	if (it == programs.end())
+		return;
+	else
+		glUseProgram((*it).second);
+}
+
+
 void ProgramManager::UnuseProgram() {}
 
 ProgramManager* ProgramManager::GetInstance()
@@ -150,10 +163,10 @@ ProgramManager* ProgramManager::GetInstance()
 void ProgramManager::PrintErrorLog(const char* header, const std::vector<GLchar> &log_to_print ) const
 {
 	std::ofstream output; 
-	output.open(output_file, std::ios::out | std::ios::app);
+	//output.open(output_file, std::ios::out | std::ios::app);
+	output.open(output_file, std::ios::out | std::ios::trunc);
 	output << "------------------------------------" << std::endl;
 	output << header << std::endl;
-	output << __DATE__ << " at " << __TIME__ << std::endl;
 	output << "------------------------------------" << std::endl;
 	for (std::vector<GLchar>::const_iterator it = log_to_print.cbegin(); it != log_to_print.cend(); ++it)
 		output << (*it); 
