@@ -109,6 +109,8 @@ bool Application::Init()
 
 	program = shaders->Load("test_shader", "shaders/vertex_shader.txt", "shaders/fragment_shader.txt");
 	shaders->UseProgram("test_shader");
+	//glUniform3f(glGetUniformLocation(program, "light_position"), 0.25f, 1.0f, 1.0f);
+	glUniform4f(glGetUniformLocation(program, "light_position"), 0.0f, 1.0f, 0.0f, 1.0f);
 	return ret;
 }
 
