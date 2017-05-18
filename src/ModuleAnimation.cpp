@@ -70,7 +70,7 @@ bool ModuleAnimation::CleanUp()
 
 	for (AnimationMap::iterator it = animations.begin(); it != animations.end();)
 	{
-		for (unsigned int i = 0; i < (*it).second->num_channels; i++)
+		for (unsigned int i = 0; i < (*it).second->num_channels; ++i)
 		{
 			RELEASE((*it).second->channels[i].positions);
 			RELEASE((*it).second->channels[i].rotations); 

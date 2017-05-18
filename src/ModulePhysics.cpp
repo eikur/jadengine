@@ -59,8 +59,10 @@ bool ModulePhysics::CleanUp()
 	for (std::vector<btCollisionShape*>::iterator it = shapes.begin(); it != shapes.end(); )
 	{
 		RELEASE(*it);
+		shapes.erase(it);
 		it = shapes.begin();
 	}
+
 	RELEASE(dynamics_world);
 	RELEASE(solver);
 	RELEASE(dispatcher);
@@ -99,7 +101,8 @@ btRigidBody* ModulePhysics::AddBox(float box_size)
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, component, colShape, localInertia);
 	btRigidBody* body = new btRigidBody(rbInfo); 
 	*/
-
+	//btDefaultMotionState *ms = new btDefaultMotionState();
+	//btRigidBody* body = new btRigidBody(mass, ms, colShape, localInertia);
 	btRigidBody* body = new btRigidBody(mass, nullptr, colShape, localInertia);
 	dynamics_world->addRigidBody(body);
 	return body; 

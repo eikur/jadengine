@@ -90,6 +90,7 @@ Application::~Application()
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
 		RELEASE(*it);
 	RELEASE(shaders);
+	RELEASE(debug_drawer);
 }
 
 bool Application::Init()
