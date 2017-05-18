@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "ModulePhysics.h"
+#include "Application.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
 
 #include "brofiler/Brofiler.h"
@@ -39,17 +40,27 @@ bool ModulePhysics::Init()
 	dynamics_world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_configuration);
 	dynamics_world->setGravity(btVector3(0, -10, 0));
 
+	//get debug drawer from application
+	dynamics_world->setDebugDrawer((btIDebugDraw*) App->debug_drawer);
+
 	return true;
 }
 
 update_status ModulePhysics::Update(float dt)
 {
 	BROFILER_CATEGORY("ModulePhysics", Profiler::Color::Green)
+	dynamics_world->stepSimulation(dt, 15);
+	dynamics_world->debugDrawWorld();
 	return UPDATE_CONTINUE;
 }
 
 bool ModulePhysics::CleanUp()
 {
+	for (std::vector<btCollisionShape*>::iterator it = shapes.begin(); it != shapes.end(); )
+	{
+		RELEASE(*it);
+		it = shapes.begin();
+	}
 	RELEASE(dynamics_world);
 	RELEASE(solver);
 	RELEASE(dispatcher);
@@ -72,7 +83,7 @@ void ModulePhysics::SetGravity(const btVector3 &new_gravity)
 
 }
 
-btRigidBody* ModulePhysics::AddBody(float box_size)
+btRigidBody* ModulePhysics::AddBox(float box_size)
 {
 	// to improve, not working properly yet
 	float mass = 1.0f; // 0.0 creates a static or immutable body. Consider passing it as a parameter

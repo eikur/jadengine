@@ -1,5 +1,7 @@
 #ifndef __PHYSICSDEBUGDRAWER_H__
 #define __PHYSICSDEBUGDRAWER_H__
+#include "Bullet/include/btBulletDynamicsCommon.h"
+
 
 class PhysicsDebugDrawer : public btIDebugDraw
 {
@@ -13,7 +15,8 @@ public:
 	void setDebugMode(int debugMode);
 	int getDebugMode() const;
 public:
-	DebugDrawModes mode;
+	DebugDrawModes mode;
+
 };
 
 #endif // !__PHYSICSDEBUGDRAWER_H__

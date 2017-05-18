@@ -27,7 +27,7 @@ public:
 	btVector3 GetGravity() const; 
 	void SetGravity(const btVector3 &new_gravity); 
 
-	btRigidBody* AddBody(float box_size); 
+	btRigidBody* AddBox(float box_size); 
 
 private:
 	btBroadphaseInterface* broadphase;

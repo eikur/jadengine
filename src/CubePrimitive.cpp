@@ -74,4 +74,7 @@ void CubePrimitive::CreateCubeComponents()
 	comp_mesh->SetComponentMaterial(comp_material);
 	float3 ambient = { 1.0f, 0, 0 };
 	comp_material->SetMaterial(nullptr,false, &ambient);
+
+	// Add physics
+	CreateComponent(Component::componentType::PHYSICS);
 }

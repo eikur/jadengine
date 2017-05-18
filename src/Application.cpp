@@ -13,6 +13,7 @@
 #include "ModuleScene.h"
 #include "ModuleAnimation.h"
 #include "ModulePhysics.h"
+#include "PhysicsDebugDrawer.h"
 #include "ProgramManager.h"
 
 #include "MathGeoLib/include/MathGeoLib.h"
@@ -81,6 +82,7 @@ Application::Application()
 	AABB limits = AABB({ -10,-2,-10 }, { 10,2,10 });
 
 	shaders = new ProgramManager();
+	debug_drawer = new PhysicsDebugDrawer();
 }
 
 Application::~Application()
@@ -108,7 +110,7 @@ bool Application::Init()
 	fps_refresh_timer.Start();
 
 	program = shaders->Load("test_shader", "shaders/vertex_shader.txt", "shaders/fragment_shader.txt");
-	shaders->UseProgram("test_shader");
+	//shaders->UseProgram("test_shader");
 	//glUniform3f(glGetUniformLocation(program, "light_position"), 0.25f, 1.0f, 1.0f);
 	glUniform4f(glGetUniformLocation(program, "light_position"), 0.0f, 1.0f, 0.0f, 1.0f);
 	return ret;

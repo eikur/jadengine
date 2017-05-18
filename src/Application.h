@@ -21,6 +21,7 @@ class ModuleEditorGUI;
 class ModuleScene;
 class ModuleAnimation;
 class ModulePhysics;
+class PhysicsDebugDrawer;
 class ProgramManager;
 
 class Application
@@ -52,16 +53,17 @@ public:
 	ModuleScene* scene = nullptr; 
 	ModuleAnimation* animations = nullptr; 
 	ModulePhysics* physics = nullptr;
+	PhysicsDebugDrawer *debug_drawer = nullptr;
 
 	TimerUSec game_timer;
 	TimerUSec real_timer;
 	
 	TimerMSec fps_refresh_timer;
-	//TimerMSec real_timer;	
 	
 	ProgramManager *shaders = nullptr;
 	GLuint program; 
 	
+
 
 	Uint32 frame_count = 0;
 	float FPS = 0.0f;
