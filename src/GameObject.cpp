@@ -181,6 +181,7 @@ Component* GameObject::CreateComponent(Component::componentType type)
 		break;
 	case Component::componentType::BILLBOARD: ret = new ComponentBillboard(this, true); break;
 	case Component::componentType::PARTICLES: ret = new ParticleSystem(this, true); break;
+		particle_system = (ParticleSystem*)ret;
 	case Component::componentType::PHYSICS: ret = new ComponentPhysics(this, true); 
 		physics_component = (ComponentPhysics*) ret;
 		break; 
