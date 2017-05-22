@@ -17,6 +17,9 @@ public:
 	void getWorldTransform(btTransform &worldTrans) const;
 	void setWorldTransform(const btTransform &worldTrans);
 
+	//handler to modify rigidbody from editor
+	void UpdateRigidbodyTransform();
+
 private:
 	btRigidBody* collider = nullptr;
 };

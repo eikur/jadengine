@@ -40,3 +40,7 @@ void ComponentPhysics::setWorldTransform(const btTransform &worldTrans)
 
 }
 
+void ComponentPhysics::UpdateRigidbodyTransform() {
+	collider->setMotionState(this);
+}
+

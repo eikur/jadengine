@@ -10,6 +10,7 @@ class ComponentTransform;
 class ComponentMesh;
 class ComponentAnimation;
 class ComponentCamera;
+class ComponentPhysics;
 
 class GameObject
 {
@@ -21,6 +22,7 @@ public:
 private:
 	ComponentMesh *mesh_component = nullptr;
 	ComponentCamera *camera_component = nullptr;
+	ComponentPhysics *physics_component = nullptr;
 	GameObject *parent = nullptr; 
 	
 	std::vector<Component*> components;
@@ -68,6 +70,9 @@ public:
 	
 	//camera component handling methods
 	void UpdateCameraWorldTransform();
+
+	//physics component handling methods
+	void UpdatePhysicsBody() const;
 
 private:
 	Component* FindComponentByType(Component::componentType type) const;

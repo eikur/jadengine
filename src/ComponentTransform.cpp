@@ -11,12 +11,14 @@ ComponentTransform::ComponentTransform(GameObject* parent, bool active) : Compon
 ComponentTransform::~ComponentTransform()
 {}
 
-bool ComponentTransform::Update(float)
+bool ComponentTransform::Update(float dt)
 {
 	if ( scale.Equals(last_scale) == false || rotation.Equals(last_rotation) == false || position.Equals(last_position) == false)
 	{
 		parent->UpdateBoundingBoxesRecursively();
 		parent->UpdateCameraWorldTransform(); 
+		if (dt <= 0.005)
+			parent->UpdatePhysicsBody();
 		last_position = position; 
 		last_scale = scale;
 		last_rotation = rotation;

@@ -181,7 +181,9 @@ Component* GameObject::CreateComponent(Component::componentType type)
 		break;
 	case Component::componentType::BILLBOARD: ret = new ComponentBillboard(this, true); break;
 	case Component::componentType::PARTICLES: ret = new ParticleSystem(this, true); break;
-	case Component::componentType::PHYSICS: ret = new ComponentPhysics(this, true); break; 
+	case Component::componentType::PHYSICS: ret = new ComponentPhysics(this, true); 
+		physics_component = (ComponentPhysics*) ret;
+		break; 
 	case Component::componentType::UNKNOWN: 
 	default:ret = nullptr;  break;
 	}
@@ -319,4 +321,11 @@ void GameObject::UpdateCameraWorldTransform()
 
 const std::vector<GameObject*>& GameObject::GetChildren() const {
 	return children;
+}
+
+void GameObject::UpdatePhysicsBody() const
+{
+	if (physics_component == nullptr)
+		return;
+	physics_component->UpdateRigidbodyTransform(); 
 }
