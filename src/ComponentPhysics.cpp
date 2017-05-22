@@ -16,8 +16,15 @@ void ComponentPhysics::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Physics Component"))
 	{
-		ImGui::Text("Here will be shown the shape, and size / radius of the primitive");
-		
+		float mass = (collider->getInvMass() == 0) ? 0.0f : collider->getInvMass();
+		btVector3 inertia = collider->getLocalInertia();
+		float inertia_f[3] = { inertia.getX(), inertia.getY(), inertia.getZ() };
+
+		ImGui::InputFloat("Mass", &mass);
+		ImGui::DragFloat3("Inertia", inertia_f);
+
+		inertia.setX(inertia_f[0]); inertia.setY(inertia_f[1]); inertia.setZ(inertia_f[2]);
+		collider->setMassProps(mass == 0.0? mass : 1/mass, inertia);
 	}
 
 }
