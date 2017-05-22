@@ -130,7 +130,7 @@ update_status Application::Update()
 	// Pre-Update all modules
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
-			ret = (*it)->PreUpdate();
+			ret = (*it)->PreUpdate(game_timer.Delta() / 1000000.0f);
 
 	// Update all modules considering the game timer's delta
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)

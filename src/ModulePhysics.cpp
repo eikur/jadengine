@@ -46,10 +46,11 @@ bool ModulePhysics::Init()
 	return true;
 }
 
-update_status ModulePhysics::Update(float dt)
+update_status ModulePhysics::PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("ModulePhysics", Profiler::Color::Green)
-	dynamics_world->stepSimulation(dt, 15);
+	if (dt >= 0.005)
+		dynamics_world->stepSimulation(dt, 15);
 	dynamics_world->debugDrawWorld();
 	return UPDATE_CONTINUE;
 }

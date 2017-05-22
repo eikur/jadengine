@@ -25,7 +25,7 @@ public:
 	bool CleanUp(); 
 	void OnEditor();
 
-	void SetTransform(float3 new_pos, Quat new_rot, float3 new_scale);
+	void SetTransform(float3 new_pos, Quat new_rot, float3 new_scale = { 0,0,0 });
 	float4x4 GetTransform(); 
 
 };

@@ -22,7 +22,7 @@ public:
 	~ModulePhysics();
 
 	bool Init();
-	update_status Update(float dt);
+	update_status PreUpdate(float dt);
 	bool CleanUp();
 
 	btVector3 GetGravity() const; 

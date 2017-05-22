@@ -53,7 +53,7 @@ public:
 	// transform component handling methods
 	float4x4 GetWorldTransformMatrix() const;
 	float4x4 GetLocalTransformMatrix() const; 
-	void SetLocalTransform(float3 new_pos, Quat new_rot, float3 new_scale);
+	void SetLocalTransform(float3 new_pos, Quat new_rot, float3 new_scale = { 0,0,0 });
 	float3 GetLocalPosition() const;
 	float3 GetWorldPosition() const; 
 

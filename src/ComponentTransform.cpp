@@ -57,7 +57,9 @@ void ComponentTransform::OnEditor()
 
 void ComponentTransform::SetTransform(float3 new_pos, Quat new_rot, float3 new_scale)
 {
-	position = new_pos; rotation = new_rot; scale = new_scale;
+	position = new_pos; rotation = new_rot; 
+	if (new_scale.Equals({0,0,0}) == false)
+		scale = new_scale;
 	parent->UpdateBoundingBoxesRecursively(); 
 
 }

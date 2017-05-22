@@ -24,12 +24,19 @@ void ComponentPhysics::OnEditor()
 
 void ComponentPhysics::getWorldTransform(btTransform &worldTrans) const
 {
-	
-
+	worldTrans.setFromOpenGLMatrix(parent->GetWorldTransformMatrix().Transposed().ptr());
 }
 
 
 
-void ComponentPhysics::setWorldTransform(const btTransform &worldTrans) {
+void ComponentPhysics::setWorldTransform(const btTransform &worldTrans) 
+{
+	btVector3 in_pos = worldTrans.getOrigin();
+	btQuaternion in_rot = worldTrans.getRotation();
+
+	float3 pos(in_pos.getX(), in_pos.getY(), in_pos.getZ());
+	Quat rot(in_rot.getX(), in_rot.getY(), in_rot.getZ(), in_rot.getW());
+	parent->SetLocalTransform(pos, rot);
+
 }
 
