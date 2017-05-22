@@ -153,7 +153,9 @@ void ProgramManager::UseProgram(const char* name) {
 }
 
 
-void ProgramManager::UnuseProgram() {}
+void ProgramManager::UnuseProgram() {
+	glUseProgram(0);
+}
 
 ProgramManager* ProgramManager::GetInstance()
 {

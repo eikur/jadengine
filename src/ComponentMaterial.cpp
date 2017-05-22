@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleTextures.h"
+#include "ProgramManager.h"
 
 #include "ImGui/imgui.h"
 #include "glew-2.0.0\include\GL\glew.h"
@@ -42,6 +43,9 @@ void ComponentMaterial::OnEditor()
 		float specular[4] = { material->m_color[Material::SPECULAR].x, material->m_color[Material::SPECULAR].y, material->m_color[Material::SPECULAR].z, material->m_color[Material::SPECULAR].w };
 		float transparent[4] = { material->m_color[Material::TRANSPARENT].x, material->m_color[Material::TRANSPARENT].y, material->m_color[Material::TRANSPARENT].z, material->m_color[Material::TRANSPARENT].w };
 		float shininess = material->m_shininess;
+		char* buffer = new char[50];
+		strcpy(buffer, material->shader_name.c_str()); 
+		
 
 		ImGui::DragFloat4("Ambient", ambient, 0.005f, 0.0f, 1.0f);
 		ImGui::DragFloat4("Diffuse", diffuse, 0.005f, 0.0f, 1.0f);
@@ -49,6 +53,7 @@ void ComponentMaterial::OnEditor()
 		ImGui::DragFloat4("Specular", specular, 0.005f, 0.0f, 1.0f);
 		ImGui::DragFloat4("Transparent", transparent, 0.005f, 0.0f, 1.0f);		
 		ImGui::DragFloat("Shininess", &shininess);
+		ImGui::InputText("Shader", buffer, 50);
 		
 		material->m_color[Material::AMBIENT] = { ambient[0], ambient[1], ambient[2], ambient[3] };
 		material->m_color[Material::DIFFUSE] = { diffuse[0], diffuse[1], diffuse[2], diffuse[3] };
@@ -56,6 +61,9 @@ void ComponentMaterial::OnEditor()
 		material->m_color[Material::SPECULAR] = { specular[0], specular[1], specular[2], specular[3] };
 		material->m_color[Material::TRANSPARENT] = { transparent[0], transparent[1], transparent[2], transparent[3] };
 		material->m_shininess = shininess;
+		material->SetShader(buffer);
+
+		delete buffer;
 	}
 }
 

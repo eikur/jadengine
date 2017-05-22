@@ -11,6 +11,7 @@
 #include "ModuleScene.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ProgramManager.h"
 
 Mesh::Mesh()
 {}
@@ -174,6 +175,8 @@ void Mesh::Draw() {
 		if (m_material->GetTexture() != 0)
 			App->textures->UseTexture2D(m_material->GetTexture());
 		m_material->has_alpha ? glEnable(GL_BLEND) : glDisable(GL_BLEND);
+		if (m_material->has_shader)
+			App->shaders->UseProgram(m_material->shader_name.c_str());
 	}
 
 	glColorMaterial(GL_FRONT, GL_AMBIENT);
@@ -217,6 +220,8 @@ void Mesh::Draw() {
 	glDisableClientState(GL_NORMAL_ARRAY);
 
 	App->textures->DontUseTexture2D();
+	if (m_material->has_shader)
+		App->shaders->UnuseProgram();
 }
 
 void Mesh::SetMaterial(Material* new_mat)

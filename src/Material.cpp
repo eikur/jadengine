@@ -36,3 +36,16 @@ const float Material::GetShininess() const
 {
 	return m_shininess;
 }
+
+void Material::SetShader(const char* new_shader)
+{
+	if (strcmp("", new_shader) != 0)
+	{
+		shader_name = new_shader;
+		has_shader = true;
+	}
+	else
+	{
+		has_shader = false;
+	}
+}

@@ -21,6 +21,7 @@ public:
 	const GLuint GetTexture() const;
 	const GLfloat* GetColorComponent(COLOR_COMPONENT c) const;
 	const float GetShininess() const;
+	void SetShader(const char* new_shader);
 
 
 public:
@@ -28,6 +29,8 @@ public:
 	float4::zero, float4::zero };
 	float m_shininess;
 	GLuint m_texture_id;
+	bool has_shader = false;
+	std::string shader_name = "";
 
 	bool has_alpha = false; 
 
