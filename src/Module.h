@@ -53,7 +53,8 @@ public:
 		return true;
 	}
 
-	virtual update_status PreUpdate()
+	virtual update_status PreUpdate( float = 0.0f)
+	//virtual update_status PreUpdate()
 	{
 		return UPDATE_CONTINUE;
 	}

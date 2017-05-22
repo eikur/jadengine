@@ -23,7 +23,10 @@ void ComponentPhysics::OnEditor()
 }
 
 void ComponentPhysics::getWorldTransform(btTransform &worldTrans) const
-{}
+{
+	
+
+}
 
 
 

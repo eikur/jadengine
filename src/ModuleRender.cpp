@@ -184,7 +184,7 @@ bool ModuleRender::Start()
 	return ret;
 }
 
-update_status ModuleRender::PreUpdate()
+update_status ModuleRender::PreUpdate( float )
 {
 	BROFILER_CATEGORY("ModuleRender", Profiler::Color::Magenta)
 

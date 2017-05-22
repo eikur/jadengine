@@ -20,7 +20,7 @@ public:
 
 	bool Init();
 	bool Start();
-	update_status PreUpdate();
+	update_status PreUpdate( float dt = 0.0f);
 	update_status Update( float dt = 0.0f);
 	update_status PostUpdate();
 	bool CleanUp();

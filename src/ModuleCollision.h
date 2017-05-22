@@ -36,7 +36,7 @@ public:
 	ModuleCollision(bool start_enabled = true);
 	~ModuleCollision();
 
-	update_status PreUpdate();
+	update_status PreUpdate( float dt = 0.0f);
 	update_status Update( float dt = 0);
 
 	bool CleanUp();

@@ -50,7 +50,7 @@ bool ModuleInput::Start()
 }
 
 // Called each loop iteration
-update_status ModuleInput::PreUpdate()
+update_status ModuleInput::PreUpdate( float )
 {
 	BROFILER_CATEGORY("ModuleInput", Profiler::Color::Magenta)
 	static SDL_Event event;

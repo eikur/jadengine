@@ -18,7 +18,7 @@ ModuleCollision::ModuleCollision(bool start_enabled) : Module(start_enabled)
 ModuleCollision::~ModuleCollision()
 {}
 
-update_status ModuleCollision::PreUpdate()
+update_status ModuleCollision::PreUpdate( float )
 {
 	// Remove all colliders scheduled for deletion
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end();)
