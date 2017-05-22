@@ -7,6 +7,7 @@
 class GameObject;
 class ComponentTransform; 
 class ComponentCamera;
+class ParticleSystem;
 
 class ModuleEditorCamera : public Module
 {
@@ -37,6 +38,7 @@ private:
 	GameObject* m_camera_gameobject = nullptr;
 	ComponentTransform* m_transform = nullptr; 
 	ComponentCamera* m_camera_component = nullptr;
+	ParticleSystem* m_particle_system = nullptr;
 
 	float fixed_dt = 0.02f;
 

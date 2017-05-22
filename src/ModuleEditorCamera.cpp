@@ -10,6 +10,7 @@
 #include "brofiler/Brofiler.h"
 
 #include "ModuleEditorCamera.h"
+#include "ParticleSystem.h"
 
 ModuleEditorCamera::ModuleEditorCamera()
 {
@@ -123,7 +124,8 @@ GameObject* ModuleEditorCamera::CreateCameraGameObject(const std::string& name) 
 		return nullptr;
 	new_cam_go->CreateComponent(Component::componentType::TRANSFORM); 
 	new_cam_go->CreateComponent(Component::componentType::CAMERA)->Init(); 
-	
+	new_cam_go->CreateComponent(Component::componentType::PARTICLES);
+
 	return new_cam_go; 
 }
 
@@ -132,6 +134,7 @@ void ModuleEditorCamera::CreateEditorCamera()
 	m_camera_gameobject = new GameObject("Editor Camera");
 	m_transform = (ComponentTransform*) m_camera_gameobject->CreateComponent(Component::componentType::TRANSFORM);
 	m_camera_component = (ComponentCamera*)m_camera_gameobject->CreateComponent(Component::componentType::CAMERA);
+	m_particle_system = (ParticleSystem*)m_camera_gameobject->CreateComponent(Component::componentType::PARTICLES);
 }
 
 //-----------------------------------------------------

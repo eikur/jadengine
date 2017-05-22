@@ -11,6 +11,7 @@ class ComponentMesh;
 class ComponentAnimation;
 class ComponentCamera;
 class ComponentPhysics;
+class ParticleSystem;
 
 class GameObject
 {
@@ -23,6 +24,7 @@ private:
 	ComponentMesh *mesh_component = nullptr;
 	ComponentCamera *camera_component = nullptr;
 	ComponentPhysics *physics_component = nullptr;
+	ParticleSystem* particle_system = nullptr;
 	GameObject *parent = nullptr; 
 	
 	std::vector<Component*> components;

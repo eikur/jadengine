@@ -18,7 +18,7 @@ public:
 	typedef std::vector<Billboard> BillboardList;
 	typedef std::vector<Particle> ParticlePool;
 	typedef std::vector<unsigned> ParticleList;
-	ParticleSystem(GameObject* parent, bool active = true);
+	ParticleSystem(GameObject* parent = nullptr, bool active = true);
 	~ParticleSystem();
 
 	bool Init();
@@ -34,15 +34,15 @@ private:
 	BillboardList m_billboards;
 
 	float2 m_emit_area;
-	unsigned falling_time = 0;
-	unsigned accum_elapsed = 0;
-	float falling_height = 0.0f;
-	unsigned texture = 0;
+	unsigned m_falling_time = 0;
+	unsigned m_accum_elapsed = 0;
+	float m_falling_height = 0.0f;
+	unsigned m_texture = 0;
 
-	float3* vertices = nullptr;
-	float2* text_coords = nullptr;
-	aiColor4D* colors = nullptr;
-	unsigned* indices = nullptr;
+	float3* m_vertices = nullptr;
+	float2* m_text_coords = nullptr;
+	aiColor4D* m_colors = nullptr;
+	unsigned* m_indices = nullptr;
 };
 
 #endif // __PARTICLE_SYSTEM_H__
