@@ -2,17 +2,20 @@
 #define __COMPONENT_PHYSICS_H__
 
 #include "Component.h"
-class btRigidBody;
+#include "Bullet/include/btBulletDynamicsCommon.h"
 
-class ComponentPhysics : public Component
+class ComponentPhysics : public Component, public btMotionState
 {
-
 
 public: 
 	ComponentPhysics(GameObject* parent, bool active);
 	~ComponentPhysics(); 
 
 	void OnEditor();
+
+	// btMotionState abstract methods to be defined
+	void getWorldTransform(btTransform &worldTrans) const;
+	void setWorldTransform(const btTransform &worldTrans);
 
 private:
 	btRigidBody* collider = nullptr;

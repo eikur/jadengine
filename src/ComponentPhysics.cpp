@@ -1,13 +1,13 @@
 #include "ImGui/imgui.h"
 #include "Application.h"
 #include "ModulePhysics.h"
-#include "Bullet/include/btBulletDynamicsCommon.h"
+#include "GameObject.h"
 
 #include "ComponentPhysics.h"
 
-ComponentPhysics::ComponentPhysics(GameObject* parent, bool active) : Component(parent, PHYSICS, active)
+ComponentPhysics::ComponentPhysics(GameObject* parent, bool active) : Component(parent, PHYSICS, active), btMotionState()
 {
-	collider = App->physics->AddBox(1);
+	collider = App->physics->AddBox(1, this);
 }
 
 ComponentPhysics::~ComponentPhysics() {}
@@ -20,5 +20,13 @@ void ComponentPhysics::OnEditor()
 		
 	}
 
+}
+
+void ComponentPhysics::getWorldTransform(btTransform &worldTrans) const
+{}
+
+
+
+void ComponentPhysics::setWorldTransform(const btTransform &worldTrans) {
 }
 

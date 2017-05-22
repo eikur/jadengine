@@ -13,6 +13,7 @@ class btDiscreteDynamicsWorld;
 class btVector3;
 class btRigidBody;
 class btCollisionShape; 
+class btMotionState;
 
 class ModulePhysics : public Module
 {
@@ -27,7 +28,7 @@ public:
 	btVector3 GetGravity() const; 
 	void SetGravity(const btVector3 &new_gravity); 
 
-	btRigidBody* AddBox(float box_size); 
+	btRigidBody* AddBox(float box_size, btMotionState *ms);
 
 private:
 	btBroadphaseInterface* broadphase;
@@ -37,6 +38,7 @@ private:
 	btDiscreteDynamicsWorld* dynamics_world;
 
 	std::vector<btCollisionShape*> shapes; 
+	std::vector<btRigidBody*> rigidbodies;
 
 };
 

@@ -63,6 +63,15 @@ bool ModulePhysics::CleanUp()
 		it = shapes.begin();
 	}
 
+	for (std::vector<btRigidBody*>::iterator it = rigidbodies.begin(); it != rigidbodies.end();)
+	{
+		
+		dynamics_world->removeRigidBody(*it);
+		RELEASE(*it); 
+		rigidbodies.erase(it);
+		it = rigidbodies.begin(); 
+	}
+
 	RELEASE(dynamics_world);
 	RELEASE(solver);
 	RELEASE(dispatcher);
@@ -85,7 +94,7 @@ void ModulePhysics::SetGravity(const btVector3 &new_gravity)
 
 }
 
-btRigidBody* ModulePhysics::AddBox(float box_size)
+btRigidBody* ModulePhysics::AddBox(float box_size, btMotionState* ms)
 {
 	// to improve, not working properly yet
 	float mass = 1.0f; // 0.0 creates a static or immutable body. Consider passing it as a parameter
@@ -97,13 +106,12 @@ btRigidBody* ModulePhysics::AddBox(float box_size)
 	if (mass != 0.0f)
 		colShape->calculateLocalInertia(mass, localInertia); 
 
-	/*
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, component, colShape, localInertia);
+	
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, ms, colShape, localInertia);
 	btRigidBody* body = new btRigidBody(rbInfo); 
-	*/
-	//btDefaultMotionState *ms = new btDefaultMotionState();
-	//btRigidBody* body = new btRigidBody(mass, ms, colShape, localInertia);
-	btRigidBody* body = new btRigidBody(mass, nullptr, colShape, localInertia);
+
+	rigidbodies.push_back(body);
+
 	dynamics_world->addRigidBody(body);
 	return body; 
 }
