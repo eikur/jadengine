@@ -99,7 +99,7 @@ btRigidBody* ModulePhysics::AddBox(float box_size, btMotionState* ms)
 {
 	// to improve, not working properly yet
 	float mass = 1.0f; // 0.0 creates a static or immutable body. Consider passing it as a parameter
-	btVector3 box_extents(box_size, box_size, box_size );
+	btVector3 box_extents(box_size/2, box_size/2, box_size/2 );
 	btCollisionShape* colShape = new btBoxShape(box_extents); 
 	shapes.push_back(colShape); 
 

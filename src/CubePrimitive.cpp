@@ -1,12 +1,13 @@
 #include "Globals.h"
+#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 
 #include "CubePrimitive.h"
 
-CubePrimitive::CubePrimitive(const char* name, GameObject* parent, bool active) : GameObject(name, parent, active)
+CubePrimitive::CubePrimitive(const char* name, float3 position, float side, GameObject* parent, bool active) : GameObject(name, parent, active)
 {
-	CreateCubeComponents();
+	CreateCube( position, side);
 }
 
 CubePrimitive::~CubePrimitive()
@@ -14,9 +15,13 @@ CubePrimitive::~CubePrimitive()
 
 }
 
-void CubePrimitive::CreateCubeComponents()
+void CubePrimitive::CreateCube( float3 position, float side)
 {
-	CreateComponent(Component::componentType::TRANSFORM);
+	ComponentTransform *comp_transform = (ComponentTransform*) CreateComponent(Component::componentType::TRANSFORM);
+	if (side == 0)
+		side = 1.0f;
+	comp_transform->SetTransform(position, Quat::identity, float3{ side, side, side });
+
 	ComponentMesh *comp_mesh = (ComponentMesh*)CreateComponent(Component::componentType::MESH);
 	ComponentMaterial *comp_material = (ComponentMaterial*)CreateComponent(Component::componentType::MATERIAL); 
 	float3 vertices[24] = {

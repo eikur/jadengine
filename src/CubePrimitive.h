@@ -6,11 +6,11 @@
 class CubePrimitive : public GameObject
 {
 public:
-	CubePrimitive(const char* name, GameObject* parent = nullptr, bool active= true);
+	CubePrimitive(const char* name, float3 position = { 0,0,0 }, float side = 1.0f, GameObject* parent = nullptr, bool active = true);
 	~CubePrimitive(); 
 
 private:
-	void CreateCubeComponents(); 
+	void CreateCube( float3 position, float side); 
 	
 };
 
