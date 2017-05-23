@@ -37,6 +37,8 @@ private:
 	unsigned m_falling_time = 0;
 	unsigned m_accum_elapsed = 0;
 	float m_falling_height = 0.0f;
+	float2 m_particle_size;
+	unsigned m_max_particles = 0;
 	unsigned m_texture = 0;
 
 	float3* m_vertices = nullptr;
