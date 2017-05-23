@@ -209,14 +209,9 @@ bool ModuleRender::LoadConfigFromFile(const char* file_path)
 	if (root_value == nullptr)
 		return false;
 
-	m_screen_width = (int)json_object_dotget_number(json_object(root_value), "window.screen_width");
-	m_screen_height = (int)json_object_dotget_number(json_object(root_value), "window.screen_height");
 	m_vsync = (json_object_dotget_boolean(json_object(root_value), "window.vsync") != 0) ? true : false;
 	
 	json_value_free(root_value);
 	
-	if (m_screen_width == 0 || m_screen_height == 0)
-		return false;
-	else
-		return true;
+	return true;
 }

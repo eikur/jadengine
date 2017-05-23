@@ -35,8 +35,8 @@ public:
 	bool m_projection_changed = false;
 
 private:
-	int m_screen_height = 0;
-	int m_screen_width = 0;
+//	int m_screen_height = 0;
+//	int m_screen_width = 0;
 	bool m_vsync = true;
 };
 

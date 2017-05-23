@@ -42,11 +42,6 @@ private:
 
 	float fixed_dt = 0.02f;
 
-	int m_screen_height = 0;
-	int m_screen_width = 0;
-	int m_speed = 0;
-	bool m_vsync = true;
-
 	float m_advance_speed = 3.0f;
 	float m_advance_speed_modifier = 3.0f;
 
