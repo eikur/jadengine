@@ -26,9 +26,6 @@ ModuleRender::~ModuleRender()
 // Called before render is available
 bool ModuleRender::Init()
 {
-	MYLOG("Creating primitive manager");
-	m_primitives = new PrimitiveManager();
-
 	MYLOG("Creating 3D renderer context");
 	bool ret = true;
 	m_glcontext = SDL_GL_CreateContext(App->window->m_window);
@@ -110,10 +107,6 @@ bool ModuleRender::Init()
 		}
 		else
 		{
-			camera.x = camera.y = 0;
-			camera.w = m_screen_width;
-			camera.h = m_screen_height;
-
 			Uint32 flags = 0;
 			if (m_vsync == true)
 			{
@@ -141,46 +134,7 @@ bool ModuleRender::Init()
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf(App->camera->GetCameraComponent()->GetViewMatrix().ptr());
 
-		// Texture load
-		m_checkers_texture = App->textures->CreateCheckersTexture();
-		m_lenna_texture = App->textures->LoadTexture("graphics/Lenna.png");
-
-		//lvl = new Level();
-		//lvl->Load("assets/street/", "Street.obj");
-		//Level::Node* node = lvl->FindNode("g Line002");
-
 	}
-	return ret;
-}
-bool ModuleRender::Start()
-{
-	bool ret = true;
-	
-	m_primitives->createPrimitive(Primitive::Types::AXIS);
-	m_primitives->createPrimitive(Primitive::Types::GRID);
-
-	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
-		->Translate(float3(1.0, 1.0f, -6.0f))
-		->Scale(float3(0.1f, 0.1f, 0.1f))
-		->ApplyTexture(m_checkers_texture);
-	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
-		->Translate(float3(-1.0, 1.0f, -6.0f))
-		->Scale(float3(0.1f, 0.1f, 0.1f))
-		->ApplyTexture(m_checkers_texture);
-	m_primitives->createPrimitive(Primitive::Types::SOLID_CUBE)
-		->Translate(float3(0.0, 1.0f, -2.0f))
-		->Scale(float3(2.0f, 2.0f, 2.0f))
-		->Rotate(45.0f, float3(0.0f, 1.0f, 0.0f))
-		->ApplyTexture(m_lenna_texture);
-	m_primitives->createPrimitive(Primitive::Types::SOLID_SPHERE)
-		->Translate(float3(0.0, 1.0f, -5.0f))
-		->ApplyTexture(m_checkers_texture);
-
-//	m_model = new Model();
-	//if (m_model->Load("Assets/Batman/", "Batman.obj") == false)
-//	if (m_model->Load("Assets/Magneto/", "magnetto2.fbx") == false)
-//		RELEASE(m_model);
-
 	return ret;
 }
 
@@ -199,14 +153,6 @@ update_status ModuleRender::PreUpdate( float )
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	glBindTexture(GL_TEXTURE_2D, 0);
-	
-	m_primitives->DrawAllPrimitives();
-	
-//	if (m_model != nullptr)
-//		m_model->Draw();
-	//lvl->Draw();
-
 	return UPDATE_CONTINUE;
 }
 
@@ -236,12 +182,7 @@ bool ModuleRender::CleanUp()
 
 	//Destroy window
 	if(renderer != nullptr)
-	{
 		SDL_DestroyRenderer(renderer);
-	}
-
-	RELEASE(m_primitives);
-	RELEASE(m_model);
 
 	return true;
 }
@@ -268,19 +209,9 @@ bool ModuleRender::LoadConfigFromFile(const char* file_path)
 	if (root_value == nullptr)
 		return false;
 
-	//get the path to the asset
-	if (json_object_dothas_value_of_type(json_object(root_value), "renderer.file", JSONString))
-		asset_file = json_object_dotget_string(json_object(root_value), "renderer.file");
-	if (asset_file == "") {
-		json_value_free(root_value);
-		return false;
-	}
-
 	m_screen_width = (int)json_object_dotget_number(json_object(root_value), "window.screen_width");
 	m_screen_height = (int)json_object_dotget_number(json_object(root_value), "window.screen_height");
 	m_vsync = (json_object_dotget_boolean(json_object(root_value), "window.vsync") != 0) ? true : false;
-
-	m_speed = (int)json_object_dotget_number(json_object(root_value), "renderer.camera.speed");
 	
 	json_value_free(root_value);
 	

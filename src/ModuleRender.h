@@ -19,7 +19,6 @@ public:
 	~ModuleRender();
 
 	bool Init();
-	bool Start();
 	update_status PreUpdate( float dt = 0.0f);
 	update_status Update( float dt = 0.0f);
 	update_status PostUpdate();
@@ -33,25 +32,12 @@ private:
 public:
 	SDL_Renderer* renderer = nullptr;
 	SDL_GLContext m_glcontext = NULL;
-	SDL_Rect camera = { 0,0,0,0 };
 	bool m_projection_changed = false;
 
 private:
-	SDL_Texture* sprite = nullptr;
-	std::string asset_file = "";
-	int m_speed = 0;
-
 	int m_screen_height = 0;
 	int m_screen_width = 0;
 	bool m_vsync = true;
-
-	PrimitiveManager *m_primitives = nullptr;
-	
-	GLuint m_checkers_texture = 0;
-	GLuint m_lenna_texture = 0;
-
-	Model *m_model = nullptr;
-	Level *lvl = nullptr;
 };
 
 #endif // __MODULERENDER_H__
